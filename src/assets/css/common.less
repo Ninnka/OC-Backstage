@@ -1,0 +1,401 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0;box-sizing: content-box}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section { display:block; }
+table{border-collapse:collapse;border-spacing:0}
+audio,canvas,video { display: inline-block;*display: inline;*zoom: 1;}
+fieldset,img{border:0}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}
+ol,ul{list-style:none}
+caption,th{text-align:left}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}
+q:before,q:after{content:''}
+abbr,acronym{border:0;font-variant:normal}
+sup{vertical-align:text-top}
+sub{vertical-align:text-bottom}
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}
+input,textarea,select{*font-size:100%}
+html,body{
+  width: 100%;
+  height: 100%;
+}
+i {
+  font-style: normal;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+img{
+  width: 100%;
+  border: none;
+  vertical-align: middle;
+}
+button{
+  border: none;
+}
+.icon {
+  width: 12px;
+  height: 12px;
+  line-height: 12px;
+  font-size: 12px;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #94959a !important;
+}
+input:-moz-placeholder, textarea:-moz-placeholder {
+  color: #94959a !important;
+}
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color: #94959a !important;
+}
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  color: #94959a !important;
+}
+
+//修改导航菜单样式
+
+
+// 修改element按钮风格样式
+body{
+  .el-button--info{
+    background:#444b5b;
+    border-color: #444b5b;
+    &:hover{
+      background:#17191d;
+      border-color: #17191d;
+    }
+    &:focus{
+      background:#17191d;
+      border-color: #17191d;
+    }
+    &:active{
+      background:#17191d;
+      border-color: #17191d;
+    }
+  }
+}
+
+// 修改element输入框风格样式
+.el-form{
+  .el-form-item{
+    .el-form-item__label{
+      color: #fff;
+    }
+    .el-select{
+      width: 100%;
+    }
+    input{
+      background: #202228;
+      border: none;
+      border-radius: 0;
+      color: #fff;
+    }
+  }
+  .el-input.is-disabled .el-input__inner{
+    background-color:#202228;
+    border-color:transparent;
+    color: #fff;
+  }
+}
+// 修改element表格风格样式
+#app{
+  .el-table{
+    text-align: center;
+    border: none;
+    &::before{
+      height: 0;
+    }
+    tr:nth-of-type(odd){
+      background: #272a31;
+      td{
+        background: #272a31;
+      }
+    }
+    tr:nth-of-type(even){
+      background: #22232a;
+      td{
+        background: #22232a;
+      }
+    }
+    tr:hover{
+      background: #3a3c46;
+      td{
+      background: #3a3c46;
+      }
+    }
+    tr{
+      color: #fff;
+      td{
+        border: none;
+      }
+    }
+    th{
+      background-color: #18191d;
+      border: none;
+      text-align: center;
+      >.cell{
+        background-color: #18191d;
+        color: #94959a;
+      }
+    }
+  }
+}
+// 修改element多选框风格样式
+.el-select-dropdown{
+  background-color: #202328 !important;
+  border: none !important;
+  margin: 10px 0 !important;
+  .el-select-dropdown__item{
+    color: #94959a;
+  }
+  .el-select-dropdown__item.selected{
+    background-color: #202328;
+  }
+  .el-select-dropdown.is-multiple .el-select-dropdown__item.selected.hover, .el-select-dropdown__item.hover, .el-select-dropdown__item:hover{
+    background-color: #17191d !important;
+    color: #fff;
+    font-size: 16px;
+  }
+}
+body{
+  .el-dropdown-menu{
+    background-color: #202328;
+    border: none;
+    color: #94959a;
+    font-size: 14px;
+  }
+  .el-dropdown-menu__item:not(.is-disabled):hover{
+    background-color: #17191d;
+    color: #fff;
+    font-size: 16px;
+  }
+}
+
+// 在弹出框中单选框样式修改
+body{
+  .el-radio{
+    color: #fff;
+  }
+  .el-radio__inner{
+    width: 12px ;
+    height: 12px ;
+    background:#202328;
+    border:1px solid #343841;
+  }
+  .el-radio__input.is-checked .el-radio__inner{
+    border-color: #52e3ff;
+    background: #52e3ff;
+  }
+  .el-radio__inner{
+    &:after{
+      width: 0;
+      height: 0;
+    }
+  }
+}
+
+
+
+//自定义全局样式
+
+//采用flex布局增加此class名
+.is-flex{
+  display: flex;
+  align-items: center;
+}
+//渐变色风格
+.cold-bg{
+  background:linear-gradient(-90deg, #00e2b8 0%, #009acd 100%) !important;
+  color: #fff !important;
+}
+.hot-bg{
+  background:linear-gradient(-90deg, #ff5862 0%, #e54f9a 100%) !important;
+  color: #fff !important;
+}
+//按钮样式
+
+// 一排单个按钮
+.btn{
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: space-around;
+  button{
+    width: 40%;
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    color: #fff;
+    border-radius: 4px;
+  }
+}
+// 一排两个按钮
+.btns{
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: space-around;
+  button{
+    width: 30%;
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    color: #fff;
+    border-radius: 4px;
+  }
+}
+
+//页面单独模块风格样式
+.region{
+  background:#272a31;
+  header{
+    height: 45px;
+    line-height: 45px;
+    text-align: left;
+    font-size:16px;
+    color:#ffffff;
+    &:before{
+      content:'';
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 10px;
+      width: 4px;
+      height: 100%;
+      background-image:linear-gradient(-180deg, #00e2b8 0%, #009acd 100%);
+    }
+  }
+  .region-main{
+    height: auto;
+    min-height: 40px;
+  }
+}
+
+//弹出窗风格样式
+.popup{
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  top:0;
+  left: 0;
+  background: rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  .popup-main{
+    width: 520px;
+    height: auto;
+    text-align: center;
+    border-radius: 8px;
+    header{
+      position: relative;
+      height: 45px;
+      line-height: 45px;
+      font-size: 18px;
+      color: #fff;
+      text-align: center;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      background-image:linear-gradient(-90deg, #00e2b8 0%, #009acd 100%);
+      .close{
+        position: absolute;
+        width: 60px;
+        height: 45px;
+        top:0;
+        right: 0;
+        font-size: 30px;
+      }
+    }
+    .popup-content{
+      box-sizing: border-box;
+      padding: 30px 10%;
+      background: #272a31;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      color: #fff;
+      .popup-btns{
+        width: 100%;
+        height: 40px;
+        display: flex;
+        justify-content: space-around;
+        button{
+          width: 30%;
+          height: 40px;
+          border-radius:4px;
+          font-size: 16px;
+        }
+      }
+      .sure-btn{
+        width: 40%;
+        height:40px;
+        margin: 0 auto;
+        background-image:linear-gradient(-90deg, #ff5862 0%, #e54f9a 100%);
+        border-radius:4px;
+        color: #fff;
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+// --------
+
+@content-item-bg: #272a31;
+@content-item-contract-bg: #18191d;
+@main-theme-sub: #94959a;
+
+.el-date-editor {
+  .el-input__inner {
+    background: #202228;
+    border-color: #202228;
+  }
+}
+.el-select {
+  .el-input__inner {
+    background: #202228;
+    border-color: #202228;
+  }
+  input.el-input__inner {
+    color: @main-theme-sub;
+  }
+}
+.el-pagination__total {
+  color: @main-theme-sub;
+}
+.el-pagination {
+  text-align: right;
+  button[type="button"] {
+    background: inherit !important;
+    border: none !important;
+  }
+  .el-pager {
+    color: @main-theme-sub;
+    .number {
+      border: none;
+      border-radius: 7px;
+      background: inherit;
+      &.active {
+        border-color: #20a0ff;
+        background-color: #20a0ff
+      }
+    }
+    li.more {
+      background: inherit;
+      border: none;
+    }
+  }
+  .el-pagination__jump {
+    color: @main-theme-sub;
+    .el-pagination__editor {
+      color: #ffffff;
+      background: inherit;
+      border-color: @main-theme-sub;
+    }
+  }
+}
+
+
+
