@@ -69,7 +69,7 @@
           <el-menu-item index="dividend-manage">
             <i class="iconfont icon-shouye"></i>红利管理
           </el-menu-item>
-          <el-menu-item index="system-set">
+          <el-menu-item index="system-setting">
             <i class="iconfont icon-shouye"></i>系统设置
           </el-menu-item>
         </el-menu>
