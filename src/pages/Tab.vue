@@ -72,6 +72,9 @@
           <el-menu-item index="system-set">
             <i class="iconfont icon-shouye"></i>系统设置
           </el-menu-item>
+          <el-menu-item index="test">
+            <i class="iconfont icon-shouye"></i>公共样式
+          </el-menu-item>
         </el-menu>
       </div>
       <div class="tab-content">

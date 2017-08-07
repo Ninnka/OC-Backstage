@@ -6,7 +6,7 @@
         <i class="close" @click="close">×</i>
       </header>
       <div class="popup-content">
-        <slot solt="content"></slot>
+        <slot name="content"></slot>
         <div class="btns" :class="{'btn':needCancel}">
           <button class="hot-bg" @click="close" v-if="needCancel">取消</button>
           <button class="cold-bg" @click="confirm">确认</button>
