@@ -78,7 +78,7 @@ export default {
     submitSignIn () {
       // TODO: 登录
       this.$store.commit('updateUser', {'name': this.signInInfo.account});
-      this.$router.push('tab/index');
+      this.$router.push('tab/personal-information');
     },
     checkValidCode () {
       // TODO: 判断code
