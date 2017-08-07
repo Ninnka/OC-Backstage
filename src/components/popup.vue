@@ -9,7 +9,7 @@
         <slot name="content"></slot>
         <div class="btns" :class="{'btn':needCancel}">
           <button class="hot-bg" @click="close" v-if="needCancel">取消</button>
-          <button class="cold-bg" @click="confirm">确认</button>
+          <button class="cold-bg" @click="confirm">{{confirmText}}</button>
         </div>
       </div>
     </div>
@@ -35,6 +35,10 @@ export default {
     title: {
       type: String,
       default: '标题'
+    },
+    confirmText: {
+      type: String,
+      default: '确认'
     }
   },
   computed: {
