@@ -20,30 +20,6 @@
       </div>
       </article>
     </div>
-    <button class="cold-bg" @click="contralPopup">弹出框样式以及表单样式</button>
-    <div class="popup" v-show="show">
-      <article class="popup-main">
-        <header>
-          表单全部采用element表单，样式已写好
-          <i class="close" @click="contralPopup">×</i>
-        </header>
-        <div class="popup-content">
-          <el-form ref="form" :model="testForm" label-width="100px">
-            <el-form-item label="活动名称">
-              <el-input v-model="testForm.name"></el-input>
-            </el-form-item>
-            <el-form-item label="活动区域">
-              <el-select v-model="testForm.region" placeholder="请选择活动区域">
-                <el-option label="上海" value="上海"></el-option>
-                <el-option label="北京" value="北京"></el-option>
-              </el-select>
-            </el-form-item>
-            <verify :parentVerify.sync="testForm.verify" :parentPhone.sync="testForm.phone" :needPhone="true"></verify>
-          </el-form>
-          <button class="sure-btn">确认按钮</button>
-        </div>
-      </article>
-    </div>
     <el-table
       :data="tableData"
       stripe
@@ -63,12 +39,39 @@
         label="地址">
       </el-table-column>
     </el-table>
-    <button class="cold-bg" @click="showDelMt = true">禁用mt账号</button>
-    <popup :show.sync="showDelMt" :needCancel=true :title="'禁用MT账号'" v-on:confirmEvent="test">
-      <p name="content" class="del-text">
-        您正在申请禁用MT账号：54321，禁用后，该账号的所有持仓单将会被自动平仓，同时，您将无法再使用该MT账号进行任何交易以及出入金操作，是否继续？
-      </p>
+
+    <button class="cold-bg" @click="showDelMt = true">弹出框组件以及验证码组件</button>
+    <!--弹出框API：-->
+    <!--show：控制此弹出框的显示-->
+    <!--needCancel表示是否需要取消按钮，默认为false-->
+    <!--title为标题-->
+    <!--confirmEvent表示确认按钮事件-->
+    <popup :show.sync="showDelMt" :needCancel=true :title="'弹出框'" v-on:confirmEvent="test">
+      <template slot="content" >
+        <!--弹出框内容自己定义-->
+        <p class="del-text">
+          <el-form ref="form" :model="testForm" label-width="100px">
+            <el-form-item label="活动名称">
+              <el-input v-model="testForm.name"></el-input>
+            </el-form-item>
+            <el-form-item label="活动区域">
+              <el-select v-model="testForm.region" placeholder="请选择活动区域">
+                <el-option label="上海" value="上海"></el-option>
+                <el-option label="北京" value="北京"></el-option>
+              </el-select>
+            </el-form-item>
+            <!--验证码组件-->
+            <!--api说明：-->
+            <!--parentVerify：父组件验证码定义变量-->
+            <!--parentPhone：父组件号码定义变量-->
+            <!--needPhone：是否需要输入手机号码，默认为false-->
+            <verify :parentVerify.sync="testForm.verify" :parentPhone.sync="testForm.phone" :needPhone="true"></verify>
+          </el-form>
+        </p>
+      </template>
     </popup>
+
+    <!--上传图片组件-->
     <div class="demo__use-upload-image">
       <upload-image cusClass="use-upload-image__cus-class" @fileLoaded="fileLoaded">
         <template slot="upload-image__slot">
