@@ -31,46 +31,49 @@
       <div class="tab-nav">
         <el-menu :default-active="defaultRoute" class="el-menu-vertical-demo" @select="goRouter">
           <el-submenu index="user">
-            <template slot="title"><i class="iconfont icon-shouye"></i>用户管理</template>
-            <el-menu-item index="user-manage">用户管理</el-menu-item>
-            <el-menu-item index="user-audit">用户审核</el-menu-item>
+            <template slot="title"><i class="iconfont icon-yonghuguanli"></i>用户管理</template>
+            <el-menu-item index="user-manage"><p>用户管理</p></el-menu-item>
+            <el-menu-item index="user-audit"><p>用户审核</p></el-menu-item>
           </el-submenu>
           <el-menu-item index="mt-manage">
-            <i class="iconfont icon-shouye"></i>MT账号管理
+            <i class="iconfont icon-Mtzhanghao"></i>MT账号管理
           </el-menu-item>
           <el-submenu index="agent">
-            <template slot="title"><i class="iconfont icon-shouye"></i>代理商管理</template>
-            <el-menu-item index="agent-manage">代理商管理</el-menu-item>
-            <el-menu-item index="agent-audit">代理商审核</el-menu-item>
+            <template slot="title"><i class="iconfont icon-dailishang"></i>代理商管理</template>
+            <el-menu-item index="agent-manage"><p>代理商管理</p></el-menu-item>
+            <el-menu-item index="agent-audit"><p>代理商审核</p></el-menu-item>
           </el-submenu>
           <el-menu-item index="transaction-manage">
-            <i class="iconfont icon-shouye"></i>交易管理
+            <i class="iconfont icon-jiaoyiguanli"></i>交易管理
           </el-menu-item>
           <el-submenu index="access-to-gold-manage">
-            <template slot="title"><i class="iconfont icon-shouye"></i>出入金管理</template>
-            <el-menu-item index="mention-start-audit">出金初审</el-menu-item>
-            <el-menu-item index="mention-end-audit">出金终审</el-menu-item>
-            <el-menu-item index="recharge-record">入金记录</el-menu-item>
-            <el-menu-item index="mention-record">出金记录</el-menu-item>
+            <template slot="title"><i class="iconfont icon-churujinguanli-"></i>出入金管理</template>
+            <el-menu-item index="mention-start-audit"><p>出金初审</p></el-menu-item>
+            <el-menu-item index="mention-end-audit"><p>出金终审</p></el-menu-item>
+            <el-menu-item index="recharge-record"><p>入金记录</p></el-menu-item>
+            <el-menu-item index="mention-record"><p>出金记录</p></el-menu-item>
           </el-submenu>
           <el-submenu index="capital">
-            <template slot="title"><i class="iconfont icon-shouye"></i>资金流水</template>
-            <el-menu-item index="capital-flow">资金流水</el-menu-item>
-            <el-menu-item index="mt-capital-flow">MT资金流水</el-menu-item>
+            <template slot="title"><i class="iconfont icon-zijinliushui"></i>资金流水</template>
+            <el-menu-item index="capital-flow"><p>资金流水</p></el-menu-item>
+            <el-menu-item index="mt-capital-flow"><p>MT资金流水</p></el-menu-item>
           </el-submenu>
           <el-submenu index="report">
-            <template slot="title"><i class="iconfont icon-shouye"></i>报表</template>
-            <el-menu-item index="dealer-report">交易商报表</el-menu-item>
-            <el-menu-item index="agent-report">代理商商报表</el-menu-item>
+            <template slot="title"><i class="iconfont icon-baobiao"></i>报表</template>
+            <el-menu-item index="dealer-report"><p>交易商报表</p></el-menu-item>
+            <el-menu-item index="agent-report"><p>代理商商报表</p></el-menu-item>
           </el-submenu>
           <el-menu-item index="commi-manage">
-            <i class="iconfont icon-shouye"></i>佣金管理
+            <i class="iconfont icon-yongjinguanli"></i>佣金管理
           </el-menu-item>
           <el-menu-item index="dividend-manage">
-            <i class="iconfont icon-shouye"></i>红利管理
+            <i class="iconfont icon-hongliguanli"></i>红利管理
           </el-menu-item>
           <el-menu-item index="system-setting">
-            <i class="iconfont icon-shouye"></i>系统设置
+            <i class="iconfont icon-xitongshezhi"></i>系统设置
+          </el-menu-item>
+          <el-menu-item index="test">
+            <i class="iconfont icon-xitongshezhi"></i>公共样式
           </el-menu-item>
         </el-menu>
       </div>
@@ -149,7 +152,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .tab {
   width: 100%;
   height: 100%;
@@ -230,6 +233,56 @@ export default {
       height: 100%;
       background:#30333c;
       overflow: auto;
+      font-size: 14px;
+      .el-menu{
+        background-color: #30333c;
+        text-align: left;
+        .el-menu-item,.el-submenu__title{
+          padding: 0 !important;
+          color:#5e718d;
+          &:before{
+            content:'';
+            display: inline-block;
+            vertical-align: top;
+            width: 6px;
+            height: 100%;
+          }
+          .iconfont{
+            font-size: 20px;
+            margin:0 10px 0 20px;
+          }
+        }
+        .el-submenu{
+          .el-menu{
+            .el-menu-item{
+              font-size: 12px;
+              display: flex;
+              &:before{
+                display: block;
+              }
+              p{
+                width: calc(~"100% - 6px");
+                text-align: center;
+              }
+            }
+          }
+        }
+        .el-menu-item:hover{
+          background-color: #1d1f25;
+          color:#52e3ff;
+        }
+        .el-submenu__title:hover{
+          background-color: #30333c;
+          color:#52e3ff;
+        }
+        .el-menu-item.is-active{
+          background-color: #1d1f25;
+          color:#52e3ff;
+          &:before{
+            background-image:linear-gradient(-180deg, #00e2b8 0%, #009acd 100%);
+          }
+        }
+      }
     }
     .tab-content{
       flex: 1;
