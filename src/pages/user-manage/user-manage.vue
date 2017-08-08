@@ -7,10 +7,10 @@
       <div class="region-main">
         <el-form class="filter-input" :model="userManageForm" label-width="100px">
           <el-form-item label="账号/昵称">
-            <el-input v-model="userManageForm.id" placeholder="请输入账号或者昵称"></el-input>
+            <el-input v-model="userManageForm.nickName" placeholder="请输入账号或者昵称"></el-input>
           </el-form-item>
           <el-form-item label="真实姓名">
-            <el-input v-model="userManageForm.name" placeholder="请输入真实姓名"></el-input>
+            <el-input v-model="userManageForm.realName" placeholder="请输入真实姓名"></el-input>
           </el-form-item>
           <el-form-item label="联系方式">
             <el-input v-model="userManageForm.phone" placeholder="请输入手机号码"></el-input>
@@ -36,11 +36,11 @@
         <div class="form-btn">
           <el-button type="info" @click="filterTable">查询</el-button>
         </div>
-        <el-table :data="tableData" style="width: 100%" header-align="center">
+        <el-table :data="tableData" style="width: 100%">
           <el-table-column prop="account" label="账号"></el-table-column>
           <el-table-column prop="nickName" label="昵称"></el-table-column>
           <el-table-column prop="superior" label="所属上级"></el-table-column>
-          <el-table-column prop="openTime" label="开户时间"></el-table-column>
+          <el-table-column prop="openTime"  label="开户时间"></el-table-column>
           <el-table-column prop="realName" label="真实姓名"></el-table-column>
           <el-table-column prop="phone" label="联系方式"></el-table-column>
           <el-table-column prop="mtLength" label="MT账号数量"></el-table-column>
@@ -65,16 +65,16 @@
               <el-switch v-model="scope.row.promotStatus" on-text="" off-text="" disabled></el-switch>
             </template>
           </el-table-column>
-          <el-table-column label="操作">
+          <el-table-column label="操作" fixed="right">
             <template scope="scope">
-              <el-button @click="handleClick" type="text" size="small">查看</el-button>
+              <el-button @click="viewUserMes()" type="text" size="small">查看</el-button>
             </template>
           </el-table-column>
         </el-table>
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page="1"
+          :current-page="nowPage"
           :page-sizes="[10, 15, 20]"
           :page-size="10"
           layout="total, sizes, prev, pager, next, jumper"
@@ -97,23 +97,27 @@ export default {
   data () {
     return {
       userManageForm: {
-        id: '',
-        name: '',
+        nickName: '',
+        realName: '',
         phone: '',
         cardId: '',
         mtId: '',
+        timeRange: '',
         agent: '',
         aboutIndirect: false
       },
-      tableData: []
+      tableData: [],
+      nowPage: 1,
+      userMes: {}
     };
   },
   computed: {
   },
   created: function () {
     for (let i = 0; i < 5; i++) {
-      this.tableData.push(this.userList);
-      console.log(this.tableData);
+      this.userList.map((item) => {
+        this.tableData.push(item);
+      });
     }
   },
   methods: {
@@ -123,12 +127,14 @@ export default {
       }))];
     },
     filterTable () {},
-    handleClick () {},
+    viewUserMes (mes) {
+      this.userMes = mes;
+    },
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      console.log(val);
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`);
+      console.log(val);
     }
   }
 };
@@ -149,6 +155,7 @@ export default {
       .form-btn{
         width: 90%;
         text-align: right;
+        margin-bottom: 20px;
       }
     }
   }

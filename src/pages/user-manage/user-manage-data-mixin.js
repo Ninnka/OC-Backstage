@@ -47,6 +47,65 @@ export default {
           superior: '11',
           openTime: '2017-01-01 10:00:00'
         }
+      ],
+      userAuditList: [
+        {
+          account: 'JY00000001',
+          nickName: '陈陈',
+          realName: '陈晨',
+          cardId: '19950812',
+          Documents: {
+            type: '身份证',
+            num: '123'
+          },
+          banks: {
+            type: '招商银行',
+            num: '123456'
+          },
+          requestTime: '2017-01-01 10:00:00',
+          invitingPeople: 'zhou',
+          auditStatus: '待审',
+          auditNum: 1,
+          processTime: '2017-01-01 10:00:00'
+        },
+        {
+          account: 'JY00000001',
+          nickName: '陈陈',
+          realName: '陈晨',
+          cardId: '19950812',
+          Documents: {
+            type: '身份证',
+            num: '123'
+          },
+          banks: {
+            type: '招商银行',
+            num: '123456'
+          },
+          requestTime: '2017-01-01 10:00:00',
+          invitingPeople: 'zhou',
+          auditStatus: '已通过',
+          auditNum: 1,
+          processTime: '2017-01-01 10:00:00'
+        },
+        {
+          account: 'JY00000001',
+          nickName: '陈陈',
+          realName: '陈晨',
+          cardId: '19950812',
+          Documents: {
+            type: '身份证',
+            num: '123'
+          },
+          banks: {
+            type: '招商银行',
+            num: '123456'
+          },
+          requestTime: '2017-01-01 10:00:00',
+          invitingPeople: 'zhou',
+          auditStatus: '已驳回',
+          auditNum: 1,
+          processTime: '2017-01-01 10:00:00'
+        }
       ]
     };
   }
