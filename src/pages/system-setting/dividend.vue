@@ -37,9 +37,17 @@
             </el-select>
           </el-form-item>
           <el-form-item label="爆仓判定标准">
-            <el-select v-model="explosionSetting.judgment" placeholder="">
-              <el-option v-for="judgment in judgmentArr" :key="judgment" :label="judgment" :value="judgment"></el-option>
-            </el-select>
+            <div class="el-form-item__custom-wrap">
+              <el-select v-model="explosionSetting.judgment" placeholder="">
+                <el-option v-for="judgment in judgmentArr" :key="judgment" :label="judgment" :value="judgment"></el-option>
+              </el-select>
+              <el-select v-model="explosionSetting.judgeType" placeholder="" v-show="explosionSetting.resolve === '平台回收寸头'">
+                <el-option v-for="judgeType in judgeTypeArr" :key="judgeType" :label="judgeType" :value="judgeType"></el-option>
+              </el-select>
+            </div>
+          </el-form-item>
+          <el-form-item label="" v-show="explosionSetting.resolve === '平台回收寸头'">
+            <el-input class="dbsize" v-model="explosionSetting.customJudgeValue" :placeholder="explosionSetting.judgeType === '持续时间' ? '请输入持续时间' : '请输入触发次数'"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -49,6 +57,14 @@
 
 <script>
 export default {
+  props: {
+    defaultSetting: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    }
+  },
   data () {
     return {
       name: 'dividend',
@@ -58,11 +74,14 @@ export default {
         maxPosition: ''
       },
       explosionSetting: {
-        resolve: '',
-        judgment: ''
+        resolve: '平台回收寸头',
+        judgment: '以持仓计算',
+        judgeType: '触发次数',
+        customJudgeValue: ''
       },
       resolveArr: ['上级回收寸头', '平台回收寸头'],
-      judgmentArr: ['以平仓计算', '以持仓计算']
+      judgmentArr: ['以平仓计算', '以持仓计算'],
+      judgeTypeArr: ['持续时间', '触发次数']
     };
   }
 };
@@ -71,7 +90,7 @@ export default {
 <style lang="less">
 .dividend {
   color: #ffffff;
-  > div {
+  > div:not(:last-child) {
     margin-bottom: 20px;
   }
 }
@@ -96,33 +115,40 @@ export default {
   }
 }
 .explosion-setting .setting-content {
-  .el-form {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    &.align-start {
-      align-items: flex-start;
-    }
-  }
+  // .el-form {
+  //   display: flex;
+  //   justify-content: flex-start;
+  //   align-items: center;
+  //   &.align-start {
+  //     align-items: flex-start;
+  //   }
+  // }
   .el-form-item {
     flex-grow: 1;
     flex-shrink: 1;
-    max-width: 25%;
-    min-width: 25%;
-    margin: 0 16px;
+    margin: 0 16px 20px;
     text-align: left;
     .el-form-item__label {
       text-align: left;
     }
+    .el-input, .el-select {
+      width: 302px !important;
+      &.dbsize {
+        width: 624px !important;
+      }
+    }
   }
-  .form-item-row-label {
-    flex-grow: 0;
+}
+.el-form-item__custom-wrap {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  > div {
+    &:not(:first-child) {
+      margin-left: 20px;
+    }
     flex-shrink: 0;
-    max-width: initial;
-    min-width: initial;
-    align-self: flex-end;
-    font-size: 14px;
-    margin: 0 10px 10px 16px;
+    flex-grow: 0;
   }
 }
 </style>

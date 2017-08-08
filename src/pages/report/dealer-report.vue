@@ -104,7 +104,7 @@
             <el-form-item label="所属上级">
               <el-input v-model="dealerReportFormInfo.superiorng" placeholder=""></el-input>
             </el-form-item>
-            <el-form-item>
+            <el-form-item class="el-form-item__no-label">
               <el-checkbox v-model="dealerReportFormInfo.isIncludeIndirect">包含间接交易商</el-checkbox>
             </el-form-item>
           </div>
