@@ -16,23 +16,23 @@
           </el-steps>
 
           <div class="form--main-wrap">
-            <el-form v-show="activeStep === 0" ref="basicInfoForm" :model="basicInfo" label-width="90px">
-              <el-form-item label="交易账号">
+            <el-form v-show="activeStep === 0" ref="basicInfoForm" :model="basicInfo" :rules="basicInfoRules" label-width="90px">
+              <el-form-item label="交易账号" prop="account">
                 <el-input v-model="basicInfo.account" placeholder="请输入您想要注册的交易账号"></el-input>
               </el-form-item>
               <el-form-item label="昵称">
                 <el-input v-model="basicInfo.nickName" placeholder="请输入您想设置的昵称"></el-input>
               </el-form-item>
-              <el-form-item label="密码">
-                <el-input v-model="basicInfo.password" placeholder="请输入您的交易密码"></el-input>
+              <el-form-item label="密码" prop="password">
+                <el-input v-model="basicInfo.password" type="password" placeholder="请输入您的交易密码"></el-input>
               </el-form-item>
-              <el-form-item label="确认密码">
-                <el-input v-model="basicInfo.ensurePassword" placeholder="请在此输入您的交易密码"></el-input>
+              <el-form-item label="确认密码" prop="ensurePassword">
+                <el-input v-model="basicInfo.ensurePassword" type="password" placeholder="请在此输入您的交易密码"></el-input>
               </el-form-item>
-              <el-form-item label="手机号码">
+              <el-form-item label="手机号码" prop="tel">
                 <el-input v-model="basicInfo.tel" placeholder="请输入您的手机号码"></el-input>
               </el-form-item>
-              <el-form-item label="验证码" class="form-tel">
+              <el-form-item label="验证码" class="form-tel" prop="validateTelCode">
                 <el-row>
                   <el-col :span="16">
                     <el-input v-model="basicInfo.validateTelCode" placeholder="请输入您手机上收到的验证码"></el-input>
@@ -43,63 +43,90 @@
               <el-form-item label="邮箱地址">
                 <el-input v-model="basicInfo.email" placeholder="请输入您的邮箱地址"></el-input>
               </el-form-item>
-              <el-form-item label="推荐码">
-                <el-input v-model="basicInfo.recommendCode" placeholder="请输入您的推荐人编码"></el-input>
-              </el-form-item>
               <el-form-item label="开户协议" class="form-protocol">
                 <el-checkbox v-model="basicInfo.protocol">
-                  我已同意<span class="hight-light">《交易商开户协议》</span>和<span class="hight-light">《实盘交易协议》</span>
+                  我已同意<span class="hight-light">《代理商开户协议》</span>
                 </el-checkbox>
               </el-form-item>
             </el-form>
-            <el-form v-show="activeStep === 1" ref="identityInfoForm" :model="identityInfo" label-width="100px">
-              <el-form-item label="姓名">
-                <el-input v-model="identityInfo.name" placeholder="请输入你的真实姓名"></el-input>
-              </el-form-item>
-              <el-form-item label="证件类型">
-                <el-select v-model="identityInfo.certificatesType" placeholder="身份证/港澳通行证/护照">
-                  <el-option label="身份证" value="1"></el-option>
-                  <el-option label="港澳通行证" value="2"></el-option>
-                  <el-option label="护照" value="3"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="证件编号">
-                <el-input v-model="identityInfo.certificatesCode" placeholder="请输入您的证件编号"></el-input>
-              </el-form-item>
-              <el-form-item label="证件有效期">
-                <el-date-picker v-model="identityInfo.certificatesValidity" type="daterange" placeholder="请选择您的证件有效期"></el-date-picker>
-              </el-form-item>
-              <el-form-item label="证件照片" class="form-mult--columns">
-                <upload-image cusClass="upload-image__idcard" @fileLoaded="idCardFileLoaded">
-                  <template slot="upload-image__slot">
-                    <div class="upload-image__cus-wrap">
-                      <i class="el-icon-plus"></i>
-                      <div class="">添加身份证正面</div>
-                    </div>
-                  </template>
-                </upload-image>
-                <upload-image cusClass="upload-image__idcard" @fileLoaded="idCardFileLoaded">
-                  <template slot="upload-image__slot">
-                    <div class="upload-image__cus-wrap">
-                      <i class="el-icon-plus"></i>
-                      <div class="">添加身份证反面</div>
-                    </div>
-                  </template>
-                </upload-image>
-              </el-form-item>
-              <el-form-item label="账单投递地址" class="form-mult--columns">
-                <el-select v-model="identityInfo.province" placeholder="请选择省份">
-                  <el-option label="广东" value="1"></el-option>
-                </el-select>
-                <el-select v-model="identityInfo.city" placeholder="请选择城市">
-                  <el-option label="深圳" value="1"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="">
-                <el-input v-model="identityInfo.address" placeholder="请输入详细地址信息"></el-input>
-              </el-form-item>
-            </el-form>
-            <el-form v-show="activeStep === 2" ref="dealInfoForm" :model="dealInfo" label-width="100px">
+            <div class="" v-show="activeStep === 1">
+              <el-form label-width="110px">
+                <el-form-item label="类型">
+                  <el-radio class="radio" v-model="identityInfoType" label="1">个人</el-radio>
+                  <el-radio class="radio" v-model="identityInfoType" label="2">公司</el-radio>
+                </el-form-item>
+              </el-form>
+              <el-form v-show="activeStep === 1 && identityInfoType == '1'" ref="identityInfoPersonalForm" :model="identityInfoPersonal" label-width="110px">
+                <el-form-item label="姓名">
+                  <el-input v-model="identityInfoPersonal.name" placeholder="请输入你的真实姓名"></el-input>
+                </el-form-item>
+                <el-form-item label="身份件编号">
+                  <el-input v-model="identityInfoPersonal.certificatesCode" placeholder="请输入您的证件编号"></el-input>
+                </el-form-item>
+                <el-form-item label="证件有效期">
+                  <el-date-picker v-model="identityInfoPersonal.certificatesValidity" type="daterange" placeholder="请选择您的证件有效期"></el-date-picker>
+                </el-form-item>
+                <el-form-item label="证件照片" class="form-mult--columns">
+                  <upload-image cusClass="upload-image__idcard" @fileLoaded="idCardFileLoaded">
+                    <template slot="upload-image__slot">
+                      <div class="upload-image__cus-wrap">
+                        <i class="el-icon-plus"></i>
+                        <div class="">添加身份证正面</div>
+                      </div>
+                    </template>
+                  </upload-image>
+                  <upload-image cusClass="upload-image__idcard" @fileLoaded="idCardFileLoaded">
+                    <template slot="upload-image__slot">
+                      <div class="upload-image__cus-wrap">
+                        <i class="el-icon-plus"></i>
+                        <div class="">添加身份证反面</div>
+                      </div>
+                    </template>
+                  </upload-image>
+                </el-form-item>
+                <el-form-item label="账单投递地址" class="form-mult--columns">
+                  <el-select v-model="identityInfoPersonal.province" placeholder="请选择省份">
+                    <el-option label="广东" value="1"></el-option>
+                  </el-select>
+                  <el-select v-model="identityInfoPersonal.city" placeholder="请选择城市">
+                    <el-option label="深圳" value="1"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="">
+                  <el-input v-model="identityInfoPersonal.address" placeholder="请输入详细地址信息"></el-input>
+                </el-form-item>
+              </el-form>
+              <el-form v-show="activeStep === 1 && identityInfoType == '2'" ref="identityInfoCompanyForm" :model="identityInfoCompany" label-width="110px">
+                <el-form-item label="企业名称">
+                  <el-input v-model="identityInfoCompany.name" placeholder="请输入你的企业名称"></el-input>
+                </el-form-item>
+                <el-form-item label="营业执照编号">
+                  <el-input v-model="identityInfoCompany.businessLicenseCode" placeholder="请输入您的营业执照编号"></el-input>
+                </el-form-item>
+                <el-form-item label="税务登记证编号">
+                  <el-input v-model="identityInfoCompany.taxRegistrationCode" placeholder="请选择您的税务登记证编号"></el-input>
+                </el-form-item>
+                <el-form-item label="证件照片" class="form-mult--columns">
+                  <upload-image cusClass="upload-image__idcard" @fileLoaded="idCardFileLoaded">
+                    <template slot="upload-image__slot">
+                      <div class="upload-image__cus-wrap">
+                        <i class="el-icon-plus"></i>
+                        <div class="">添加营业执照正面</div>
+                      </div>
+                    </template>
+                  </upload-image>
+                  <upload-image cusClass="upload-image__idcard" @fileLoaded="idCardFileLoaded">
+                    <template slot="upload-image__slot">
+                      <div class="upload-image__cus-wrap">
+                        <i class="el-icon-plus"></i>
+                        <div class="">添加营业执照反面</div>
+                      </div>
+                    </template>
+                  </upload-image>
+                </el-form-item>
+              </el-form>
+            </div>
+            <el-form v-show="activeStep === 2" ref="dealInfoForm" :model="dealInfo" label-width="100px" :rules="dealInfoRules">
               <el-form-item label="开户银行">
                 <el-select v-model="dealInfo.bankName" placeholder="请选择您的开户银行">
                   <el-option label="广发银行" value="1"></el-option>
@@ -114,7 +141,7 @@
                   <el-option label="深圳" value="1"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="">
+              <el-form-item label="开户支行名称">
                 <el-input v-model="dealInfo.bankBranch" placeholder="请输入支行名称"></el-input>
               </el-form-item>
               <el-form-item label="开户账号">
@@ -138,7 +165,7 @@
                   </template>
                 </upload-image>
               </el-form-item>
-              <el-form-item label="开户人姓名" class="form-mult--columns">
+              <el-form-item label="开户人姓名" class="form-mult--columns" prop="accountName">
                 <el-input v-model="dealInfo.accountName" placeholder="请输入开户人姓名"></el-input>
               </el-form-item>
               <el-form-item label="预留手机">
@@ -182,12 +209,11 @@ export default {
         tel: '',
         validateTelCode: '',
         email: '',
-        recommendCode: '',
         protocol: false
       },
-      identityInfo: {
+      identityInfoType: '1',
+      identityInfoPersonal: {
         name: '',
-        certificatesType: '',
         certificatesCode: '',
         certificatesValidity: ['', ''],
         province: '',
@@ -195,6 +221,11 @@ export default {
         address: ''
       },
       idCardList: [],
+      identityInfoCompany: {
+        name: '',
+        businessLicenseCode: '',
+        taxRegistrationCode: ''
+      },
       dealInfo: {
         bankName: '',
         bankProvince: '',
@@ -204,7 +235,43 @@ export default {
         accountName: '',
         accountTel: ''
       },
-      bankCardList: []
+      bankCardList: [],
+      basicInfoRules: {
+        account: [{
+          required: true,
+          message: '账号不能为空',
+          trigger: 'blur'
+        }],
+        password: [{
+          required: true,
+          message: '密码不能为空',
+          trigger: 'blur'
+        }],
+        ensurePassword: [{
+          required: true,
+          message: '确认密码不能为空',
+          trigger: 'blur'
+        }],
+        tel: [{
+          required: true,
+          message: '手机号码不能为空',
+          trigger: 'blur'
+        }],
+        validateTelCode: [{
+          validator: this.checkValidateTelCode,
+          trigger: 'blur'
+        }]
+      },
+      dealInfoRules: {
+        accountName: [{
+          required: true,
+          message: '开户人姓名不能为空',
+          trigger: 'blur'
+        }, {
+          validator: this.checkBankInfoAccountName,
+          trigger: 'change'
+        }]
+      }
     };
   },
   methods: {
@@ -250,8 +317,15 @@ export default {
       this.activeStep += 1;
     },
     completeStep () {
-      // TODO: 跳转到登录页
       this.$router.replace('signin');
+    },
+    checkValidateTelCode () {
+      // TODO: 电话验证码验证
+    },
+    checkBankInfoAccountName (rule, value, callback) {
+      // TODO: 表单验证银行信息中的开户人姓名，以下测试用
+      callback(new Error('银行开户人姓名必须与真实姓名一致'));
+      return;
     }
   }
 };
@@ -340,6 +414,15 @@ export default {
   display: flex;
   justify-content: center;
   align-content: center;
+  > div {
+    width: 100%;
+  }
+  .el-form {
+    width: 100%;
+  }
+  .el-form-item__content {
+    text-align: left;
+  }
 }
 .form--buttons-wrap {
   margin-top: 12px;
