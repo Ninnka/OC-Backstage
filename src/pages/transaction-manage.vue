@@ -8,48 +8,86 @@
           <ul class="form-list">
             <li>
               <label class="form-name">账号/昵称</label>
-              <input class="form-mes" type="text" name="id">
+              <input class="form-mes" type="text">
             </li>
             <li>
               <label class="form-name">交易类型</label>
-              <select class="">
-                <option value="">11111</option>
+              <select class="form-mes">
+                <option value="">买单</option>
+                <option value="">卖单</option>
               </select>
             </li>
             <li>
               <label class="form-name">开仓时间</label>
-              <input type="text">
+              <input class="form-mes" type="text">
             </li>
           </ul>
           <ul class="form-list">
             <li>
               <label class="form-name">交易订单号</label>
-              <input type="text" name="id">
+              <input class="form-mes" type="text">
             </li>
             <li>
               <label class="form-name">交易种类</label>
-              <select>
-                <option value="">11111</option>
+              <select class="form-mes">
+                <option value="">CNYHKD</option>
+                <option value="">USOil</option>
+                <option value="">Forex</option>
               </select>
             </li>
             <li>
               <label class="form-name">平仓时间</label>
-              <input type="text">
+              <input class="form-mes" type="text">
             </li>
           </ul>
           <ul class="form-list">
             <li>
               <label class="form-name">MT账号</label>
-              <input type="text" name="id">
+              <input class="form-mes" type="text" name="id">
             </li>
             <li>
               <label class="form-name">订单类型</label>
-              <select>
-                <option value="">11111</option>
+              <select class="form-mes">
+                <option value="">全部</option>
+                <option value="">持仓中</option>
+                <option value="">已平仓</option>
               </select>
             </li>
           </ul>
         </div>
+        <div class="operation-btn">
+          <button class="inquire-btn" type="submit">查询</button>
+          <select class="options-list">
+            <option value="">1111111</option>
+          </select>
+        </div>
+      </div>
+      <el-table :data="TxList" stripe style="width: 100%">
+        <el-table-column prop="id" label="账号"></el-table-column>
+        <el-table-column prop="name" label="昵称"></el-table-column>
+        <el-table-column prop="orderNumber" label="交易订单号"></el-table-column>
+        <el-table-column prop="mtAccount" label="交易MT账号"></el-table-column>
+        <el-table-column prop="type" label="交易类型"></el-table-column>
+        <el-table-column prop="variety" label="交易品种"></el-table-column>
+        <el-table-column prop="openPrice" label="开仓手数/价格"></el-table-column>
+        <el-table-column prop="openTime" label="开仓时间"></el-table-column>
+        <el-table-column prop="securityDeposit" label="保证金"></el-table-column>
+        <el-table-column prop="closePrice" label="平仓价格"></el-table-column>
+        <el-table-column prop="closeTime" label="平仓时间"></el-table-column>
+        <el-table-column prop="interest" label="利息"></el-table-column>
+        <el-table-column prop="fee" label="手续费"></el-table-column>
+        <el-table-column prop="profitOrLoss" label="盈亏"></el-table-column>
+      </el-table>
+      <div class="block">
+        <el-pagination
+          @size-change=""
+          @current-change=""
+          :current-page="currentPage4"
+          :page-sizes="[10, 20, 30, 40]"
+          :page-size="100"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="80">
+        </el-pagination>
       </div>
     </article>
   </div>
@@ -62,6 +100,41 @@ export default {
   },
   data () {
     return {
+      currentPage4: 4,
+      TxList: [
+        {
+          id: 123456,
+          name: '金克丝',
+          orderNumber: 'JY00000001',
+          mtAccount: '98683430',
+          type: '买单',
+          variety: 'EURUSD',
+          openPrice: '4/1.16607',
+          openTime: '2017-07-27 12:06:19',
+          securityDeposit: '$20',
+          closePrice: '未平仓',
+          closeTime: '持仓中',
+          interest: '$20',
+          fee: '-$80',
+          profitOrLoss: '未平仓'
+        },
+        {
+          id: 123123,
+          name: '拉克丝',
+          orderNumber: 'JY00000002',
+          mtAccount: '98683430',
+          type: '买单',
+          variety: 'EURUSD',
+          openPrice: '4/1.16607',
+          openTime: '2017-07-27 12:06:19',
+          securityDeposit: '$20',
+          closePrice: '未平仓',
+          closeTime: '持仓中',
+          interest: '$20',
+          fee: '-$80',
+          profitOrLoss: '未平仓'
+        }
+      ]
     };
   },
   computed: {
@@ -69,6 +142,12 @@ export default {
   created: function () {
   },
   methods: {
+//    handleSizeChange(val) {
+//      console.log(`每页 ${val} 条`);
+//    },
+//    handleCurrentChange(val) {
+//      console.log(`当前页: ${val}`);
+//    }
   }
 };
 </script>
@@ -77,17 +156,56 @@ export default {
   .transaction-manage {
     padding: 20px;
     .region-main{
-      width: 100;
+      width: 100%;
       .form-content{
         display: flex;
         .form-list{
           flex: 0 0 33.3333%;
-          .form-name{
-            width: 100px;
-            font-size:14px;
-            color:#fff;
+          li{
+            padding: 5px 0;
+            .form-name{
+              display: inline-block;
+              width: 80px;
+              margin-right: 10px;
+              font-size: 14px;
+              color: #fff;
+              text-align: right;
+            }
+            .form-mes{
+              width: 270px;
+              height: 38px;
+              border: none;
+              background-color: #191b20;
+              color: #fff;
+              font-size: 14px;
+            }
           }
         }
+      }
+      .operation-btn{
+        text-align: right;
+        margin-right: 6%;
+        margin-bottom: 20px;
+        .inquire-btn{
+          width: 100px;
+          height: 40px;
+          color: #fff;
+          font-size: 16px;
+          background-color: #444b5b;
+          border-radius: 4px;
+          margin-right: 20px;
+        }
+        .options-list{
+          width: 100px;
+          height: 40px;
+          color: #fff;
+          font-size: 14px;
+          background-color: #444b5b;
+          border-radius: 4px;
+          border: none;
+        }
+      }
+      .block {
       }
     }
   }
