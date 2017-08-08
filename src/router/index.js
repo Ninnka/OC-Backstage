@@ -24,6 +24,13 @@ export default new Router({
       }
     },
     {
+      path: '/resetpw',
+      name: 'resetPw',
+      component: (resolve) => {
+        require(['@pages/reset-pw'], resolve);
+      }
+    },
+    {
       path: '/tab',
       name: 'Tab',
       component: (resolve) => {
@@ -145,10 +152,10 @@ export default new Router({
         },
         // 系统设置
         {
-          path: 'system-set',
-          name: 'system-set',
+          path: 'system-setting',
+          name: 'system-setting',
           component: (resolve) => {
-            require(['@pages/system-set'], resolve);
+            require(['@pages/system-setting/index'], resolve);
           }
         },
         // 佣金管理

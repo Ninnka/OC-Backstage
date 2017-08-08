@@ -16,16 +16,16 @@
           <div class="head--sperator sperator-full"></div>
         </div>
         <div class="module__form">
-          <el-form ref="signInForm" :model="signInInfo" label-width="72px">
-            <el-form-item label="实盘账号">
+          <el-form ref="signInForm" :model="signInInfo" :rules="signInRules" label-width="80px">
+            <el-form-item label="实盘账号" prop="account">
               <el-input v-model="signInInfo.account" type="text" ></el-input>
             </el-form-item>
-            <el-form-item label="交易密码">
+            <el-form-item label="交易密码" prop="password">
               <el-input v-model="signInInfo.password" type="password" ></el-input>
             </el-form-item>
             <el-row :gutter="16">
               <el-col :span="16">
-                <el-form-item label="验证码">
+                <el-form-item label="验证码" prop="validCode">
                   <el-input v-model="signInInfo.validCode" type="text" ></el-input>
                 </el-form-item>
               </el-col>
@@ -35,9 +35,9 @@
             </el-row>
             <button class="sign-in--submit" @click="submitSignIn">登录</button>
           </el-form>
-          <div class="form--additional-action">忘记密码？</div>
+          <div class="form--additional-action" @click="goRouter('resetPw')">忘记密码？</div>
         </div>
-        <div class="module__signup" @click="goRouter">注册账号</div>
+        <div class="module__signup" @click="goRouter('signUp')">注册账号</div>
       </div>
     </div>
     <div class="crm-ver--fixed">Version 1.0</div>
@@ -52,17 +52,36 @@ export default {
         account: '',
         password: '',
         validCode: ''
+      },
+      signInRules: {
+        account: [{
+          required: true,
+          message: '账号不能为空',
+          trigger: 'blur'
+        }],
+        password: [{
+          required: true,
+          message: '密码不能为空',
+          trigger: 'blur'
+        }],
+        validCode: [{
+          validator: this.checkValidCode,
+          trigger: 'change'
+        }]
       }
     };
   },
   methods: {
-    goRouter () {
-      this.$router.push({name: 'signUp'});
+    goRouter (name) {
+      this.$router.push({name: name});
     },
     submitSignIn () {
       // TODO: 登录
       this.$store.commit('updateUser', {'name': this.signInInfo.account});
       this.$router.push('tab/personal-information');
+    },
+    checkValidCode () {
+      // TODO: 判断code
     }
   }
 };
@@ -151,7 +170,7 @@ export default {
   .module__form {
     position: relative;
     padding-right: 167px;
-    margin-top: 40px;
+    margin-top: 34px;
     text-align: left;
     .el-form .el-form-item .el-form-item__label {
       color: #94959a !important;
@@ -167,10 +186,10 @@ export default {
     }
   }
   .sperator-half {
-    margin-top: 11px;
-    background:#52e3ff;
-    width:98px;
-    height:3px;
+    margin-top: 4px;
+    background: #52e3ff;
+    width: 98px;
+    height: 3px;
   }
   .sperator-full {
     width: 236px;
