@@ -60,6 +60,9 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 // 修改element按钮风格样式
 body{
+  .el-button--text{
+    color: #53e3ff;
+  }
   .el-button--info{
     background:#444b5b;
     border-color: #444b5b;
@@ -76,10 +79,26 @@ body{
       border-color: #17191d;
     }
   }
+  .el-switch{
+    &.is-disabled.is-checked{
+      .el-switch__core{
+        background: #53e3ff !important;
+        border-color: #53e3ff !important;
+      }
+    }
+  }
 }
+
 
 // 修改element输入框风格样式
 .el-form{
+  .el-checkbox{
+    color: #fff;
+    .el-checkbox__input.is-checked .el-checkbox__inner{
+      background-color: #53e3ff;
+      border-color: #53e3ff;
+    }
+  }
   .el-form-item{
     .el-form-item__label{
       color: #fff;
@@ -103,7 +122,7 @@ body{
 // 修改element表格风格样式
 #app{
   .el-table{
-    text-align: center;
+    text-align: left;
     border: none;
     &::before{
       height: 0;
@@ -115,9 +134,10 @@ body{
       }
     }
     tr:nth-of-type(even){
-      background: #22232a;
+      background: #22242a;
       td{
-        background: #22232a;
+        background: #22242a;
+        width: auto;
       }
     }
     tr:hover{
@@ -135,10 +155,11 @@ body{
     th{
       background-color: #18191d;
       border: none;
-      text-align: center;
+      text-align: left;
       >.cell{
         background-color: #18191d;
         color: #94959a;
+        text-align: left;
       }
     }
   }

@@ -289,6 +289,8 @@ export default {
       background: #212227;
       box-shadow: inset 4px 2px 4px 0 rgba(0,0,0,0.50);
       height: 100%;
+      padding: 20px;
+      box-sizing: border-box;
       overflow: auto;
     }
   }
