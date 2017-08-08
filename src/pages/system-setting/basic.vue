@@ -47,7 +47,7 @@
       </article>
       <div class="setting-content">
         <div class="setting-content__item">
-          <div class="item-left">
+          <div class="item-left" :class="{'selected': allowDeal}">
             <el-checkbox v-model="allowDeal"></el-checkbox>
           </div>
           <div class="item-right">
@@ -56,7 +56,7 @@
           </div>
         </div>
         <div class="setting-content__item">
-          <div class="item-left">
+          <div class="item-left" :class="{'selected': allowAgent}">
             <el-checkbox v-model="allowAgent"></el-checkbox>
           </div>
           <div class="item-right">
@@ -200,6 +200,9 @@ export default {
     > div {
       text-align: left;
       background: #202228;
+      &.selected {
+        background: #1E90FF;
+      }
       p {
         margin: 3px 0;
       }
@@ -224,6 +227,7 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      transition: .4s background;
     }
     .item-right {
       flex-grow: 1;

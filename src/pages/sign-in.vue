@@ -183,6 +183,7 @@ export default {
       color: #94959a !important;
       text-decoration: underline;
       font-size: 14px;
+      cursor: pointer;
     }
   }
   .sperator-half {

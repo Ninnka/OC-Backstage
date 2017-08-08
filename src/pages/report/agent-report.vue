@@ -108,12 +108,24 @@
         </el-form>
         <div class="el-form--buttons">
           <el-button type="info">查询</el-button>
+          <el-dropdown trigger="click">
+            <el-button>
+              列表选项<i class="el-icon-caret-bottom el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="col in agentReportTableColsName" :key="col">
+                <el-checkbox v-model="agentReportTableColsStatus[col].show">{{ agentReportTableColsStatus[col].label }}</el-checkbox>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
 
       </div>
       <div class="record__table">
-        <el-table :data="agentReportTableData" style="width: 100%" header-align="center" :row-class-name="tableRowClassName">
-          <el-table-column prop="code" label="编号"></el-table-column>
+        <el-table :data="compuTableData" style="width: 100%" header-align="center" :row-class-name="tableRowClassName">
+          <el-table-column v-for="col in compuAgentReportTableColsName" :key="col" :prop="col" :label="agentReportTableColsStatus[col].label"></el-table-column>
+          <!-- 下面的暂时留下来备用 -->
+          <!-- <el-table-column prop="code" label="编号"></el-table-column>
           <el-table-column prop="account" label="账号"></el-table-column>
           <el-table-column prop="nickName" label="昵称"></el-table-column>
           <el-table-column prop="agentName" label="名称"></el-table-column>
@@ -130,7 +142,7 @@
           <el-table-column prop="shiftInCharge" label="入金手续费"></el-table-column>
           <el-table-column prop="rollOutFrequency" label="出金次数"></el-table-column>
           <el-table-column prop="rollOutTotal" label="出金总额"></el-table-column>
-          <el-table-column prop="rollOutCharge" label="出金手续费"></el-table-column>
+          <el-table-column prop="rollOutCharge" label="出金手续费"></el-table-column> -->
         </el-table>
       </div>
       <div class="record__total">
@@ -178,10 +190,10 @@
           @size-change="recordTabelSizeChange"
           @current-change="recordTabelCurrentChange"
           :current-page="recordTabelCurrentPage"
-          :page-sizes="[5, 10, 20]"
-          :page-size="5"
+          :page-sizes="pageSizes"
+          :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="50">
+          :total="paginationItemTotal">
         </el-pagination>
       </div>
     </div>
@@ -210,7 +222,9 @@ export default {
         lossTotal: ['', ''],
         isIncludeSub: false
       },
-      recordTabelCurrentPage: 1
+      recordTabelCurrentPage: 1,
+      pageSizes: [5, 10, 20],
+      pageSize: 5
     };
   },
   methods: {
@@ -220,14 +234,25 @@ export default {
       }
       return 'odd-row';
     },
-    recordTabelSizeChange () {
-
+    recordTabelSizeChange (size) {
+      this.pageSize = size;
     },
-    recordTabelCurrentChange () {
-
+    recordTabelCurrentChange (currentPage) {
+      this.recordTabelCurrentPage = currentPage;
     }
   },
   computed: {
+    compuTableData () {
+      return this.agentReportTableData.slice((this.recordTabelCurrentPage - 1) * this.pageSize, this.recordTabelCurrentPage * this.pageSize);
+    },
+    paginationItemTotal () {
+      return this.agentReportTableData.length;
+    },
+    compuAgentReportTableColsName () {
+      return this.agentReportTableColsName.filter((element) => {
+        return this.agentReportTableColsStatus[element].show;
+      });
+    }
   }
 };
 </script>
@@ -237,41 +262,5 @@ export default {
   min-height: 100%;
   box-sizing: border-box;
   padding: 20px;
-}
-// -----------------
-.el-form-item-combine {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  > div {
-    flex-shrink: 1;
-    flex-grow: 1;
-    margin: 0 10px 20px;
-    max-width: 32%;
-  }
-}
-.el-form-item-combine {
-  .el-date-editor--datetimerange.el-input {
-    width: 100%;
-  }
-}
-.record__form {
-  .line {
-    text-align: center;
-    color: #ffffff;
-    .line-content {
-      display: inline-block;
-      vertical-align: middle;
-      width: 40%;
-      height: 1px;
-      background: #ffffff;
-    }
-  }
-  .el-checkbox__label {
-    color: #ffffff !important;
-  }
-}
-.el-form--buttons {
-  text-align: right;
 }
 </style>
