@@ -4,38 +4,52 @@
     <article class="region">
       <header>交易管理</header>
       <div class="region-main">
-        <form>
-          <ul>
+        <div class="form-content">
+          <ul class="form-list">
             <li>
-              <label class="">账号/昵称</label>
-              <input type="text" name="id">
-              <label>交易订单号</label>
-              <input type="text" name="id">
-              <label>MT账号</label>
-              <input type="text" name="id">
+              <label class="form-name">账号/昵称</label>
+              <input class="form-mes" type="text" name="id">
             </li>
             <li>
-              <label>交易类型</label>
-              <select>
-                <option value=""></option>
-              </select>
-              <label>交易种类</label>
-              <select>
-                <option value=""></option>
-              </select>
-              <label>订单类型</label>
-              <select>
-                <option value=""></option>
+              <label class="form-name">交易类型</label>
+              <select class="">
+                <option value="">11111</option>
               </select>
             </li>
             <li>
-              <label>开仓时间</label>
-              <input type="text">
-              <label>平仓时间</label>
+              <label class="form-name">开仓时间</label>
               <input type="text">
             </li>
           </ul>
-        </form>
+          <ul class="form-list">
+            <li>
+              <label class="form-name">交易订单号</label>
+              <input type="text" name="id">
+            </li>
+            <li>
+              <label class="form-name">交易种类</label>
+              <select>
+                <option value="">11111</option>
+              </select>
+            </li>
+            <li>
+              <label class="form-name">平仓时间</label>
+              <input type="text">
+            </li>
+          </ul>
+          <ul class="form-list">
+            <li>
+              <label class="form-name">MT账号</label>
+              <input type="text" name="id">
+            </li>
+            <li>
+              <label class="form-name">订单类型</label>
+              <select>
+                <option value="">11111</option>
+              </select>
+            </li>
+          </ul>
+        </div>
       </div>
     </article>
   </div>
@@ -64,9 +78,15 @@ export default {
     padding: 20px;
     .region-main{
       width: 100;
-      form{
-        label{
-          color:#fff;
+      .form-content{
+        display: flex;
+        .form-list{
+          flex: 0 0 33.3333%;
+          .form-name{
+            width: 100px;
+            font-size:14px;
+            color:#fff;
+          }
         }
       }
     }

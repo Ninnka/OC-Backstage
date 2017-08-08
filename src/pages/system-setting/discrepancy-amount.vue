@@ -61,47 +61,38 @@
             <div slot="label">
               <el-checkbox v-model="outTimeSetting[week.value].include">{{ week.week }}</el-checkbox>
             </div>
-            <el-input :disabled="!outTimeSetting[week.value].include" v-model="outTimeSetting[week.value].time" :placeholder="!outTimeSetting[week.value].include ? '' : '请输入时间段，例：09:00-16:30'"></el-input>
+            <el-input :disabled="!outTimeSetting[week.value].include" v-model="outTimeSetting[week.value].time" :placeholder="!outTimeSetting[week.value].include ? '请勾选对应日期' : '请输入时间段，例：09:00-16:30'"></el-input>
           </el-form-item>
         </el-form>
       </div>
     </div>
 
-    <div class="content--main__item discrepency-rate-setting">
-      <article class="item__header">
-        <header>
-          出入金汇率设置
-        </header>
-      </article>
-      <div class="setting-content">
-        <el-form label-width="80px">
-          <el-form-item label="入金汇率">
-            <el-input v-model="discrepencyRateSetting.inRate"></el-input>
-          </el-form-item>
-          <el-form-item label="出金汇率">
-            <el-input v-model="discrepencyRateSetting.outRate"></el-input>
-          </el-form-item>
-        </el-form>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    defaultSetting: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    }
+  },
   data () {
     return {
       name: 'discrepancy-amount',
       inAmountSetting: {
-        minQuota: '',
-        charge: ''
+        minQuota: '100',
+        charge: '6'
       },
       outAmountSetting: {
-        maxQuota: '',
-        minQuota: '',
-        limitAmount: '',
-        limitTimes: '',
-        charge: ''
+        maxQuota: '100000',
+        minQuota: '100',
+        limitAmount: '200000',
+        limitTimes: '2',
+        charge: '0.6'
       },
       outTimeSetting: {
         monday: {
@@ -154,11 +145,7 @@ export default {
       }, {
         week: '星期日',
         value: 'sunday'
-      }],
-      discrepencyRateSetting: {
-        inRate: '',
-        outRate: ''
-      }
+      }]
     };
   }
 };

@@ -101,7 +101,7 @@
             <el-form-item label="账号-名称">
               <el-input v-model="agentReportFormInfo.nickName" placeholder=""></el-input>
             </el-form-item>
-            <el-form-item>
+            <el-form-item class="el-form-item__no-label">
               <el-checkbox v-model="agentReportFormInfo.isIncludeSub">包含下级代理商</el-checkbox>
             </el-form-item>
           </div>
