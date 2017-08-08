@@ -174,7 +174,7 @@
             邀请码：888888865
             <p>邀请链接：{{inviteUrl}}</p>
           </div>
-          <button class="copy-btn hot-bg" v-clipboard="inviteUrl" @success="handleSuccess" @error="handleError">复制推广链接</button>
+          <button class="copy-btn hot-bg" v-clipboard="inviteUrl" @success="" @error="">复制推广链接</button>
         </div>
       </article>
       <article class="region">
@@ -187,7 +187,7 @@
             邀请码：888888865
             <p>邀请链接：{{inviteUrl}}</p>
           </div>
-          <button class="copy-btn hot-bg" v-clipboard="inviteUrl" @success="handleSuccess" @error="handleError">复制推广链接</button>
+          <button class="copy-btn hot-bg" v-clipboard="inviteUrl" @success="" @error="">复制推广链接</button>
         </div>
       </article>
     </div>
