@@ -76,10 +76,26 @@ body{
       border-color: #17191d;
     }
   }
+  .el-switch{
+    &.is-disabled.is-checked{
+      .el-switch__core{
+        background: #53e3ff !important;
+        border-color: #53e3ff !important;
+      }
+    }
+  }
 }
+
 
 // 修改element输入框风格样式
 .el-form{
+  .el-checkbox{
+    color: #fff;
+    .el-checkbox__input.is-checked .el-checkbox__inner{
+      background-color: #53e3ff;
+      border-color: #53e3ff;
+    }
+  }
   .el-form-item{
     .el-form-item__label{
       color: #fff;
