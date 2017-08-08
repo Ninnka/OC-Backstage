@@ -8,7 +8,7 @@
       </article>
       <div class="setting-content">
         <div class="avatar--wrap">
-          <img src="" alt="">
+          <!-- <img src="" alt=""> -->
         </div>
         <div class="avatar--control">修改</div>
       </div>
@@ -74,14 +74,19 @@
         </header>
       </article>
       <div class="setting-content">
-
+        <quill-editor ref="quillEditor" v-model="editorContent" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)"></quill-editor>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { quillEditor } from 'vue-quill-editor';
+
 export default {
+  components: {
+    quillEditor
+  },
   data () {
     return {
       name: 'basic',
@@ -96,10 +101,21 @@ export default {
         '日元'
       ],
       allowDeal: false,
-      allowAgent: false
+      allowAgent: false,
+      editorContent: '',
+      editorOption: {}
     };
   },
   methods: {
+    onEditorBlur ($event) {
+
+    },
+    onEditorFocus ($event) {
+
+    },
+    onEditorReady ($event) {
+
+    }
   }
 };
 </script>
@@ -198,6 +214,18 @@ export default {
       flex-direction: column;
       justify-content: center;
     }
+  }
+}
+.ql-snow .ql-stroke {
+  stroke: #ffffff !important;
+}
+.ql-snow .ql-fill, .ql-snow .ql-stroke.ql-fill {
+  stroke: #ffffff !important;
+}
+.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
+  stroke: #ffffff !important;
+  &::before {
+    stroke: #ffffff !important;
   }
 }
 </style>
