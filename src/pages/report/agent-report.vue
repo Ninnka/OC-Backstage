@@ -123,26 +123,26 @@
       </div>
       <div class="record__table">
         <el-table :data="compuTableData" style="width: 100%" header-align="center" :row-class-name="tableRowClassName">
-          <el-table-column v-for="col in compuAgentReportTableColsName" :key="col" :prop="col" :label="agentReportTableColsStatus[col].label"></el-table-column>
           <!-- 下面的暂时留下来备用 -->
-          <!-- <el-table-column prop="code" label="编号"></el-table-column>
-          <el-table-column prop="account" label="账号"></el-table-column>
-          <el-table-column prop="nickName" label="昵称"></el-table-column>
-          <el-table-column prop="agentName" label="名称"></el-table-column>
-          <el-table-column prop="superior" label="所属上级"></el-table-column>
-          <el-table-column prop="commissionTotal" label="总返佣"></el-table-column>
-          <el-table-column prop="profitFrequency" label="红利盈利次数"></el-table-column>
-          <el-table-column prop="profitTotal" label="红利盈利总额"></el-table-column>
-          <el-table-column prop="lossFrequency" label="红利亏损次数"></el-table-column>
-          <el-table-column prop="lossTotal" label="红利亏损总额"></el-table-column>
-          <el-table-column prop="epicycle" label="红利总盈亏"></el-table-column>
-          <el-table-column prop="profitRate" label="盈利率"></el-table-column>
-          <el-table-column prop="shiftInFrequency" label="入金次数"></el-table-column>
-          <el-table-column prop="shiftInTotal" label="入金总额"></el-table-column>
-          <el-table-column prop="shiftInCharge" label="入金手续费"></el-table-column>
-          <el-table-column prop="rollOutFrequency" label="出金次数"></el-table-column>
-          <el-table-column prop="rollOutTotal" label="出金总额"></el-table-column>
-          <el-table-column prop="rollOutCharge" label="出金手续费"></el-table-column> -->
+          <!-- <el-table-column v-for="col in compuAgentReportTableColsName" :key="col" :prop="col" :label="agentReportTableColsStatus[col].label"></el-table-column> -->
+          <el-table-column v-if="checkVisibility('code')" prop="code" label="编号"></el-table-column>
+          <el-table-column v-if="checkVisibility('account')" prop="account" label="账号"></el-table-column>
+          <el-table-column v-if="checkVisibility('nickName')" prop="nickName" label="昵称"></el-table-column>
+          <el-table-column v-if="checkVisibility('agentName')" prop="agentName" label="名称"></el-table-column>
+          <el-table-column v-if="checkVisibility('superior')" prop="superior" label="所属上级"></el-table-column>
+          <el-table-column v-if="checkVisibility('commissionTotal')" prop="commissionTotal" label="总返佣"></el-table-column>
+          <el-table-column v-if="checkVisibility('profitFrequency')" prop="profitFrequency" label="红利盈利次数"></el-table-column>
+          <el-table-column v-if="checkVisibility('profitTotal')" prop="profitTotal" label="红利盈利总额"></el-table-column>
+          <el-table-column v-if="checkVisibility('lossFrequency')" prop="lossFrequency" label="红利亏损次数"></el-table-column>
+          <el-table-column v-if="checkVisibility('lossTotal')" prop="lossTotal" label="红利亏损总额"></el-table-column>
+          <el-table-column v-if="checkVisibility('epicycle')" prop="epicycle" label="红利总盈亏"></el-table-column>
+          <el-table-column v-if="checkVisibility('profitRate')" prop="profitRate" label="盈利率"></el-table-column>
+          <el-table-column v-if="checkVisibility('shiftInFrequency')" prop="shiftInFrequency" label="入金次数"></el-table-column>
+          <el-table-column v-if="checkVisibility('shiftInTotal')" prop="shiftInTotal" label="入金总额"></el-table-column>
+          <el-table-column v-if="checkVisibility('shiftInCharge')" prop="shiftInCharge" label="入金手续费"></el-table-column>
+          <el-table-column v-if="checkVisibility('rollOutFrequency')" prop="rollOutFrequency" label="出金次数"></el-table-column>
+          <el-table-column v-if="checkVisibility('rollOutTotal')" prop="rollOutTotal" label="出金总额"></el-table-column>
+          <el-table-column v-if="checkVisibility('rollOutCharge')" prop="rollOutCharge" label="出金手续费"></el-table-column>
         </el-table>
       </div>
       <div class="record__total">
@@ -239,6 +239,9 @@ export default {
     },
     recordTabelCurrentChange (currentPage) {
       this.recordTabelCurrentPage = currentPage;
+    },
+    checkVisibility (label) {
+      return this.compuAgentReportTableColsName.indexOf(label) !== -1;
     }
   },
   computed: {

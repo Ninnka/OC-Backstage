@@ -67,4 +67,20 @@ export default {
     font-size: 12px;
   }
 }
+.el-tabs__header {
+  border: none;
+  background: #272a31;
+}
+.el-tabs__item {
+  padding: 6px 40px;
+  height: auto;
+  color: @main-theme-sub;
+  &.is-active {
+    color: #52e3ff;
+  }
+}
+.el-tabs__active-bar {
+  background-image: linear-gradient(-90deg, #00e2b8 0%, #009acd 100%);
+  height: 2px;
+}
 </style>
