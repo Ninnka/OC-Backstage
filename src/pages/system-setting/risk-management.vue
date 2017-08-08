@@ -31,16 +31,6 @@
               <template slot="append">%</template>
             </el-input>
           </el-form-item>
-          <el-form-item label="佣金比例">
-            <el-input v-model="riskSetting.commission">
-              <template slot="append">%</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item label="红利比例">
-            <el-input v-model="riskSetting.dividend">
-              <template slot="append">%</template>
-            </el-input>
-          </el-form-item>
         </el-form>
       </div>
     </div>
@@ -48,8 +38,7 @@
     <div class="content--main__item safe-setting">
       <article class="item__header">
         <header>
-          保证金设置
-          <span class="header__sub">红利生效限额，开启红利后，需要缴纳对应保证金以启用红利设置</span>
+          安全设置
         </header>
       </article>
       <div class="setting-content">
@@ -62,6 +51,14 @@
 
 <script>
 export default {
+  props: {
+    defaultSetting: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    }
+  },
   data () {
     return {
       name: 'risk-management',
@@ -69,9 +66,7 @@ export default {
         agent: ''
       },
       riskSetting: {
-        credit: '',
-        commission: '',
-        dividend: ''
+        credit: ''
       },
       safeSetting: {
         allowBlackList: false,
@@ -85,7 +80,7 @@ export default {
 <style lang="less">
 .risk-management {
   color: #ffffff;
-  > div {
+  > div:not(:last-child) {
     margin-bottom: 20px;
   }
 }

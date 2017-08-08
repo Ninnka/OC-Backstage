@@ -33,8 +33,8 @@ export default {
   },
   methods: {
     tabClick (tab, event) {
-      console.log('tab', tab);
-      console.log('event', event);
+      // console.log('tab', tab);
+      // console.log('event', event);
     },
     getTabInnerComp (name) {
       return require('@pages/system-setting/' + name);

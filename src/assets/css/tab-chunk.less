@@ -193,6 +193,11 @@
 .module__form {
   .el-form-item {
     margin-bottom: 22px !important;
+    &.el-form-item__no-label {
+      .el-form-item__content {
+        margin-left: 0 !important;
+      }
+    }
   }
 }
 .setting-content {
@@ -230,4 +235,61 @@
 }
 .el-tabs__item:hover {
   color: #ffffff !important;
+}
+// ---------------报表部分style----------------
+.el-form-item-combine {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  > div {
+    flex-shrink: 1;
+    flex-grow: 1;
+    margin: 0 10px 20px;
+    max-width: 32%;
+  }
+}
+.el-form-item-combine {
+  .el-date-editor--datetimerange.el-input {
+    width: 100%;
+  }
+}
+.record__form {
+  .line {
+    text-align: center;
+    color: #ffffff;
+    .line-content {
+      display: inline-block;
+      vertical-align: middle;
+      width: 40%;
+      height: 1px;
+      background: #ffffff;
+    }
+  }
+  .el-checkbox__label {
+    color: #ffffff !important;
+  }
+}
+.el-form--buttons {
+  text-align: right;
+  > div, > button {
+    margin-left: 16px;
+  }
+}
+.el-dropdown {
+  .el-button {
+    color: #ffffff !important;
+    background: #444b5b;
+    border-color: #444b5b;
+    &:hover {
+      background: #17191d;
+      border-color: #17191d;
+    }
+  }
+}
+.el-dropdown-menu {
+  height: 240px;
+  overflow: auto;
+  .el-checkbox__label {
+    color: @main-theme-sub;
+  }
 }

@@ -47,7 +47,7 @@
       </article>
       <div class="setting-content">
         <div class="setting-content__item">
-          <div class="item-left">
+          <div class="item-left" :class="{'selected': allowDeal}">
             <el-checkbox v-model="allowDeal"></el-checkbox>
           </div>
           <div class="item-right">
@@ -56,7 +56,7 @@
           </div>
         </div>
         <div class="setting-content__item">
-          <div class="item-left">
+          <div class="item-left" :class="{'selected': allowAgent}">
             <el-checkbox v-model="allowAgent"></el-checkbox>
           </div>
           <div class="item-right">
@@ -74,7 +74,18 @@
         </header>
       </article>
       <div class="setting-content">
-        <quill-editor ref="quillEditor" v-model="editorContent" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)"></quill-editor>
+        <el-form label-width="112px">
+          <el-form-item label="邀请链接">
+            <el-input v-model="otherSetting.inviteLink" placeholder="例：http://dks.jwsizp.cn:8000/#/signup?orgReferralCode={code}"></el-input>
+          </el-form-item>
+          <el-form-item label="客户端下载地址">
+            <el-input v-model="otherSetting.downloadLink" placeholder="请输入客户端下载地址"></el-input>
+          </el-form-item>
+           <el-form-item label="开户协议内容">
+            <quill-editor class="initial-lh" ref="quillEditor" v-model="editorContent" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)"></quill-editor>
+          </el-form-item>
+        </el-form>
+        <!-- <quill-editor ref="quillEditor" v-model="editorContent" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)"></quill-editor> -->
       </div>
     </div>
   </div>
@@ -87,13 +98,21 @@ export default {
   components: {
     quillEditor
   },
+  props: {
+    defaultSetting: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    }
+  },
   data () {
     return {
       name: 'basic',
       currentcySetting: {
-        currencyType: '',
-        exchangeInRate: '',
-        exchangeOutRate: ''
+        currencyType: '人民币(CNY)',
+        exchangeInRate: '1',
+        exchangeOutRate: '1'
       },
       currencyTypeArr: [
         '人民币(CNY)',
@@ -102,6 +121,10 @@ export default {
       ],
       allowDeal: false,
       allowAgent: false,
+      otherSetting: {
+        inviteLink: '',
+        downloadLink: ''
+      },
       editorContent: '',
       editorOption: {}
     };
@@ -123,7 +146,7 @@ export default {
 <style lang="less">
 .basic {
   color: #ffffff;
-  > div {
+  > div:not(:last-child) {
     margin-bottom: 20px;
   }
 }
@@ -177,6 +200,9 @@ export default {
     > div {
       text-align: left;
       background: #202228;
+      &.selected {
+        background: #1E90FF;
+      }
       p {
         margin: 3px 0;
       }
@@ -201,6 +227,7 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      transition: .4s background;
     }
     .item-right {
       flex-grow: 1;
@@ -216,6 +243,11 @@ export default {
     }
   }
 }
+.other-setting .setting-content {
+
+}
+
+// -----------------quill-style---------------------
 .ql-snow .ql-stroke {
   stroke: #ffffff !important;
 }
@@ -227,5 +259,43 @@ export default {
   &::before {
     stroke: #ffffff !important;
   }
+}
+.ql-size.ql-picker, .ql-header.ql-picker, .ql-font.ql-picker {
+  color: #ffffff;
+  .ql-picker-label {
+    color: #ffffff !important;
+  }
+}
+.ql-picker-options {
+  background: #232323 !important;
+}
+.ql-editor {
+  min-height: 240px;
+  height: auto !important;
+  &.ql-blank::before {
+    color: #DADADA;
+    content: '请在这里输入内容';
+  }
+}
+.ql-tooltip.ql-editing {
+  top: 0 !important;
+  left: 0 !important;
+}
+.ql-tooltip.ql-editing {
+  &::before {
+    content: '输入视频地址：' !important;
+  }
+  .ql-action {
+    &::after {
+      content: '保存' !important;
+    }
+  }
+  input {
+    background: initial;
+    color: #333333;
+  }
+}
+.initial-lh {
+  line-height: initial !important;
 }
 </style>
