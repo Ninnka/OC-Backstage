@@ -119,10 +119,10 @@
                 </div>
               </el-dropdown-item>
               <el-dropdown-item class="text-center" command="ensure_v1">
-                <span>确定</span>
+                <span class="hightlight-primary">确定</span>
               </el-dropdown-item>
               <el-dropdown-item class="text-center" command="reset_v1">
-                <span>重置</span>
+                <span class="hightlight-warn">重置</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -278,7 +278,9 @@ export default {
       if (!visible) {
         for (let [index, col] of Object.entries(this.tableColsStatus)) {
           if (this.tableColsNameControl.indexOf(index) === -1) {
-            col.show = false;
+            if (index !== 'code') {
+              col.show = false;
+            }
           }
         }
       }

@@ -122,13 +122,13 @@
                 </div>
               </el-dropdown-item>
                <el-dropdown-item class="text-center" command="ensure_v2">
-                <span>确定</span>
+                <span class="hightlight-primary">确定</span>
               </el-dropdown-item>
               <el-dropdown-item class="text-center" command="reset_v2">
-                <span>重置</span>
+                <span class="hightlight-warn">重置</span>
               </el-dropdown-item>
               <el-dropdown-item class="text-center" command="clear">
-                <span>清空</span>
+                <span class="hightlight-danger">清空</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>

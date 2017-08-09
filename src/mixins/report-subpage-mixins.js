@@ -41,13 +41,13 @@ export default {
     menuClickCommand (command) {
       switch (command) {
         case 'ensure_v1':
-          this.isFilter = true;
           this.tableColsNameControl = ['code'];
           for (let [index, col] of Object.entries(this.tableColsStatus)) {
             if (index !== 'code' && col.show === true) {
               this.tableColsNameControl.push(index);
             }
           }
+          this.isFilter = true;
           this.$nextTick(() => {
             this.$refs.tableColMenu.hide();
           });
