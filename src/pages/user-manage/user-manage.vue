@@ -26,14 +26,14 @@
           </el-form-item>
           <el-form-item label="所属代理">
             <el-select v-model="userManageForm.agent" placeholder="请选择所属代理">
-              <el-option  v-for="item in getAgentList(tableData)" :key="item" :label="item" :value="item"></el-option>
+              <el-option  v-for="item in getSuperiorList(tableData, 'superior')" :key="item" :label="item" :value="item"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
             <el-checkbox v-model="userManageForm.aboutIndirect">包含间接交易商</el-checkbox>
           </el-form-item>
         </el-form>
-        <div class="form-btn">
+        <div class="query-btn">
           <el-button type="info" @click="filterTable">查询</el-button>
         </div>
         <el-table :data="tableData" style="width: 100%">
@@ -138,11 +138,6 @@ export default {
     }
   },
   methods: {
-    getAgentList (list) {
-      return [...new Set(list.map((item) => {
-        return item.superior;
-      }))];
-    },
     getMainMt (list) {
       return list.filter((item) => {
         if (item.type === 'main') {
@@ -167,21 +162,5 @@ export default {
 
 <style lang="less" scoped>
   .user-manage {
-    .region-main{
-      .filter-input{
-        display: flex;
-        flex-wrap: wrap;
-        justify-content:flex-start;
-        .el-form-item{
-          width: 30%;
-          max-width: 450px;
-        }
-      }
-      .form-btn{
-        width: 90%;
-        text-align: right;
-        margin-bottom: 20px;
-      }
-    }
   }
 </style>

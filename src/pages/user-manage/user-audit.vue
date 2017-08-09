@@ -30,7 +30,7 @@
             </el-select>
           </el-form-item>
         </el-form>
-        <div class="form-btn">
+        <div class="query-btn">
           <el-button type="info" @click="filterTable">查询</el-button>
         </div>
         <el-table :data="tableData" style="width: 100%">
@@ -137,21 +137,5 @@
 
 <style lang="less" scoped>
   .user-audit {
-    .region-main{
-      .filter-input{
-        display: flex;
-        flex-wrap: wrap;
-        justify-content:flex-start;
-        .el-form-item{
-          width: 30%;
-          max-width: 450px;
-        }
-      }
-      .form-btn{
-        width: 90%;
-        text-align: right;
-        margin-bottom: 20px;
-      }
-    }
   }
 </style>
