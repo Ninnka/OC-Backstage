@@ -90,22 +90,19 @@
             </li>
             <li class="band-card-list">
               <el-carousel height="150px" :autoplay=false>
-                <el-carousel-item v-for="">
-                  <div class="band-cards is-flex">
-                    <div class="band-card cold-bg">
-                      <div class="card-header">
-                        <div class="band-name">
-                          <svg class="icon" aria-hidden="true">
-                            <use :xlink:href="'#'"></use>
-                          </svg>
-                        </div>
-                        <i class="iconfont icon-shanchu" @click=""></i>
-                      </div>
-                      <div class="card-mes">
-                        <p></p>
-                        <p></p>
-                      </div>
+                <el-carousel-item>
+                  <div class="bank-card">
+                    <div class="bank-head">
+                      <i class="bank-icon">
+                        <svg class="icon" aria-hidden="true">
+                          <use></use>
+                        </svg>
+                      </i>
+                      <p class="bank-text">中国银行</p>
+                      <i class="iconfont icon-shanchu" @click=""></i>
                     </div>
+                    <p>张三</p>
+                    <p>123456789</p>
                   </div>
                 </el-carousel-item>
               </el-carousel>
@@ -164,40 +161,17 @@
       </article>
     </div>
     <div class="user-right">
-      <article class="region">
-        <header>代理商邀请</header>
-        <div class="region-main">
-          <div class="img-qrCode">
-            <img src="">
-          </div>
-          <div class="invite-mes">
-            邀请码：888888865
-            <p>邀请链接：{{inviteUrl}}</p>
-          </div>
-          <button class="copy-btn hot-bg" v-clipboard="inviteUrl" @success="" @error="">复制推广链接</button>
-        </div>
-      </article>
-      <article class="region">
-        <header>交易商邀请</header>
-        <div class="region-main">
-          <div class="img-qrCode">
-            <img src="">
-          </div>
-          <div class="invite-mes">
-            邀请码：888888865
-            <p>邀请链接：{{inviteUrl}}</p>
-          </div>
-          <button class="copy-btn hot-bg" v-clipboard="inviteUrl" @success="" @error="">复制推广链接</button>
-        </div>
-      </article>
+      <invited :title="'邀请信息'" :invitationCode="'888'" :invitationUrl="'http://www.baidu.com'"></invited>
     </div>
   </div>
 </template>
 
 <script>
+import invited from '@comps/invited';
 export default {
   name: 'PersonalInformation',
   components: {
+    invited
   },
   data () {
     return {
@@ -283,9 +257,8 @@ export default {
         width:100%;
         height:150px;
         display:block;
-        .band-cards{
-          width: 100%;
-          justify-content: space-around;
+        .iconfont.icon-shanchu {
+          float: right;
         }
       }
     }
@@ -332,36 +305,6 @@ export default {
     }
     .user-right{
       flex: 0 0 33.3333%;
-      .region-main{
-        width:100%;
-        text-align:center;
-        padding-top: 43px;
-        padding-bottom:40px;
-        .img-qrCode{
-          img{
-            border:1px solid #55565c;
-            width:150px;
-            height:150px;
-          }
-        }
-        .invite-mes{
-          margin-top: 25px;
-          font-size: 18px;
-          color:#94959a;
-          p{
-            margin-top: 10px;
-            font-size:14px;
-          }
-        }
-        .copy-btn{
-          margin-top: 30px;
-          font-size: 16px;
-          color: #ffffff;
-          width:190px;
-          height:40px;
-          border-radius: 4px;
-        }
-      }
     }
   }
 </style>
