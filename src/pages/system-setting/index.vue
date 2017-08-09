@@ -48,7 +48,7 @@ export default {
 .system-setting {
   height: 100%;
   box-sizing: border-box;
-  padding: 20px;
+  // padding: 20px;
   .el-tabs {
     height: 100%;
   }
