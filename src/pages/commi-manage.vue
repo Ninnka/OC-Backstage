@@ -4,41 +4,35 @@
     <article class="region">
       <header>佣金管理</header>
       <div class="region-main">
-        <div class="form-content">
-          <el-form>
-            <el-form-item label="佣金单号">
-              <el-input placeholder="请输入佣金单号"></el-input>
-            </el-form-item>
-            <el-form-item label="返佣关系">
-              <el-select placeholder="直客/间客">
-                <el-option></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="返佣代理商">
-              <el-input placeholder="请输入代理商名称"></el-input>
-            </el-form-item>
-          </el-form>
-          <el-form>
-            <el-form-item label="交易订单号">
-              <el-input placeholder="请输入交易订单号"></el-input>
-            </el-form-item>
-            <el-form-item label="返佣状态">
-              <el-select placeholder="已入账/未结算/已结算">
-                <el-option></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item>
-              <el-checkbox>包含下级所有代理商</el-checkbox>
-            </el-form-item>
-          </el-form>
-          <el-form>
-            <el-form-item label="时间范围">
-              <el-input placeholder="请选择需要查询的时间范围"></el-input>
-            </el-form-item>
-          </el-form>
-        </div>
-        <div>
-          <el-button>查询</el-button>
+        <el-form class="filter-input" label-width="100px">
+          <el-form-item label="佣金单号">
+            <el-input placeholder="请输入佣金单号"></el-input>
+          </el-form-item>
+          <el-form-item label="交易订单号">
+            <el-input placeholder="请输入交易订单号"></el-input>
+          </el-form-item>
+          <el-form-item label="时间范围">
+            <el-input placeholder="请选择需要查询的时间范围"></el-input>
+          </el-form-item>
+          <el-form-item label="返佣关系">
+            <el-select placeholder="直客/间客">
+              <el-option></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="返佣状态">
+            <el-select placeholder="已入账/未结算/已结算">
+              <el-option></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="返佣代理商">
+            <el-input placeholder="请输入代理商名称"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-checkbox>包含下级所有代理商</el-checkbox>
+          </el-form-item>
+        </el-form>
+        <div class="query-btn">
+          <el-button type="info" @click="filterTable">查询</el-button>
           <el-select>
             <el-option>1111111</el-option>
           </el-select>
@@ -114,9 +108,6 @@ export default {
 <style lang="less" scoped>
   .commi-manage {
     .region-main{
-      .form-content{
-
-      }
     }
   }
 </style>
