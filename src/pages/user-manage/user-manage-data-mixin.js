@@ -6,10 +6,50 @@ export default {
           account: 'JY00000001',
           nickName: '陈陈',
           realName: '陈晨',
-          cardId: '19950812',
+          cardType: '',
+          Documents: {
+            type: '身份证',
+            num: '123'
+          },
           phone: '13388889999',
-          mtLength: 2,
-          mainMt: '123',
+          email: '123424',
+          mtList: [
+            {
+              number: '1',
+              account: '1254543',
+              leverage: '1:100',
+              type: 'main',
+              balance: 100
+            },
+            {
+              number: '1',
+              account: '123',
+              leverage: '1:100',
+              type: '',
+              balance: 100
+            },
+            {
+              number: '1',
+              account: '123',
+              leverage: '1:100',
+              type: '',
+              balance: 100
+            }
+          ],
+          bankList: [
+            {
+              name: '张三',
+              id: 1,
+              card: '622568032300016316',
+              bankCode: '0001'
+            },
+            {
+              name: '李四',
+              id: 2,
+              card: '622568032300026316',
+              bankCode: '0002'
+            }
+          ],
           accountStatus: true,
           mentionStatus: false,
           tradeStatus: false,
@@ -21,10 +61,49 @@ export default {
           account: 'JY00000002',
           nickName: '驱蚊器',
           realName: '陈2',
-          cardId: '19950812',
+          Documents: {
+            type: '身份证',
+            num: '123'
+          },
           phone: '133888899100',
-          mtLength: 2,
-          mainMt: '123',
+          email: '123424',
+          mtList: [
+            {
+              number: '1',
+              account: '123',
+              leverage: '1:100',
+              type: '',
+              balance: 100
+            },
+            {
+              number: '1',
+              account: '1535323',
+              leverage: '1:100',
+              type: 'main',
+              balance: 100
+            },
+            {
+              number: '1',
+              account: '123',
+              leverage: '1:100',
+              type: '',
+              balance: 100
+            }
+          ],
+          bankList: [
+            {
+              name: '张三',
+              id: 1,
+              card: '622568032300016316',
+              bankCode: '0001'
+            },
+            {
+              name: '李四',
+              id: 2,
+              card: '622568032300026316',
+              bankCode: '0002'
+            }
+          ],
           accountStatus: true,
           mentionStatus: false,
           tradeStatus: false,
@@ -36,10 +115,49 @@ export default {
           account: 'JY00000001',
           nickName: '通天塔',
           realName: '陈3',
-          cardId: '19950812',
+          Documents: {
+            type: '身份证',
+            num: '123'
+          },
           phone: '13388889999',
-          mtLength: 2,
-          mainMt: '123',
+          email: '123424',
+          mtList: [
+            {
+              number: '1',
+              account: '123',
+              leverage: '1:100',
+              type: '',
+              balance: 100
+            },
+            {
+              number: '1',
+              account: '123',
+              leverage: '1:100',
+              type: '',
+              balance: 100
+            },
+            {
+              number: '1',
+              account: '121233',
+              leverage: '1:100',
+              type: 'main',
+              balance: 100
+            }
+          ],
+          bankList: [
+            {
+              name: '张三',
+              id: 1,
+              card: '622568032300016316',
+              bankCode: '0001'
+            },
+            {
+              name: '李四',
+              id: 2,
+              card: '622568032300026316',
+              bankCode: '0002'
+            }
+          ],
           accountStatus: true,
           mentionStatus: false,
           tradeStatus: false,

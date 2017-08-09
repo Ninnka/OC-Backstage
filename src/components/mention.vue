@@ -132,44 +132,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .bank-card{
-    box-sizing: border-box;
-    padding: 10px;
-    background-image:linear-gradient(-90deg, #00e2b8 0%, #009acd 100%);
-    border-radius:6px;
-    .bank-head{
-      position: relative;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      .bank-icon{
-        display: block;
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.80);
-        .icon{
-          width: 20px;
-          height: 20px;
-          margin: 2px;
-        }
-      }
-      .bank-text{
-        margin-left: 10px;
-        font-size: 14px;
-        color: #fff;
-      }
-    }
-    p{
-      background: transparent;
-      color: #fff;
-      font-size: 14px;
-      text-align: right;
-      height: 16px;
-      line-height: 16px;
-    }
-  }
   .mention{
     .popup-content{
       .has-escription-input{
