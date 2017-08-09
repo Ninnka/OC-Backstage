@@ -8,58 +8,58 @@
           <ul class="form-list">
             <li>
               <label class="form-name">账号/昵称</label>
-              <input class="form-mes" type="text">
+              <el-input class="form-mes" type="text" placeholder="请输入账号或者昵称"></el-input>
             </li>
             <li>
               <label class="form-name">交易类型</label>
-              <select class="form-mes">
-                <option value="">买单</option>
-                <option value="">卖单</option>
-              </select>
+              <el-select>
+                <el-option value="">买单</el-option>
+                <el-option value="">卖单</el-option>
+              </el-select>
             </li>
             <li>
               <label class="form-name">开仓时间</label>
-              <input class="form-mes" type="text">
+              <el-input></el-input>
             </li>
           </ul>
           <ul class="form-list">
             <li>
               <label class="form-name">交易订单号</label>
-              <input class="form-mes" type="text">
+              <el-input placeholder="请输入交易订单号"></el-input>
             </li>
             <li>
               <label class="form-name">交易种类</label>
-              <select class="form-mes">
-                <option value="">CNYHKD</option>
-                <option value="">USOil</option>
-                <option value="">Forex</option>
-              </select>
+              <el-select class="form-mes">
+                <el-option value="">CNYHKD</el-option>
+                <el-option value="">USOil</el-option>
+                <el-option value="">Forex</el-option>
+              </el-select>
             </li>
             <li>
               <label class="form-name">平仓时间</label>
-              <input class="form-mes" type="text">
+              <el-input></el-input>
             </li>
           </ul>
           <ul class="form-list">
             <li>
               <label class="form-name">MT账号</label>
-              <input class="form-mes" type="text" name="id">
+              <el-input placeholder="请输入MT账号"></el-input>
             </li>
             <li>
               <label class="form-name">订单类型</label>
-              <select class="form-mes">
-                <option value="">全部</option>
-                <option value="">持仓中</option>
-                <option value="">已平仓</option>
-              </select>
+              <el-select>
+                <el-option value="">全部</el-option>
+                <el-option value="">持仓中</el-option>
+                <el-option value="">已平仓</el-option>
+              </el-select>
             </li>
           </ul>
         </div>
         <div class="operation-btn">
-          <button class="inquire-btn" type="submit">查询</button>
-          <select class="options-list">
-            <option value="">1111111</option>
-          </select>
+          <el-button>查询</el-button>
+          <el-select >
+            <option>1111111</option>
+          </el-select>
         </div>
       </div>
       <el-table :data="TxList" stripe style="width: 100%">
@@ -154,7 +154,6 @@ export default {
 
 <style lang="less" scoped>
   .transaction-manage {
-    padding: 20px;
     .region-main{
       width: 100%;
       .form-content{
@@ -171,13 +170,14 @@ export default {
               color: #fff;
               text-align: right;
             }
-            .form-mes{
+            .el-input{
               width: 270px;
               height: 38px;
-              border: none;
               background-color: #191b20;
-              color: #fff;
-              font-size: 14px;
+            }
+            .el-select{
+              width: 270px;
+              height: 38px;
             }
           }
         }
@@ -186,22 +186,19 @@ export default {
         text-align: right;
         margin-right: 6%;
         margin-bottom: 20px;
-        .inquire-btn{
+        .el-button{
           width: 100px;
-          height: 40px;
+          height: 36px;
           color: #fff;
           font-size: 16px;
+          border: none;
           background-color: #444b5b;
-          border-radius: 4px;
-          margin-right: 20px;
         }
-        .options-list{
+        .el-select{
           width: 100px;
-          height: 40px;
+          height: 36px;
           color: #fff;
           font-size: 14px;
-          background-color: #444b5b;
-          border-radius: 4px;
           border: none;
         }
       }
