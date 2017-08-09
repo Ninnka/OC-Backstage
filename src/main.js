@@ -4,6 +4,18 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import store from './store';
+
+// 定义全局方法
+Vue.mixin({
+  methods: {
+    // 返回数组单个数组元素去重后的数组
+    getSuperiorList (list, key) {
+      return [...new Set(list.map((item) => {
+        return item[key];
+      }))];
+    }
+  }
+});
 // 引入配置数据
 import DeployApi from '@assets/js/deploy.js';
 Vue.prototype.DeployApi = DeployApi;
