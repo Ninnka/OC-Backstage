@@ -7,7 +7,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/signin'
+      redirect: '/tab/user-manage'
     },
     {
       path: '/signup',
@@ -58,6 +58,13 @@ export default new Router({
           name: 'user-audit',
           component: (resolve) => {
             require(['@pages/user-manage/user-audit'], resolve);
+          }
+        },
+        {
+          path: 'user-information',
+          name: 'user-information',
+          component: (resolve) => {
+            require(['@pages/user-manage/user-information'], resolve);
           }
         },
         // mt账号管理
