@@ -25,7 +25,7 @@
             <el-date-picker v-model="userManageForm.timeRange" type="datetimerange" placeholder="选择查询的时间范围"></el-date-picker>
           </el-form-item>
           <el-form-item label="所属代理">
-            <el-select v-model="userManageForm.agent" placeholder="请选择所属代理">
+            <el-select v-model="userManageForm.superior" placeholder="请选择所属代理">
               <el-option  v-for="item in getSuperiorList(tableData, 'superior')" :key="item" :label="item" :value="item"></el-option>
             </el-select>
           </el-form-item>
@@ -111,7 +111,7 @@ export default {
         cardId: '',
         mtId: '',
         timeRange: '',
-        agent: '',
+        superior: '',
         aboutIndirect: false
       },
       tableData: [],
