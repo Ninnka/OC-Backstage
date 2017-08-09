@@ -143,6 +143,16 @@
 .record__table {
   padding: 16px;
   box-sizing: border-box;
+  .hightlight-link {
+    color: #52e3ff;
+    cursor: pointer;
+  }
+  .hightlight-current-total {
+    color: #ff3b6a;
+  }
+  .hightlight-all-total {
+    color: #52e3ff;
+  }
 }
 
 .record__pagination {
@@ -158,13 +168,14 @@
     height: 56px;
     line-height: 56px;
     color: @main-theme-sub;
-    // background: #22232a;
+    background: #22242a;
     &:first-child {
       // border-bottom: 2px solid #272a31;
-      background: #622332;
+      // background: #622332;
+      margin-bottom: 2px;
     }
     &:last-child {
-      background: #0b415b;
+      // background: #0b415b;
     }
   }
 }
@@ -234,7 +245,7 @@
   }
 }
 .el-tabs__item:hover {
-  color: #ffffff !important;
+  color: #52e3ff !important;
 }
 // ---------------报表部分style----------------
 .el-form-item-combine {
@@ -287,8 +298,13 @@
   }
 }
 .el-dropdown-menu {
-  height: 240px;
-  overflow: auto;
+  .el-dropdown-menu__item.text-center {
+    text-align: center;
+  }
+  .el-dropdown-item__control-height {
+    height: 240px;
+    overflow: auto;
+  }
   .el-checkbox__label {
     color: @main-theme-sub;
   }
