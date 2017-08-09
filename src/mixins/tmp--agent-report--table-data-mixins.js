@@ -27,71 +27,71 @@ export default {
           label: '编号'
         },
         account: {
-          show: true,
+          show: false,
           label: '账号'
         },
         nickName: {
-          show: true,
+          show: false,
           label: '昵称'
         },
         agentName: {
-          show: true,
+          show: false,
           label: '名称'
         },
         superior: {
-          show: true,
+          show: false,
           label: '所属上级'
         },
         commissionTotal: {
-          show: true,
+          show: false,
           label: '总返佣'
         },
         profitFrequency: {
-          show: true,
+          show: false,
           label: '红利盈利次数'
         },
         profitTotal: {
-          show: true,
+          show: false,
           label: '红利盈利总额'
         },
         lossFrequency: {
-          show: true,
+          show: false,
           label: '红利亏损次数'
         },
         lossTotal: {
-          show: true,
+          show: false,
           label: '红利亏损总额'
         },
         epicycle: {
-          show: true,
+          show: false,
           label: '红利总盈亏'
         },
         profitRate: {
-          show: true,
+          show: false,
           label: '盈利率'
         },
         shiftInFrequency: {
-          show: true,
+          show: false,
           label: '入金次数'
         },
         shiftInTotal: {
-          show: true,
+          show: false,
           label: '入金总额'
         },
         shiftInCharge: {
-          show: true,
+          show: false,
           label: '入金手续费'
         },
         rollOutFrequency: {
-          show: true,
+          show: false,
           label: '出金次数'
         },
         rollOutTotal: {
-          show: true,
+          show: false,
           label: '出金总额'
         },
         rollOutCharge: {
-          show: true,
+          show: false,
           label: '出金手续费'
         }
       },

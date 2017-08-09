@@ -108,7 +108,7 @@
         </el-form>
         <div class="el-form--buttons">
           <el-button type="info">查询</el-button>
-          <el-dropdown ref="tableColMenu" trigger="click" :hide-on-click="false" :divided="true" @command="menuClickCommand">
+          <el-dropdown ref="tableColMenu" trigger="click" :hide-on-click="false" :divided="true" @command="menuClickCommand" @visible-change="agentMenuVisibleChange">
             <el-button>
               列表选项<i class="el-icon-caret-bottom el-icon--right"></i>
             </el-button>
@@ -118,10 +118,10 @@
                   <el-checkbox :disabled="index === 0" v-model="tableColsStatus[col].show">{{ tableColsStatus[col].label }}</el-checkbox>
                 </div>
               </el-dropdown-item>
-              <el-dropdown-item class="text-center" command="ensure">
+              <el-dropdown-item class="text-center" command="ensure_v1">
                 <span>确定</span>
               </el-dropdown-item>
-              <el-dropdown-item class="text-center" command="reset">
+              <el-dropdown-item class="text-center" command="reset_v1">
                 <span>重置</span>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -131,9 +131,18 @@
       </div>
       <div class="record__table">
         <el-table :data="compuTableData" style="width: 100%" header-align="center" :row-class-name="tableRowClassName">
-          <!-- 下面的暂时留下来备用 -->
-          <!-- <el-table-column v-for="col in compuTableColsName" :key="col" :prop="col" :label="tableColsStatus[col].label"></el-table-column> -->
-          <el-table-column v-if="checkVisibility('code')" prop="code" label="编号" width="120">
+          <el-table-column v-for="col in getTableColsName()" :key="col" :prop="col" :label="tableColsStatus[col].label" width="130">
+            <template scope="scope">
+              <span v-if="col === 'code'" :class="getCodeClass(scope)">{{ scope.row[col] }}</span>
+              <span v-else-if="col === 'superior'" :class="getSuperiorClass(scope)">{{ scope.row[col] }}</span>
+              <span v-else-if="col === 'profitRate'">
+                {{ scope.row.objSymbol !== 'currentTotal' && scope.row.objSymbol !== 'allTotal' ? scope.row[col] * 100 + '%' : scope.row[col] }}
+              </span>
+              <span v-else>{{ scope.row[col] }}</span>
+            </template>
+          </el-table-column>
+          <!-- 下面的留下来备用 -->
+          <!-- <el-table-column v-if="checkVisibility('code')" prop="code" label="编号" width="120">
             <template scope="scope">
               <span :class="getCodeClass(scope)">{{ scope.row.code }}</span>
             </template>
@@ -164,49 +173,10 @@
           <el-table-column v-if="checkVisibility('shiftInCharge')" prop="shiftInCharge" label="入金手续费" width="130"></el-table-column>
           <el-table-column v-if="checkVisibility('rollOutFrequency')" prop="rollOutFrequency" label="出金次数" width="105"></el-table-column>
           <el-table-column v-if="checkVisibility('rollOutTotal')" prop="rollOutTotal" label="出金总额" width="130"></el-table-column>
-          <el-table-column v-if="checkVisibility('rollOutCharge')" prop="rollOutCharge" label="出金手续费" width="130"></el-table-column>
+          <el-table-column v-if="checkVisibility('rollOutCharge')" prop="rollOutCharge" label="出金手续费" width="130"></el-table-column> -->
         </el-table>
       </div>
-      <!-- <div class="record__total">
-        <div class="total--currentpage">
-          <el-row>
-            <el-col :span="6">
-              合计：10
-            </el-col>
-            <el-col :span="6">
-              2
-            </el-col>
-            <el-col :span="6" style="text-align: right;">
-              +999.999.00
-            </el-col>
-            <el-col :span="6" style="text-align: left;">
-              <div class="c-lineheight-wrap">
-                <p class="c-lineheight">未知：1</p>
-                <p class="c-lineheight">成功：9</p>
-              </div>
-            </el-col>
-          </el-row>
-        </div>
-        <div class="total--allpage">
-          <el-row>
-            <el-col :span="6">
-              总计：10
-            </el-col>
-            <el-col :span="6">
-              6
-            </el-col>
-            <el-col :span="6" style="text-align: right;">
-              +999.999.00
-            </el-col>
-            <el-col :span="6" style="text-align: left;">
-              <div class="c-lineheight-wrap">
-                <p class="c-lineheight">未知：0</p>
-                <p class="c-lineheight">成功：99</p>
-              </div>
-            </el-col>
-          </el-row>
-        </div>
-      </div> -->
+
       <div class="record__pagination">
         <el-pagination
           @size-change="recordTabelSizeChange"
@@ -303,6 +273,15 @@ export default {
         rollOutCharge: 0
       };
       this.allTotalObj = this.getSummaries(resData, total);
+    },
+    agentMenuVisibleChange (visible) {
+      if (!visible) {
+        for (let [index, col] of Object.entries(this.tableColsStatus)) {
+          if (this.tableColsNameControl.indexOf(index) === -1) {
+            col.show = false;
+          }
+        }
+      }
     }
   },
   computed: {
