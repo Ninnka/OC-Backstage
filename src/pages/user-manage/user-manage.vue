@@ -43,8 +43,16 @@
           <el-table-column prop="openTime"  label="开户时间"></el-table-column>
           <el-table-column prop="realName" label="真实姓名"></el-table-column>
           <el-table-column prop="phone" label="联系方式"></el-table-column>
-          <el-table-column prop="mtLength" label="MT账号数量"></el-table-column>
-          <el-table-column prop="mainMt" label="主MT账号"></el-table-column>
+          <el-table-column label="MT账号数量">
+            <template scope="scope">
+              {{scope.row.mtList.length}}
+            </template>
+          </el-table-column>
+          <el-table-column label="主MT账号">
+            <template scope="scope">
+              {{getMainMt(scope.row.mtList)}}
+            </template>
+          </el-table-column>
           <el-table-column label="账号状态">
             <template scope="scope">
               <el-switch v-model="scope.row.accountStatus" on-text="" off-text="" disabled></el-switch>
@@ -67,7 +75,7 @@
           </el-table-column>
           <el-table-column label="操作" fixed="right">
             <template scope="scope">
-              <el-button @click="viewUserMes()" type="text" size="small">查看</el-button>
+              <el-button @click="viewUserMes(scope.row)" type="text" size="small">查看</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -107,13 +115,22 @@ export default {
         aboutIndirect: false
       },
       tableData: [],
-      nowPage: 1,
-      userMes: {}
+      nowPage: 1
     };
   },
   computed: {
   },
   created: function () {
+    this.userList.forEach((item) => {
+      item.bankList.forEach((userbank) => {
+        this.CommonApi.bankList.map((bank) => {
+          if (userbank.bankCode === bank.bankCode) {
+            userbank.bankMes = bank;
+          }
+        });
+      });
+      return item;
+    });
     for (let i = 0; i < 5; i++) {
       this.userList.map((item) => {
         this.tableData.push(item);
@@ -126,9 +143,17 @@ export default {
         return item.superior;
       }))];
     },
+    getMainMt (list) {
+      return list.filter((item) => {
+        if (item.type === 'main') {
+          return item;
+        }
+      })[0].account;
+    },
     filterTable () {},
     viewUserMes (mes) {
-      this.userMes = mes;
+      this.$store.commit('UserManage/update_UserMes', mes);
+      this.$router.push('user-information');
     },
     handleSizeChange (val) {
       console.log(val);

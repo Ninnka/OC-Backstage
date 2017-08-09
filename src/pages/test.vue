@@ -71,6 +71,9 @@
       </template>
     </popup>
 
+    <!--邀请信息组件-->
+    <invited :title="'邀请信息'" :invitationCode="'888'" :invitationUrl="'http://www.baidu.com'"></invited>
+
     <!--上传图片组件-->
     <div class="demo__use-upload-image">
       <upload-image cusClass="use-upload-image__cus-class" @fileLoaded="fileLoaded">
