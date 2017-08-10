@@ -46,7 +46,7 @@ Vue.prototype.$axios = axiosInstance;
 
 // NOTE: prod环境下可以删除
 if (process.env.NODE_ENV !== 'production') {
-  console.log('%c已添加上传图片的组件，使用方法的可以看demo，也可以直接看组件，支持选择过滤的图片类型以及是否自动上传（自动上传功能完善中），默认显示预览，绘制图片暂时是100%填充，如果有其他需求可以提issue', 'background: #30333c; color: #ffffff');
+  console.log('%c上传组件的自定义class的类型可以为字符串或者数组；增加可选选项：清除按钮（按钮默认不显示）。', 'background: #30333c; color: #ffffff');
 }
 
 /* eslint-disable no-new */

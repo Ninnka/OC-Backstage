@@ -11,7 +11,7 @@
         <input type="file" name="uploadFiles" :multiple="isMultiple" :accept="getAccept" @change="inputChange($event)">
       </form>
     </div>
-    <div class="posi-abs action--close" v-if="showClear" @click="clearFileList">
+    <div class="posi-abs action--close" v-if="showClear && fileList.length > 0" @click="clearFileList">
       <i class="el-icon-close"></i>
     </div>
   </div>
