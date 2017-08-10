@@ -54,17 +54,16 @@
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-            <el-button type="primary" @click="findSubmit">查询</el-button>
             <el-button type="primary" @click="guideonSubmit">导出</el-button>
+            <el-button type="primary" @click="findSubmit">查询</el-button>
           </el-form-item>
         </el-form>
       </div>
-      <div>
         <div class="dateTable">
           <template>
             <el-table
               ref="multipleTable"
-              :data="tableData3"
+              :data="tableData"
               border
               tooltip-effect="light"
               style="width: 100%"
@@ -87,12 +86,14 @@
                 <template scope="scope">
                   <div slot="reference" class="name-wrapper">
                     <el-tag>{{ scope.row.character }}</el-tag>
-                  </div>
-                  <div>
-                    <span>
-                      账号：{{ scope.row.userNum }}
-                      <p>MT账号：{{ scope.row.userMtnum }}</p>
-                    </span>
+                    <div>
+                      <span>
+                        账号：{{ scope.row.userNum }}
+                      </span>
+                      <span>
+                        MT账号：{{ scope.row.userMtnum }}
+                      </span>
+                    </div>
                   </div>
                 </template>
               </el-table-column>
@@ -123,12 +124,15 @@
                 label="风控状态"
                 width="120">
                   <template scope="scope">
-                    <el-popover trigger="hover" placement="top">
-                      <p>ok</p>
-                      <div slot="reference" class="name-wrapper">
-                        {{ scope.row.dangerStatus }}
-                      </div>
+                    <el-popover trigger="hover" placement="bottom" v-if="scope.row.dangerStatus !== '正常'">  
+                        <p>有风险</p>
+                        <div slot="reference">
+                          {{ scope.row.dangerStatus }}
+                        </div>
                     </el-popover>
+                    <div v-else>
+                      {{ scope.row.dangerStatus }}
+                    </div>
                   </template>
               </el-table-column>
 
@@ -143,68 +147,88 @@
                 width="120">
                 <template scope="scope">
                   <el-button
-                    @click.native.prevent="byPassed(scope.$index, scope.row)"
+                    @click="review (scope.$index, scope.row)"
                     type="text"
                     size="small">
-                    通过
-                  </el-button>
-                  <el-button
-                    @click.native.prevent="notPassed(scope.$index, scope.row)"
-                    type="text"
-                    size="small">
-                    驳回
+                    通过/驳回
                   </el-button>
                 </template>
               </el-table-column>
 
             </el-table>
-            <div class="table-botton">
-                <el-button @click="toggleSelection()">全选</el-button>
-                <el-button @click="byPassedAll()">通过</el-button>
-                <el-button @click="notPassedAll()">驳回</el-button>
-            </div>
-            <div class="block">
-              <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage4"
-                :page-sizes="[100, 200, 300, 400]"
-                :page-size="100"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="400">
-              </el-pagination>
+
+            <popup  :show.sync="showDelMt"  :needCancel=true :title="'出金初审意见'"   :cancelText="'驳回'"   v-on:cancelEvent="reviewRefuse"  v-on:confirmEvent="reviewBy"  :confirmText="'通过'">
+              <template slot="content" >
+
+                <p class="del-text">
+                  <el-form ref="form" :model="reviewFrom" label-width="100px">
+                    <el-form-item label="审核意见">
+                      <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 7 }" v-model="reviewFrom.reviewOpinion"></el-input>
+                    </el-form-item>
+
+                  </el-form>
+                </p>
+              </template>
+            </popup>
+
+            <div class="table-Footer">
+              <div class="table-botton">
+                  <el-button @click="toggleSelection()">全选</el-button>
+                  <el-button @click="byPassedAll()">通过</el-button>
+                  <el-button @click="notPassedAll()">驳回</el-button>
+              </div>
+              <div class="block">
+                <el-pagination
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange"
+                  :current-page="currentPage4"
+                  :page-sizes="[100, 200, 300, 400]"
+                  :page-size="100"
+                  layout="total, sizes, prev, pager, next, jumper"
+                  :total="400">
+                </el-pagination>
+              </div>
             </div>
           </template>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
 <script>
 var tableField = ['出金单号', '申请人', '联系方式', '出金金额／到账金额 ', '出金银行卡', '风控状态', '申请时间', '操作'];
+import popup from '@comps/popup.vue';
+import verify from '@comps/verify.vue';
 export default {
   name: 'mentionStartAudit',
   components: {
+    popup,
+    verify
   },
   data () {
     return {
-      form: {
+      form: { // 输入查询数据
         num: '',
         applicant: '',
-        outStatus: '',
+        outStatus: {},
         date: '',
         include: false,
         belong: ''
       },
-      currentPage4: 4,
+      reviewFrom: { // 弹出框数据
+        userNum: '',
+        reviewOpinion: ''
+      },
+      showDelMt: false, // 控制弹出框
+      show: false, // 控制弹出框
+      currentPage4: 1, // 开始页
       cloumnChoose: {
         isIndeterminate: true,
         checkedCities: tableField,
         lists: tableField,
         checkAll: true
       },
-      tableData3: [{
+      tableData: [{
         orderNumber: 'CJ000000001',
         character: '交易商',
         userNum: '某某某',
@@ -262,7 +286,7 @@ export default {
         accessMoneyin: 300,
         bankCardname: '招商银行',
         bankCardnum: '6228480402564890018',
-        dangerStatus: '正常',
+        dangerStatus: '不正常',
         applicationDate: '2016-05-03'
       }, {
         orderNumber: 'CJ000000001',
@@ -298,7 +322,7 @@ export default {
   },
   methods: {
     toggleSelection () {
-      this.tableData3.forEach(row => {
+      this.tableData.forEach(row => {
         this.$refs.multipleTable.toggleRowSelection(row);
       });
     },
@@ -311,11 +335,16 @@ export default {
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`);
     },
-    byPassed (index, row) {
-      console.log(`当前选中通过的用户: ${row}`);
-    },
-    notPassed (index, row) {
-      console.log(`当前选中不通过的用户: ${row}`);
+    review (index, row) {
+      // 审核
+      console.log(`当前选中的用户: ${row.userMtnum}`);
+      let num = row.userMtnum;
+      let phone = row.phoneNunber;
+      this.reviewFrom = {
+        userNum: row.userMtnum,
+        reviewOpinion: ''
+      };
+      this.showDelMt = true;
     },
     handleCheckAllChange (event) {
       // 点击全选的方法
@@ -337,17 +366,64 @@ export default {
     },
     byPassedAll () {
       console.log('点击一键通过');
+      console.log(`选中的用户 ${this.multipleSelection}`);
     },
     notPassedAll () {
       console.log('点击一键驳回');
+    },
+    reviewBy () {
+      console.log(this.reviewFrom);
+      this.showDelMt = false;
+      this.reviewFrom = this.clearedObject(this.reviewFrom);
+      this.$message({
+        type: 'success',
+        message: '已通过!'
+      });
+    },
+    reviewRefuse () {
+      console.log(this.reviewFrom);
+      this.showDelMt = false;
+      this.reviewFrom = this.clearedObject(this.reviewFrom);
+      this.$message({
+        type: 'success',
+        message: '已驳回!'
+      });
+    },
+    clearedObject (object) {
+      for (let obj in object) {
+        object[obj] = '';
+      }
+      return object;
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
+  .el-buttoned{
+    width: 100px;
+    height: 40px;
+    color: #FFF;
+    background:#444b5b;
+    border-color: #444b5b;
+    &:hover{
+      background:#17191d;
+      border-color: #17191d;
+    }
+    &:focus{
+      background:#17191d;
+      border-color: #17191d;
+    }
+    &:active{
+      background:#17191d;
+      border-color: #17191d;
+    }
+  }
+  .el-input-specification{
+    width: 230px;
+    height: 38px;
+  }
   .mention-start-audit {
-    margin:16px;
     .nav{
       background:#272a31;
       width:100%;
@@ -378,87 +454,89 @@ export default {
        }
     }
     .main{
-      margin-top:16px;
-    }
-    .form-qurey{
       background:#272a31;
-      padding: 20px 0;
-      width: 100%;
-      form{
-        display: -webkit-flex;
-        display: flex;
-        flex-wrap: wrap;
+      margin-top:16px;
+      height: 100%;
+      .form-qurey{
+        background:#272a31;
+        padding: 10px 0;
         width: 100%;
-        div{
-          margin-left: 10px;
-          &:last-child{
-            width: 100%;
-            >button{
-              float: right;
-              margin: 0 20px;
+        form{
+          display: -webkit-flex;
+          display: flex;
+          flex-wrap: wrap;
+          width: 100%;
+          div{
+            margin-left: 10px;
+            &:last-child{
+              width: 100%;
+              >button{
+                float: right;
+                margin: 0 20px;
+              }
+              div.el-dropdown{
+                width: 100px;
+                height: 40px;
+                margin: 0 20px;
+                display: inline-block;
+                float: right;
+              }
+            };
+          }
+          div.el-select{
+            .el-input-specification;
+          }
+          div.el-input{
+            .el-input-specification;
+          }
+          label.el-checkbox{
+            margin-left: 20px;
+            margin-top: 10px;
+            color: white;
+          }
+        }
+        .el-button{
+          .el-buttoned;
+        }
+      }
+      .table-Footer{
+        height: 155px;
+      }
+      div.dateTable{
+        .el-table{
+          .cell{
+            .name-wrapper{
+              display: -webkit-flex;
+              display: flex;
+              flex-wrap: wrap;
+              .el-tag{
+                width: 60px;
+                height: 30px;
+                margin: auto 0;
+              }
+              div{
+                width: 60%;
+                span{
+                  display: block;
+                  margin-left: 5px;
+                }
+              }
             }
-            div.el-dropdown{
-              width: 100px;
-              height: 40px;
-              margin: 0 20px;
-              display: inline-block;
-              float: right;
-            }
-          };
-        }
-        div.el-input{
-          width: 230px;
-          height: 38px;
-        }
-        label.el-checkbox{
-          margin-left: 20px;
-          margin-top: 10px;
-          color: white;
-        }
-      }
-      .dateTable{
-        width: 100%;
-      }
-      .el-button{
-        width: 100px;
-        height: 40px;
-        color: #FFF;
-        background:#444b5b;
-        border-color: #444b5b;
-        &:hover{
-          background:#17191d;
-          border-color: #17191d;
-        }
-        &:focus{
-          background:#17191d;
-          border-color: #17191d;
-        }
-        &:active{
-          background:#17191d;
-          border-color: #17191d;
-        }
-      }
-    }
-  }
-  .el-table{
-    .cell{
-      div{
-        display: inline-block;
-      }
-      .name-wrapper{
-        .el-tag{
-          width: 80px;
+          }
         }
       }
     }
   }
   .table-botton{
-    margin: 20px 0 0 20px;
+    margin: 52px 0 0 20px;
     float: left;
     display: inline-block;
+    .el-button{
+      .el-buttoned;
+    }
   }
   div.block{
-    margin-top: 20px;
+    margin: 52px 34px 0 0;
     display: inline-block;
     float: right;
   }
