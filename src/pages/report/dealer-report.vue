@@ -127,9 +127,9 @@
               <el-dropdown-item class="text-center" command="reset_v2">
                 <span class="hightlight-warn">重置</span>
               </el-dropdown-item>
-              <el-dropdown-item class="text-center" command="clear">
+              <!-- <el-dropdown-item class="text-center" command="clear">
                 <span class="hightlight-danger">清空</span>
-              </el-dropdown-item>
+              </el-dropdown-item> -->
             </el-dropdown-menu>
           </el-dropdown>
         </div>
