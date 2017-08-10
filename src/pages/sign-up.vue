@@ -4,8 +4,7 @@
       <article class="popup-main posi-rel">
         <article class="popup-main popup-shadow"></article>
         <header>
-          实盘开户
-          <span class="popup--additional-action" @click="simulationOpenAccount">模拟开户</span>
+          代理商开户
         </header>
         <div class="popup-content popup-content--norrow-gutter">
           <el-steps :center="true" :align-center="true" :active="activeStep" :space="135" finish-status="finish">
@@ -276,10 +275,6 @@ export default {
     };
   },
   methods: {
-    simulationOpenAccount () {
-      // TODO:
-      console.log('simulationOpenAccount');
-    },
     idCardFileLoaded (param) {
       for (let i = 0; i < this.idCardList.length; i++) {
         if (this.idCardList[i].symbolId === param.symbolId) {
@@ -288,7 +283,6 @@ export default {
         }
       }
       this.idCardList.push(param);
-      console.log('idCardList', this.idCardList);
     },
     businessLicenseLoaded (param) {
       for (let i = 0; i < this.businessLicenseList.length; i++) {
