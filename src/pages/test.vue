@@ -118,14 +118,12 @@
 import verify from '@comps/verify.vue';
 import popup from '@comps/popup.vue';
 import uploadImage from '@comps/upload-image';
-import invited from '@comps/invited';
 export default {
   name: 'test',
   components: {
     verify,
     popup,
-    uploadImage,
-    invited
+    uploadImage
   },
   data () {
     return {
