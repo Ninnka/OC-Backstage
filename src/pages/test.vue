@@ -124,8 +124,11 @@
     <!--show：控制此弹出框的显示-->
     <!--needCancel表示是否需要取消按钮，默认为false-->
     <!--title为标题-->
+    <!--confirmText表示确认按钮内文字，默认为确认-->
+    <!--cancelText表示取消按钮内文字，默认为取消-->
+    <!--cancelEvent表示取消按钮事件，当取消按钮文字为默认时事件默认为关闭当前弹窗-->
     <!--confirmEvent表示确认按钮事件-->
-    <popup :show.sync="showDelMt" :needCancel=true :title="'弹出框'" v-on:confirmEvent="test">
+    <popup :show.sync="showDelMt" :needCancel=true :title="'弹出框'" :confirmText="'通过'" :cancelText="'驳回'" v-on:confirmEvent="test" v-on:cancelEvent="test">
       <template slot="content" >
         <!--弹出框内容自己定义-->
         <p class="del-text">

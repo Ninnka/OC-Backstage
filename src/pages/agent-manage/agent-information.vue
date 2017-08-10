@@ -150,10 +150,10 @@
         <div class="region-main">
           <ul class="user-list">
             <li>
-              <modify-input :label="'佣金配置'" :value="agentMes.commissionDeploy*100+'%'" :doneEvent="modify('commissionDeploy')"></modify-input>
+              <modify-input :label="'佣金配置'" :value="agentMes.commissionDeploy*100+'%'" v-on:doneEvent="modify('commissionDeploy')"></modify-input>
             </li>
             <li>
-              <modify-input :label="'红利配置'" :value="agentMes.dividendDeploy*100+'%'" :doneEvent="modify('dividendDeploy')"></modify-input>
+              <modify-input :label="'红利配置'" :value="agentMes.dividendDeploy*100+'%'" v-on:doneEvent="modify('dividendDeploy')"></modify-input>
             </li>
           </ul>
         </div>
