@@ -90,6 +90,13 @@ export default new Router({
             require(['@pages/agent-manage/agent-audit'], resolve);
           }
         },
+        {
+          path: 'agent-information',
+          name: 'agent-information',
+          component: (resolve) => {
+            require(['@pages/agent-manage/agent-information'], resolve);
+          }
+        },
         // 交易管理
         {
           path: 'transaction-manage',

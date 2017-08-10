@@ -1,60 +1,51 @@
 <template>
-  <div class="personal-information">
-    <!--personal-information-->
+  <div class="user-information">
     <div class="user-left">
       <article class="region user-message">
-        <header>我的信息</header>
+        <header>代理商信息</header>
         <div class="region-main">
           <ul class="user-list">
             <li class="align-top">
-              <div class="user-label">我的头像：</div>
+              <div class="user-label">代理商头像：</div>
               <div class="user-mes">
                 <div class="user-img">
-                  <img src="../assets/img/user.jpg" alt="" />
+                  <img src="../../assets/img/user.jpg" alt="" />
                 </div>
               </div>
-              <button class="modify-btn" type="submit">修改</button>
             </li>
             <li>
-              <div class="user-label">交易账号：</div>
-              <div class="user-mes">852456</div>
+              <div class="user-label">账号：</div>
+              <div class="user-mes">{{agentMes.account}}</div>
             </li>
             <li>
               <div class="user-label">昵称：</div>
-              <div class="user-mes">陈晨</div>
-              <button class="modify-btn" type="submit">修改</button>
-            </li>
-            <li>
-              <div class="user-label">密码：</div>
-              <div class="user-mes">********</div>
-              <button class="modify-btn" type="submit">修改</button>
+              <div class="user-mes">{{agentMes.nickName}}</div>
             </li>
             <li>
               <div class="user-label">手机号码：</div>
-              <div class="user-mes">13600000000</div>
+              <div class="user-mes">{{agentMes.phone}}</div>
             </li>
             <li>
               <div class="user-label">邮箱地址：</div>
-              <div class="user-mes">molehe_1024@163.com</div>
-              <button class="modify-btn" type="submit">修改</button>
+              <div class="user-mes">{{agentMes.email}}</div>
             </li>
             <li>
               <div class="user-label">类型：</div>
-              <div class="user-mes">个人</div>
+              <div class="user-mes">{{agentMes.type}}</div>
             </li>
             <li>
               <div class="user-label">开户时间：</div>
-              <div class="user-mes">2017-07-07 10:12:13</div>
+              <div class="user-mes">{{agentMes.openTime}}</div>
             </li>
           </ul>
           <ul class="user-list">
             <li>
               <div class="user-label">姓名：</div>
-              <div class="user-mes">谢霆锋</div>
+              <div class="user-mes">{{agentMes.realName}}</div>
             </li>
             <li>
               <div class="user-label">证件编号：</div>
-              <div class="user-mes">[身份证]440111111111111111</div>
+              <div class="user-mes">{{'['+agentMes.Documents.type+']'+agentMes.Documents.num}}</div>
             </li>
             <li>
               <div class="user-label">证件有效期：</div>
@@ -76,33 +67,27 @@
             <li>
               <div class="user-label">投递地址：</div>
               <div class="user-mes">广东省 广州市 荔湾区1850创意园</div>
-              <button class="modify-btn" type="submit">修改</button>
             </li>
           </ul>
           <ul class="user-list">
             <li>
               <div class="user-label">银行卡：</div>
-              <div class="user-mes">已绑定张</div>
-              <div class="add-card" @click="">
-                <div class="add-icon">+</div>
-                <p>添加银行卡</p>
-              </div>
+              <div class="user-mes">已绑定{{agentMes.bankList.length}}张</div>
             </li>
             <li class="band-card-list">
               <el-carousel height="150px" :autoplay=false>
-                <el-carousel-item>
+                <el-carousel-item v-for="item in agentMes.bankList" :key="item.id">
                   <div class="bank-card">
                     <div class="bank-head">
                       <i class="bank-icon">
                         <svg class="icon" aria-hidden="true">
-                          <use></use>
+                          <use :xlink:href="'#'+item.bankMes.icon"></use>
                         </svg>
                       </i>
-                      <p class="bank-text">中国银行</p>
-                      <i class="iconfont icon-shanchu" @click=""></i>
+                      <p class="bank-text">{{item.bankMes.bankTitle}}</p>
                     </div>
-                    <p>张三</p>
-                    <p>123456789</p>
+                    <p>{{item.name}}</p>
+                    <p>{{item.card}}</p>
                   </div>
                 </el-carousel-item>
               </el-carousel>
@@ -116,52 +101,89 @@
           <ul class="user-list">
             <li>
               <div class="user-label">余额：</div>
-              <div class="user-mes">$999.999.000</div>
+              <div class="user-mes">$999999</div>
             </li>
             <li>
-              <div class="user-label">总入金：</div>
-              <div class="user-mes">$99.999.000</div>
-            </li>
-            <li>
-              <div class="user-label">未结佣金：</div>
-              <div class="user-mes">$99.999.000</div>
+              <div class="user-label">保证金：</div>
+              <div class="user-mes">$999999</div>
             </li>
           </ul>
           <ul class="user-list">
             <li>
-              <div class="user-label">保证金：</div>
-              <div class="user-mes">$999.999.000</div>
-              <div class="append-btn">追加保证金</div>
-            </li>
-            <li>
-              <div class="user-label">总出金：</div>
-              <div class="user-mes">$999.999.000</div>
-            </li>
-            <li>
               <div class="user-label">已结佣金：</div>
-              <div class="user-mes">$999.999.000</div>
+              <div class="user-mes">$999999</div>
+            </li>
+            <li>
+              <div class="user-label">未结佣金：</div>
+              <div class="user-mes">$999999</div>
             </li>
           </ul>
         </div>
       </article>
-      <article class="region configuration">
+      <article class="region funds-info">
+        <header>团队信息</header>
+        <div class="region-main">
+          <ul class="user-list">
+            <li>
+              <div class="user-label">下级代理数量：</div>
+              <div class="user-mes">$999999</div>
+            </li>
+            <li>
+              <div class="user-label">总入金：</div>
+              <div class="user-mes">$999999</div>
+            </li>
+            <li>
+              <div class="user-label">交易量：</div>
+              <div class="user-mes">50000手/$999999</div>
+            </li>
+          </ul>
+          <ul class="user-list">
+            <li>
+              <div class="user-label">交易商数量：</div>
+              <div class="user-mes">$999999</div>
+            </li>
+            <li>
+              <div class="user-label">总出金：</div>
+              <div class="user-mes">$999999</div>
+            </li>
+          </ul>
+        </div>
+      </article>
+      <article class="region funds-info">
         <header>配置</header>
         <div class="region-main">
           <ul class="user-list">
             <li>
               <div class="user-label">佣金配置：</div>
-              <div class="user-mes">20%</div>
+              <div class="user-mes">{{agentMes.commissionDeploy*100+'%'}}</div>
+              <button class="modify-btn" type="submit">修改</button>
             </li>
             <li>
               <div class="user-label">红利配置：</div>
-              <div class="user-mes">未生效</div>
+              <div class="user-mes">{{agentMes.dividendDeploy*100+'%'}}</div>
+              <button class="modify-btn" type="submit">修改</button>
             </li>
           </ul>
         </div>
       </article>
+      <article class="region">
+        <header>账号权限控制</header>
+        <div class="region-main">
+          <el-table :data="permissionControlList" style="width: 100%">
+            <el-table-column prop="fun" label="功能"></el-table-column>
+            <el-table-column label="操作">
+              <template scope="scope">
+                <el-switch v-model="scope.row.operation" on-text="" off-text=""></el-switch>
+              </template>
+            </el-table-column>
+            <el-table-column prop="description" label="说明"></el-table-column>
+          </el-table>
+        </div>
+      </article>
     </div>
     <div class="user-right">
-      <invited :title="'邀请信息'" :invitationCode="'888'" :invitationUrl="'http://www.baidu.com'"></invited>
+      <invited :title="'代理商邀请'" :invitationCode="'888'" :invitationUrl="'http://www.baidu.com'"></invited>
+      <invited :title="'交易商信息'" :invitationCode="'666'" :invitationUrl="'http://www.baidu.com'"></invited>
     </div>
   </div>
 </template>
@@ -169,18 +191,44 @@
 <script>
 import invited from '@comps/invited';
 export default {
-  name: 'PersonalInformation',
+  name: 'UserInformation',
   components: {
     invited
   },
   data () {
     return {
-      inviteUrl: 'https://www.douban.com/group/topic/96482147/'
+      inviteUrl: 'https://www.douban.com/group/topic/96482147/',
+      permissionControlList: [
+        {
+          fun: '账号使用',
+          operation: true,
+          description: '禁用后将不能登录账号'
+        },
+        {
+          fun: '出金',
+          operation: true,
+          description: '禁用后将不能出金'
+        },
+        {
+          fun: '邀请代理',
+          operation: true,
+          description: '禁用将不能邀请代理'
+        },
+        {
+          fun: '推广交易商',
+          operation: true,
+          description: '禁用将不能推广交易商'
+        }
+      ]
     };
   },
   computed: {
+    agentMes () {
+      return this.$store.state.AgentManage.agentMes;
+    }
   },
   created: function () {
+    console.log(this.agentMes);
   },
   methods: {
   }
@@ -188,8 +236,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .personal-information {
-    padding: 20px;
+  .user-information {
     align-items: flex-start;
     display: flex;
     .user-list{
@@ -257,8 +304,9 @@ export default {
         width:100%;
         height:150px;
         display:block;
-        .iconfont.icon-shanchu {
-          float: right;
+        .band-cards{
+          width: 100%;
+          justify-content: space-around;
         }
       }
     }
@@ -304,7 +352,7 @@ export default {
       }
     }
     .user-right{
-      flex: 0 0 33.3333%;
+      flex-basis:33%;
     }
   }
 </style>
