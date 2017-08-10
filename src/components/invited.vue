@@ -9,7 +9,7 @@
         邀请码：{{invitationCode}}
         <p>邀请链接：{{invitationUrl}}</p>
       </div>
-      <button class="copy-btn hot-bg" v-clipboard="invitationUrl" @success="" @error="">复制推广链接</button>
+      <button class="copy-btn hot-bg" v-clipboard="invitationUrl" @success="suc" @error="ero">复制推广链接</button>
     </div>
   </article>
 </template>
@@ -48,6 +48,15 @@ export default {
     this.qrUrl = qr.toDataURL();
   },
   methods: {
+    suc () {
+      this.$message({
+        type: 'success',
+        message: '复制成功!'
+      });
+    },
+    ero () {
+      this.$message.error('抱歉复制失败，请重试!');
+    }
   }
 };
 </script>
