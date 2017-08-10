@@ -95,10 +95,10 @@
           </ul>
         </div>
       </article>
-      <article class="region funds-info">
+      <article class="region">
         <header>资金情况</header>
         <div class="region-main">
-          <ul class="user-list">
+          <ul class="user-list user-list-two">
             <li>
               <div class="user-label">余额：</div>
               <div class="user-mes">$999999</div>
@@ -107,8 +107,6 @@
               <div class="user-label">保证金：</div>
               <div class="user-mes">$999999</div>
             </li>
-          </ul>
-          <ul class="user-list">
             <li>
               <div class="user-label">已结佣金：</div>
               <div class="user-mes">$999999</div>
@@ -120,10 +118,10 @@
           </ul>
         </div>
       </article>
-      <article class="region funds-info">
+      <article class="region">
         <header>团队信息</header>
         <div class="region-main">
-          <ul class="user-list">
+          <ul class="user-list user-list-two">
             <li>
               <div class="user-label">下级代理数量：</div>
               <div class="user-mes">$999999</div>
@@ -136,8 +134,6 @@
               <div class="user-label">交易量：</div>
               <div class="user-mes">50000手/$999999</div>
             </li>
-          </ul>
-          <ul class="user-list">
             <li>
               <div class="user-label">交易商数量：</div>
               <div class="user-mes">$999999</div>
@@ -149,19 +145,15 @@
           </ul>
         </div>
       </article>
-      <article class="region funds-info">
+      <article class="region">
         <header>配置</header>
         <div class="region-main">
           <ul class="user-list">
             <li>
-              <div class="user-label">佣金配置：</div>
-              <div class="user-mes">{{agentMes.commissionDeploy*100+'%'}}</div>
-              <button class="modify-btn" type="submit">修改</button>
+              <modify-input :label="'佣金配置'" :value="agentMes.commissionDeploy*100+'%'" :doneEvent="modify('commissionDeploy')"></modify-input>
             </li>
             <li>
-              <div class="user-label">红利配置：</div>
-              <div class="user-mes">{{agentMes.dividendDeploy*100+'%'}}</div>
-              <button class="modify-btn" type="submit">修改</button>
+              <modify-input :label="'红利配置'" :value="agentMes.dividendDeploy*100+'%'" :doneEvent="modify('dividendDeploy')"></modify-input>
             </li>
           </ul>
         </div>
@@ -190,13 +182,18 @@
 
 <script>
 import invited from '@comps/invited';
+import modifyInput from '@comps/modify-input';
 export default {
   name: 'UserInformation',
   components: {
-    invited
+    invited,
+    'modify-input': modifyInput
   },
   data () {
     return {
+      ifCommissionDeploy: false,
+      commissionDeploy: 0.02,
+      dividendDeploy: 0.02,
       inviteUrl: 'https://www.douban.com/group/topic/96482147/',
       permissionControlList: [
         {
@@ -231,6 +228,9 @@ export default {
     console.log(this.agentMes);
   },
   methods: {
+    modify (key) {
+      console.log(key);
+    }
   }
 };
 </script>
@@ -239,97 +239,6 @@ export default {
   .user-information {
     align-items: flex-start;
     display: flex;
-    .user-list{
-      box-sizing: border-box;
-      width:100%;
-      height: auto;
-      padding: 0px 20px 20px 20px;
-      border-bottom: 2px solid #22232a;
-      overflow:hidden;
-      .align-top{
-        align-items: flex-start;
-      }
-      li{
-        width: 100%;
-        margin: 10px 0;
-        text-align: left;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        .user-label{
-          width: 100px;
-          font-size:14px;
-          color:#94959a;
-          text-align: right;
-        }
-        .user-mes{
-          flex: 1;
-          font-size:18px;
-          color:#ffffff;
-          .user-img{
-            width: 70px;
-            height: 70px;
-            margin-top: -10px;
-            border-radius: 50%;
-            img{
-              border-radius: 50%;
-            }
-          }
-        }
-        .append-btn{
-          flex: 1;
-        }
-        .add-card{
-          color: #fff;
-          display: flex;
-          align-items: center;
-          .add-icon{
-            display: inline-block;
-            margin-right: 10px;
-            font-size: 20px;
-          }
-        }
-        .modify-btn{
-          width: 60px;
-          height: 25px;
-          line-height: 25px;
-          border:1px solid #55565c;
-          border-radius:6px;
-          background: #272a31;
-          color: #94959a;
-          fon-size:12px;
-        }
-      }
-      .band-card-list{
-        width:100%;
-        height:150px;
-        display:block;
-        .band-cards{
-          width: 100%;
-          justify-content: space-around;
-        }
-      }
-    }
-    .add-card-btn {
-      text-align: center;
-      color: #94959a;
-      flex: 1;
-      margin-right: 20px;
-      border:1px solid #55565c;
-      border-radius:9px;
-      height:130px;
-      .add-icon{
-        font-size: 60px;
-        height: 60px;
-        line-height: 60px;
-        margin-top: 20px;
-      }
-      p{
-        height: 20px;
-        line-height: 20px;
-        font-size: 14px;
-      }
-    }
     .user-left{
       flex: 1;
       margin-right:20px;
@@ -337,7 +246,6 @@ export default {
         text-align: center;
         .region-main{
           padding: 0 20px;
-
         }
       }
       .funds-info{

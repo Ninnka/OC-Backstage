@@ -89,6 +89,14 @@ body{
   }
 }
 
+body{
+  .el-input__inner{
+    background: #202228;
+    border: none;
+    border-radius: 0;
+    color: #fff;
+  }
+}
 
 // 修改element输入框风格样式
 .el-form{
@@ -285,8 +293,108 @@ body{
   margin-bottom: 20px;
 }
 
-// 银行卡样式
+// 信息页面信息列表样式
+.user-list {
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  padding: 0px 20px 20px 20px;
+  border-bottom: 2px solid #22232a;
+  overflow: hidden;
+  .align-top {
+    align-items: flex-start;
+  }
+  .band-card-list{
+    display: block;
+  }
+  li {
+    width: 100%;
+    margin: 10px 0;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    li{
+      display: inline-block;
+      width: auto;
+    }
+    .user-label {
+      width: 100px;
+      font-size: 14px;
+      color: #94959a;
+      text-align: right;
+    }
+    .user-mes {
+      flex: 1;
+      font-size: 18px;
+      color: #ffffff;
+      .user-img {
+        width: 70px;
+        height: 70px;
+        margin-top: -10px;
+        border-radius: 50%;
+        img {
+          border-radius: 50%;
+        }
+      }
+    }
+    .add-card {
+      color: #fff;
+      display: flex;
+      align-items: center;
+      .add-icon {
+        display: inline-block;
+        margin-right: 10px;
+        font-size: 20px;
+      }
+    }
+    .modify-btn {
+      width: 60px;
+      height: 25px;
+      line-height: 25px;
+      border: 1px solid #55565c;
+      border-radius: 6px;
+      background: #272a31;
+      color: #94959a;
+      font-size: 12px;
+    }
+  }
+}
 
+// 信息页面信息列表一行双个样式
+.user-list-two{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:flex-start;
+  li{
+    flex-basis: 45%;
+    margin-right: 5%;
+  }
+}
+
+// 添加银行卡样式
+.add-card-btn {
+  text-align: center;
+  color: #94959a;
+  flex: 1;
+  margin-right: 20px;
+  border:1px solid #55565c;
+  border-radius:9px;
+  height:130px;
+  .add-icon{
+    font-size: 60px;
+    height: 60px;
+    line-height: 60px;
+    margin-top: 20px;
+  }
+  p{
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+  }
+}
+
+// 银行卡样式
 .bank-card{
   height: 80px;
   width: 210px;
