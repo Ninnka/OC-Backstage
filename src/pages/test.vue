@@ -68,6 +68,57 @@
         </el-table>
       </div>
     </article>
+
+    <!--信息页面单行公共样式-->
+    <article class="region">
+      <header>信息页面单行公共样式</header>
+      <div class="region-main">
+        <ul class="user-list">
+          <li class="align-top">
+            <div class="user-label">我的头像：</div>
+            <div class="user-mes">
+              <div class="user-img">
+                <img src="../assets/img/user.jpg" alt="" />
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="user-label">交易账号：</div>
+            <div class="user-mes">852456</div>
+          </li>
+          <li>
+            <div class="user-label">昵称：</div>
+            <div class="user-mes">陈晨</div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!--信息页面多行公共样式-->
+    <article class="region">
+      <header>信息页面多行公共样式</header>
+      <div class="region-main">
+        <ul class="user-list user-list-two">
+          <li>
+            <div class="user-label">余额：</div>
+            <div class="user-mes">$999999</div>
+          </li>
+          <li>
+            <div class="user-label">保证金：</div>
+            <div class="user-mes">$999999</div>
+          </li>
+          <li>
+            <div class="user-label">已结佣金：</div>
+            <div class="user-mes">$999999</div>
+          </li>
+          <li>
+            <div class="user-label">未结佣金：</div>
+            <div class="user-mes">$999999</div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
     <button class="cold-bg" @click="showDelMt = true">弹出框组件以及验证码组件</button>
     <!--弹出框API：-->
     <!--show：控制此弹出框的显示-->
@@ -99,8 +150,20 @@
       </template>
     </popup>
 
+    <article class="region">
+      <header>修改信息组件</header>
+      <div class="region-main">
+        <ul class="user-list">
+          <li>
+            <!--邀请信息组件-->
+            <modify-input :label="'修改信息组件'" :value="testValue" :doneEvent="modify"></modify-input>
+          </li>
+        </ul>
+      </div>
+    </article>
+
     <!--邀请信息组件-->
-    <invited :title="'邀请信息'" :invitationCode="'888'" :invitationUrl="'http://www.baidu.com'"></invited>
+    <invited :title="'邀请信息组件'" :invitationCode="'888'" :invitationUrl="'http://www.baidu.com'"></invited>
 
     <!--上传图片组件-->
     <div class="demo__use-upload-image">
@@ -115,6 +178,8 @@
 </template>
 
 <script>
+import invited from '@comps/invited.vue';
+import modifyInput from '@comps/modify-input';
 import verify from '@comps/verify.vue';
 import popup from '@comps/popup.vue';
 import uploadImage from '@comps/upload-image';
@@ -123,7 +188,9 @@ export default {
   components: {
     verify,
     popup,
-    uploadImage
+    uploadImage,
+    invited,
+    'modify-input': modifyInput
   },
   data () {
     return {
@@ -131,6 +198,7 @@ export default {
       showAddBank: false,
       showModifyMt: false,
       showDelMt: false,
+      testValue: '123',
       testForm: {
         verify: '',
         phone: '',
@@ -179,6 +247,7 @@ export default {
         this.show = true;
       }
     },
+    modify () {},
     filterTable () {},
     test () {
       this.$message({
