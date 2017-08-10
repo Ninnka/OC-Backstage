@@ -33,8 +33,8 @@ export default {
   },
   methods: {
     tabClick (tab, event) {
-      console.log('tab', tab);
-      console.log('event', event);
+      // console.log('tab', tab);
+      // console.log('event', event);
     },
     getTabInnerComp (name) {
       return require('@pages/system-setting/' + name);
@@ -48,7 +48,7 @@ export default {
 .system-setting {
   height: 100%;
   box-sizing: border-box;
-  padding: 20px;
+  // padding: 20px;
   .el-tabs {
     height: 100%;
   }
@@ -66,5 +66,21 @@ export default {
     color: @main-theme-sub;
     font-size: 12px;
   }
+}
+.el-tabs__header {
+  border: none;
+  background: #272a31;
+}
+.el-tabs__item {
+  padding: 6px 40px;
+  height: auto;
+  color: @main-theme-sub;
+  &.is-active {
+    color: #52e3ff;
+  }
+}
+.el-tabs__active-bar {
+  background-image: linear-gradient(-90deg, #00e2b8 0%, #009acd 100%);
+  height: 2px;
 }
 </style>

@@ -8,45 +8,127 @@
         模块一
       </header>
       <div class="region-main">
-
       </div>
       </article>
       <article class="region">
-      <header>
-        模块二
-      </header>
-      <div class="region-main">
+        <header>
+          模块二
+        </header>
+        <div class="region-main">
 
-      </div>
+        </div>
       </article>
     </div>
-    <el-table
-      :data="tableData"
-      stripe
-      style="width: 100%">
-      <el-table-column
-        prop="date"
-        label="日期"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="姓名"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="address"
-        label="地址">
-      </el-table-column>
-    </el-table>
+    <article class="region">
+      <header>
+        顶部表单列表样式
+      </header>
+      <div class="region-main">
+        <el-form class="filter-input" :model="userAuditForm" label-width="100px">
+          <el-form-item label="账号/昵称">
+            <el-input v-model="userAuditForm.nickName" placeholder="请输入账号或者昵称"></el-input>
+          </el-form-item>
+          <el-form-item label="真实姓名">
+            <el-input v-model="userAuditForm.realName" placeholder="请输入真实姓名"></el-input>
+          </el-form-item>
+          <el-form-item label="联系方式">
+            <el-input v-model="userAuditForm.phone" placeholder="请输入手机号码"></el-input>
+          </el-form-item>
+          <el-form-item label="证件号码">
+            <el-input v-model="userAuditForm.cardId" placeholder="请输入证件号码"></el-input>
+          </el-form-item>
+          <el-form-item label="邀请人">
+            <el-input v-model="userAuditForm.invitingPeople" placeholder="请输入邀请人姓名"></el-input>
+          </el-form-item>
+          <el-form-item label="开户时间">
+            <el-date-picker v-model="userAuditForm.timeRange" type="datetimerange" placeholder="请选择时间范围"></el-date-picker>
+          </el-form-item>
+        </el-form>
+        <div class="query-btn">
+          <el-button type="info" @click="filterTable">查询</el-button>
+        </div>
+        <el-table
+          :data="tableData"
+          stripe
+          style="width: 100%">
+          <el-table-column
+            prop="date"
+            label="日期"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="姓名"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="address"
+            label="地址">
+          </el-table-column>
+        </el-table>
+      </div>
+    </article>
+
+    <!--信息页面单行公共样式-->
+    <article class="region">
+      <header>信息页面单行公共样式</header>
+      <div class="region-main">
+        <ul class="user-list">
+          <li class="align-top">
+            <div class="user-label">我的头像：</div>
+            <div class="user-mes">
+              <div class="user-img">
+                <img src="../assets/img/user.jpg" alt="" />
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="user-label">交易账号：</div>
+            <div class="user-mes">852456</div>
+          </li>
+          <li>
+            <div class="user-label">昵称：</div>
+            <div class="user-mes">陈晨</div>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!--信息页面多行公共样式-->
+    <article class="region">
+      <header>信息页面多行公共样式</header>
+      <div class="region-main">
+        <ul class="user-list user-list-two">
+          <li>
+            <div class="user-label">余额：</div>
+            <div class="user-mes">$999999</div>
+          </li>
+          <li>
+            <div class="user-label">保证金：</div>
+            <div class="user-mes">$999999</div>
+          </li>
+          <li>
+            <div class="user-label">已结佣金：</div>
+            <div class="user-mes">$999999</div>
+          </li>
+          <li>
+            <div class="user-label">未结佣金：</div>
+            <div class="user-mes">$999999</div>
+          </li>
+        </ul>
+      </div>
+    </article>
 
     <button class="cold-bg" @click="showDelMt = true">弹出框组件以及验证码组件</button>
     <!--弹出框API：-->
     <!--show：控制此弹出框的显示-->
     <!--needCancel表示是否需要取消按钮，默认为false-->
     <!--title为标题-->
+    <!--confirmText表示确认按钮内文字，默认为确认-->
+    <!--cancelText表示取消按钮内文字，默认为取消-->
+    <!--cancelEvent表示取消按钮事件，当取消按钮文字为默认时事件默认为关闭当前弹窗-->
     <!--confirmEvent表示确认按钮事件-->
-    <popup :show.sync="showDelMt" :needCancel=true :title="'弹出框'" v-on:confirmEvent="test">
+    <popup :show.sync="showDelMt" :needCancel=true :title="'弹出框'" :confirmText="'通过'" :cancelText="'驳回'" v-on:confirmEvent="test" v-on:cancelEvent="test">
       <template slot="content" >
         <!--弹出框内容自己定义-->
         <p class="del-text">
@@ -71,6 +153,21 @@
       </template>
     </popup>
 
+    <article class="region">
+      <header>修改信息组件</header>
+      <div class="region-main">
+        <ul class="user-list">
+          <li>
+            <!--邀请信息组件-->
+            <modify-input :label="'修改信息组件'" :value="testValue" :doneEvent="modify"></modify-input>
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!--邀请信息组件-->
+    <invited :title="'邀请信息组件'" :invitationCode="'888'" :invitationUrl="'http://www.baidu.com'"></invited>
+
     <!--上传图片组件-->
     <div class="demo__use-upload-image">
       <upload-image cusClass="use-upload-image__cus-class" @fileLoaded="fileLoaded">
@@ -84,6 +181,8 @@
 </template>
 
 <script>
+import invited from '@comps/invited.vue';
+import modifyInput from '@comps/modify-input';
 import verify from '@comps/verify.vue';
 import popup from '@comps/popup.vue';
 import uploadImage from '@comps/upload-image';
@@ -92,7 +191,9 @@ export default {
   components: {
     verify,
     popup,
-    uploadImage
+    uploadImage,
+    invited,
+    'modify-input': modifyInput
   },
   data () {
     return {
@@ -100,11 +201,21 @@ export default {
       showAddBank: false,
       showModifyMt: false,
       showDelMt: false,
+      testValue: '123',
       testForm: {
         verify: '',
         phone: '',
         name: '',
         region: '上海'
+      },
+      userAuditForm: {
+        nickName: '',
+        realName: '',
+        phone: '',
+        cardId: '',
+        invitingPeople: '',
+        timeRange: '',
+        auditStatus: ''
       },
       tableData: [{
         date: '2016-05-02',
@@ -139,6 +250,8 @@ export default {
         this.show = true;
       }
     },
+    modify () {},
+    filterTable () {},
     test () {
       this.$message({
         type: 'success',
@@ -161,8 +274,12 @@ export default {
 
 <style lang="less" scoped>
   .test{
+    .region{
+      margin-bottom: 20px;
+    }
     .test-main{
       width: 100%;
+      margin-bottom: 20px;
       .region{
         flex: 1;
         margin:0 10px;

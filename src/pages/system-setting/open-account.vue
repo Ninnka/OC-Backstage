@@ -68,15 +68,23 @@
 
 <script>
 export default {
+  props: {
+    defaultSetting: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    }
+  },
   data () {
     return {
       name: 'open-account',
       simulationAccountSetting: {
-        initialAmount: '',
-        validity: ''
+        initialAmount: '0',
+        validity: '12'
       },
       openAccountSetting: {
-        activeQuota: ''
+        activeQuota: '0'
       },
       MTAccountSetting: {
         apply: false,
@@ -100,7 +108,7 @@ export default {
 <style lang="less">
 .open-account {
   color: #ffffff;
-  > div {
+  > div:not(:last-child) {
     margin-bottom: 20px;
   }
 }

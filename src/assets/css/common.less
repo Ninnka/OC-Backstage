@@ -60,6 +60,9 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 // 修改element按钮风格样式
 body{
+  .el-button--text{
+    color: #53e3ff;
+  }
   .el-button--info{
     background:#444b5b;
     border-color: #444b5b;
@@ -76,10 +79,34 @@ body{
       border-color: #17191d;
     }
   }
+  .el-switch{
+    &.is-disabled.is-checked{
+      .el-switch__core{
+        background: #53e3ff !important;
+        border-color: #53e3ff !important;
+      }
+    }
+  }
+}
+
+body{
+  .el-input__inner{
+    background: #202228;
+    border: none;
+    border-radius: 0;
+    color: #fff;
+  }
 }
 
 // 修改element输入框风格样式
 .el-form{
+  .el-checkbox{
+    color: #fff;
+    .el-checkbox__input.is-checked .el-checkbox__inner{
+      background-color: #53e3ff;
+      border-color: #53e3ff;
+    }
+  }
   .el-form-item{
     .el-form-item__label{
       color: #fff;
@@ -103,7 +130,7 @@ body{
 // 修改element表格风格样式
 #app{
   .el-table{
-    text-align: center;
+    text-align: left;
     border: none;
     &::before{
       height: 0;
@@ -115,9 +142,10 @@ body{
       }
     }
     tr:nth-of-type(even){
-      background: #22232a;
+      background: #22242a;
       td{
-        background: #22232a;
+        background: #22242a;
+        width: auto;
       }
     }
     tr:hover{
@@ -135,10 +163,11 @@ body{
     th{
       background-color: #18191d;
       border: none;
-      text-align: center;
+      text-align: left;
       >.cell{
         background-color: #18191d;
         color: #94959a;
+        text-align: left;
       }
     }
   }
@@ -248,9 +277,170 @@ body{
   }
 }
 
+//表单与表格页面顶部表单样式（写在el-form里面）
+.filter-input{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:flex-start;
+  .el-form-item{
+    width: 30%;
+    max-width: 450px;
+  }
+}
+.query-btn{
+  width: 90%;
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+// 信息页面信息列表样式
+.user-list {
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  padding: 0px 20px 20px 20px;
+  border-bottom: 2px solid #22232a;
+  overflow: hidden;
+  .align-top {
+    align-items: flex-start;
+  }
+  .band-card-list{
+    display: block;
+  }
+  li {
+    width: 100%;
+    margin: 10px 0;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    li{
+      display: inline-block;
+      width: auto;
+    }
+    .user-label {
+      width: 100px;
+      font-size: 14px;
+      color: #94959a;
+      text-align: right;
+    }
+    .user-mes {
+      flex: 1;
+      font-size: 18px;
+      color: #ffffff;
+      .user-img {
+        width: 70px;
+        height: 70px;
+        margin-top: -10px;
+        border-radius: 50%;
+        img {
+          border-radius: 50%;
+        }
+      }
+    }
+    .add-card {
+      color: #fff;
+      display: flex;
+      align-items: center;
+      .add-icon {
+        display: inline-block;
+        margin-right: 10px;
+        font-size: 20px;
+      }
+    }
+    .modify-btn {
+      width: 60px;
+      height: 25px;
+      line-height: 25px;
+      border: 1px solid #55565c;
+      border-radius: 6px;
+      background: #272a31;
+      color: #94959a;
+      font-size: 12px;
+    }
+  }
+}
+
+// 信息页面信息列表一行双个样式
+.user-list-two{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:flex-start;
+  li{
+    flex-basis: 45%;
+    margin-right: 5%;
+  }
+}
+
+// 添加银行卡样式
+.add-card-btn {
+  text-align: center;
+  color: #94959a;
+  flex: 1;
+  margin-right: 20px;
+  border:1px solid #55565c;
+  border-radius:9px;
+  height:130px;
+  .add-icon{
+    font-size: 60px;
+    height: 60px;
+    line-height: 60px;
+    margin-top: 20px;
+  }
+  p{
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+  }
+}
+
+// 银行卡样式
+.bank-card{
+  height: 80px;
+  width: 210px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 10px;
+  background-image:linear-gradient(-90deg, #00e2b8 0%, #009acd 100%);
+  border-radius:6px;
+  .bank-head{
+    position: relative;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    .bank-icon{
+      display: block;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.80);
+      .icon{
+        width: 20px;
+        height: 20px;
+        margin: 2px;
+      }
+    }
+    .bank-text{
+      margin-left: 10px;
+      font-size: 14px;
+      color: #fff;
+    }
+  }
+  p{
+    background: transparent;
+    color: #fff;
+    font-size: 14px;
+    text-align: right;
+    height: 16px;
+    line-height: 16px;
+  }
+}
+
 //页面单独模块风格样式
 .region{
   background:#272a31;
+  margin-bottom: 20px;
   header{
     height: 45px;
     line-height: 45px;

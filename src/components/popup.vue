@@ -8,7 +8,7 @@
       <div class="popup-content">
         <slot name="content"></slot>
         <div class="btns" :class="{'btn':needCancel}">
-          <button class="hot-bg" @click="close" v-if="needCancel">取消</button>
+          <button class="hot-bg" @click="cancel" v-if="needCancel">{{cancelText}}</button>
           <button class="cold-bg" @click="confirm">{{confirmText}}</button>
         </div>
       </div>
@@ -39,6 +39,10 @@ export default {
     confirmText: {
       type: String,
       default: '确认'
+    },
+    cancelText: {
+      type: String,
+      default: '取消'
     }
   },
   computed: {
@@ -46,6 +50,13 @@ export default {
   created: function () {
   },
   methods: {
+    cancel () {
+      if (this.cancelText === '取消') {
+        this.close();
+      } else {
+        this.$emit('cancelEvent');
+      }
+    },
     confirm () {
       this.$emit('confirmEvent');
     },

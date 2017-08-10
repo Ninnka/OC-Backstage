@@ -4,8 +4,7 @@
       <article class="popup-main posi-rel">
         <article class="popup-main popup-shadow"></article>
         <header>
-          实盘开户
-          <span class="popup--additional-action" @click="simulationOpenAccount">模拟开户</span>
+          代理商开户
         </header>
         <div class="popup-content popup-content--norrow-gutter">
           <el-steps :center="true" :align-center="true" :active="activeStep" :space="135" finish-status="finish">
@@ -67,7 +66,7 @@
                   <el-date-picker v-model="identityInfoPersonal.certificatesValidity" type="daterange" placeholder="请选择您的证件有效期"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="证件照片" class="form-mult--columns">
-                  <upload-image cusClass="upload-image__idcard" @fileLoaded="idCardFileLoaded">
+                  <upload-image cusClass="upload-image__idcard" @fileLoaded="idCardFileLoaded" :showClear="true" @clearFileList="clearIdCardFileList">
                     <template slot="upload-image__slot">
                       <div class="upload-image__cus-wrap">
                         <i class="el-icon-plus"></i>
@@ -75,7 +74,7 @@
                       </div>
                     </template>
                   </upload-image>
-                  <upload-image cusClass="upload-image__idcard" @fileLoaded="idCardFileLoaded">
+                  <upload-image cusClass="upload-image__idcard" @fileLoaded="idCardFileLoaded" :showClear="true" @clearFileList="clearIdCardFileList">
                     <template slot="upload-image__slot">
                       <div class="upload-image__cus-wrap">
                         <i class="el-icon-plus"></i>
@@ -107,7 +106,7 @@
                   <el-input v-model="identityInfoCompany.taxRegistrationCode" placeholder="请选择您的税务登记证编号"></el-input>
                 </el-form-item>
                 <el-form-item label="证件照片" class="form-mult--columns">
-                  <upload-image cusClass="upload-image__idcard" @fileLoaded="idCardFileLoaded">
+                  <upload-image cusClass="upload-image__idcard" @fileLoaded="businessLicenseLoaded" :showClear="true" @clearFileList="clearBusinessLicenseFileList">
                     <template slot="upload-image__slot">
                       <div class="upload-image__cus-wrap">
                         <i class="el-icon-plus"></i>
@@ -115,7 +114,7 @@
                       </div>
                     </template>
                   </upload-image>
-                  <upload-image cusClass="upload-image__idcard" @fileLoaded="idCardFileLoaded">
+                  <upload-image cusClass="upload-image__idcard" @fileLoaded="businessLicenseLoaded" :showClear="true" @clearFileList="clearBusinessLicenseFileList">
                     <template slot="upload-image__slot">
                       <div class="upload-image__cus-wrap">
                         <i class="el-icon-plus"></i>
@@ -148,7 +147,7 @@
                 <el-input v-model="dealInfo.bankAccount" placeholder="请输入您的证书编号"></el-input>
               </el-form-item>
               <el-form-item label="银行卡照片" class="form-mult--columns">
-                <upload-image cusClass="upload-image__idcard" @fileLoaded="bankCardFileLoaded">
+                <upload-image cusClass="upload-image__idcard" @fileLoaded="bankCardFileLoaded" :showClear="true" @clearFileList="clearBankCardFileList">
                   <template slot="upload-image__slot">
                     <div class="upload-image__cus-wrap">
                       <i class="el-icon-plus"></i>
@@ -156,7 +155,7 @@
                     </div>
                   </template>
                 </upload-image>
-                <upload-image cusClass="upload-image__idcard" @fileLoaded="bankCardFileLoaded">
+                <upload-image cusClass="upload-image__idcard" @fileLoaded="bankCardFileLoaded" :showClear="true" @clearFileList="clearBankCardFileList">
                   <template slot="upload-image__slot">
                     <div class="upload-image__cus-wrap">
                       <i class="el-icon-plus"></i>
@@ -221,6 +220,7 @@ export default {
         address: ''
       },
       idCardList: [],
+      businessLicenseList: [],
       identityInfoCompany: {
         name: '',
         businessLicenseCode: '',
@@ -275,10 +275,6 @@ export default {
     };
   },
   methods: {
-    simulationOpenAccount () {
-      // TODO:
-      console.log('simulationOpenAccount');
-    },
     idCardFileLoaded (param) {
       for (let i = 0; i < this.idCardList.length; i++) {
         if (this.idCardList[i].symbolId === param.symbolId) {
@@ -287,6 +283,15 @@ export default {
         }
       }
       this.idCardList.push(param);
+    },
+    businessLicenseLoaded (param) {
+      for (let i = 0; i < this.businessLicenseList.length; i++) {
+        if (this.businessLicenseList[i].symbolId === param.symbolId) {
+          this.businessLicenseList[i] = param;
+          return;
+        }
+      }
+      this.businessLicenseList.push(param);
     },
     bankCardFileLoaded (param) {
       for (let i = 0; i < this.bankCardList.length; i++) {
@@ -326,6 +331,30 @@ export default {
       // TODO: 表单验证银行信息中的开户人姓名，以下测试用
       callback(new Error('银行开户人姓名必须与真实姓名一致'));
       return;
+    },
+    clearIdCardFileList (param) {
+      for (let i = 0; i < this.idCardList.length; i++) {
+        if (this.idCardList[i].symbolId === param.symbolId) {
+          this.idCardList.splice(i, 1);
+          return;
+        }
+      }
+    },
+    clearBusinessLicenseFileList (param) {
+      for (let i = 0; i < this.businessLicenseList.length; i++) {
+        if (this.businessLicenseList[i].symbolId === param.symbolId) {
+          this.businessLicenseList.splice(i, 1);
+          return;
+        }
+      }
+    },
+    clearBankCardFileList (param) {
+      for (let i = 0; i < this.bankCardList.length; i++) {
+        if (this.bankCardList[i].symbolId === param.symbolId) {
+          this.bankCardList.splice(i, 1);
+          return;
+        }
+      }
     }
   }
 };

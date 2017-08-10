@@ -1,15 +1,18 @@
 <template>
-  <div class="upload-image__wrap" :class="cusClass">
+  <div class="upload-image__wrap" :class="typeof cusClass === 'object' ? cusClass.join(' ') : cusClass">
     <div class="upload-image__slot--wrap">
       <slot name="upload-image__slot"></slot>
     </div>
     <div class="posi-abs upload-image__preview" v-if="showPreview">
-       <canvas :id="randomID"></canvas> 
+       <canvas :id="randomID"></canvas>
     </div>
     <div class="posi-abs upload-image__input__wrap">
       <form enctype="multipart/form-data" method="post">
         <input type="file" name="uploadFiles" :multiple="isMultiple" :accept="getAccept" @change="inputChange($event)">
       </form>
+    </div>
+    <div class="posi-abs action--close" v-if="showClear && fileList.length > 0" @click="clearFileList">
+      <i class="el-icon-close"></i>
     </div>
   </div>
 </template>
@@ -22,8 +25,10 @@ export default {
       type: Boolean
     },
     cusClass: {
-      default: '',
-      type: String
+      default: () => {
+        return [];
+      },
+      type: [Array, String]
     },
     additionalAcceptType: {
       default: () => {
@@ -36,6 +41,10 @@ export default {
       type: Boolean
     },
     autoUpload: {
+      default: false,
+      type: Boolean
+    },
+    showClear: {
       default: false,
       type: Boolean
     }
@@ -102,6 +111,15 @@ export default {
         symbolId: this.randomID,
         data: this.fileList[0]
       });
+    },
+    clearFileList () {
+      let cvs = document.querySelector('#' + this.randomID);
+      let ctx = cvs.getContext('2d');
+      ctx.clearRect(0, 0, cvs.width, cvs.height);
+      this.fileList = [];
+      this.$emit('clearFileList', {
+        symbolId: this.randomID
+      });
     }
   },
   computed: {
@@ -159,5 +177,23 @@ export default {
   cursor: pointer;
   width: 100%;
   height: 100%;
+}
+
+.action--close {
+  top: 0px !important;
+  right: 0px !important;
+  left: initial !important;
+  height: 24px !important;
+  width: 24px !important;
+  text-align: center;
+  background: rgba(0, 0, 0, .4);
+  color: #ffffff;
+  font-size: 0;
+  border-radius: 100%;
+  cursor: pointer;
+  > i {
+    font-size: 13px;
+    vertical-align: text-bottom;
+  }
 }
 </style>

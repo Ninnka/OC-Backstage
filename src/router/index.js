@@ -7,7 +7,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/signin'
+      redirect: '/tab/user-manage'
     },
     {
       path: '/signup',
@@ -60,6 +60,13 @@ export default new Router({
             require(['@pages/user-manage/user-audit'], resolve);
           }
         },
+        {
+          path: 'user-information',
+          name: 'user-information',
+          component: (resolve) => {
+            require(['@pages/user-manage/user-information'], resolve);
+          }
+        },
         // mt账号管理
         {
           path: 'mt-manage',
@@ -81,6 +88,13 @@ export default new Router({
           name: 'agent-audit',
           component: (resolve) => {
             require(['@pages/agent-manage/agent-audit'], resolve);
+          }
+        },
+        {
+          path: 'agent-information',
+          name: 'agent-information',
+          component: (resolve) => {
+            require(['@pages/agent-manage/agent-information'], resolve);
           }
         },
         // 交易管理

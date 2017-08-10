@@ -143,6 +143,16 @@
 .record__table {
   padding: 16px;
   box-sizing: border-box;
+  .hightlight-link {
+    color: #52e3ff;
+    cursor: pointer;
+  }
+  .hightlight-current-total {
+    color: #ff3b6a;
+  }
+  .hightlight-all-total {
+    color: #52e3ff;
+  }
 }
 
 .record__pagination {
@@ -158,13 +168,14 @@
     height: 56px;
     line-height: 56px;
     color: @main-theme-sub;
-    // background: #22232a;
+    background: #22242a;
     &:first-child {
       // border-bottom: 2px solid #272a31;
-      background: #622332;
+      // background: #622332;
+      margin-bottom: 2px;
     }
     &:last-child {
-      background: #0b415b;
+      // background: #0b415b;
     }
   }
 }
@@ -193,6 +204,11 @@
 .module__form {
   .el-form-item {
     margin-bottom: 22px !important;
+    &.el-form-item__no-label {
+      .el-form-item__content {
+        margin-left: 0 !important;
+      }
+    }
   }
 }
 .setting-content {
@@ -229,5 +245,110 @@
   }
 }
 .el-tabs__item:hover {
-  color: #ffffff !important;
+  color: #52e3ff !important;
+}
+// ---------------报表部分style----------------
+.el-form-item-combine {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  > div {
+    flex-shrink: 1;
+    flex-grow: 1;
+    margin: 0 10px 20px;
+    max-width: 32%;
+  }
+}
+.el-form-item-combine {
+  .el-date-editor--datetimerange.el-input {
+    width: 100%;
+  }
+}
+.record__form {
+  .line {
+    text-align: center;
+    color: #ffffff;
+    .line-content {
+      display: inline-block;
+      vertical-align: middle;
+      width: 40%;
+      height: 1px;
+      background: #ffffff;
+    }
+  }
+  .el-checkbox__label {
+    color: #ffffff !important;
+  }
+}
+.el-form--buttons {
+  text-align: right;
+  > div, > button {
+    margin-left: 16px;
+  }
+}
+.el-dropdown {
+  .el-button {
+    color: #ffffff !important;
+    background: #444b5b;
+    border-color: #444b5b;
+    &:hover {
+      background: #17191d;
+      border-color: #17191d;
+    }
+  }
+}
+.el-dropdown-menu {
+  .el-dropdown-menu__item.text-center {
+    text-align: center;
+  }
+  .el-dropdown-item__control-height {
+    height: 240px;
+    overflow: auto;
+  }
+  .el-checkbox__label {
+    color: @main-theme-sub;
+  }
+  .hightlight-primary {
+    color: #34bbff;
+  }
+  .hightlight-warn {
+    color: #fff34d;
+  }
+  .hightlight-danger {
+    color: #ff3b6a;
+  }
+}
+// --------------
+.el-loading-mask {
+  background-color: rgba(0,0,0,.7) !important;
+}
+// -------------滚动条样式---------------
+div, li {
+  &::-webkit-scrollbar{
+    width: 8px;
+    height: 10px;
+  }
+}
+div, li {
+  &::-webkit-scrollbar-track {
+    background-color: #888888;
+    border-radius: 4px;
+  }
+}
+div, li {
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(34, 36, 42, .8);
+    border-radius: 4px;
+  }
+}
+div, li {
+  &::-webkit-scrollbar-button {
+    background-color: #888;
+    display: none;
+  }
+}
+div, li {
+  &::-webkit-scrollbar-corner {
+    /*background-color: black;*/
+  }
 }

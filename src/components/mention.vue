@@ -41,14 +41,15 @@
           <el-form-item label="目标账号" style="margin-bottom: 0"></el-form-item>
           <div class="bank-list-select">
             <ul>
-              <li class="bank-card" v-for="item in bankList" :key="item.id">
+              <li class="bank-card" v-for="item in bankList" :key="item.id" @click="selectBank(item)">
                 <div class="bank-head">
                   <i class="bank-icon">
                     <svg class="icon" aria-hidden="true">
-                      <use :xlink:href="'#'+item.bank.icon"></use>
+                      <use :xlink:href="'#'+item.bankMes.icon"></use>
                     </svg>
                   </i>
-                  <p class="bank-text">{{item.bank.name}}</p>
+                  <p class="bank-text">{{item.bankMes.bankTitle}}</p>
+                  <div class="kuang el-icon-check" :class="{'active':mentionForm.region === item}"></div>
                 </div>
                 <p>{{item.name}}</p>
                 <p>{{item.card}}</p>
@@ -67,6 +68,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 // import popup from '@comps/popup.vue';
 import verify from '@comps/verify.vue';
 export default {
@@ -78,8 +80,8 @@ export default {
   data () {
     return {
       mentionForm: {
-        amount: '',
         account: '',
+        amount: '',
         region: '',
         verify: ''
       },
@@ -101,28 +103,6 @@ export default {
           name: '3',
           balance: 1000
         }
-      ],
-      bankList: [
-        {
-          name: '张三',
-          id: 1,
-          card: '622568032300026316',
-          bank: {
-            icon: 'icon-nongyeyinxing1',
-            name: '中国农业银行',
-            code: 1000
-          }
-        },
-        {
-          name: '张三',
-          id: 1,
-          card: '622568032300026316',
-          bank: {
-            icon: 'icon-nongyeyinxing1',
-            name: '中国农业银行',
-            code: 1000
-          }
-        }
       ]
     };
   },
@@ -133,55 +113,25 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['bankList'])
   },
   created: function () {
+    if (this.bankList.length > 0) {
+      this.mentionForm.region = this.bankList[0];
+    }
   },
   methods: {
     close () {
       this.$emit('update:show', false);
+    },
+    selectBank (item) {
+      this.mentionForm.region = item;
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
-  .bank-card{
-    position: relative;
-    height: 90px;
-    box-sizing: border-box;
-    padding: 10px;
-    background-image:linear-gradient(-90deg, #00e2b8 0%, #009acd 100%);
-    border-radius:6px;
-    .bank-head{
-      height: 24px;
-      display: flex;
-      align-items: center;
-      .bank-icon{
-        display: block;
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.80);
-        .icon{
-          width: 20px;
-          height: 20px;
-          margin: 2px;
-        }
-      }
-      .bank-name{
-        font-size: 14px;
-        color: #fff;
-      }
-    }
-    p{
-      background: transparent;
-      color: #fff;
-      font-size: 14px;
-      color: #fff;
-      text-align: right;
-      height: 16px;
-    }
-  }
   .mention{
     .popup-content{
       .has-escription-input{
@@ -222,18 +172,39 @@ export default {
         }
       }
       .bank-list-select{
-        /*width: 90%;*/
-        /*margin-left: 5%;*/
-        /*height: 100px;*/
-        /*margin-bottom: 20px;*/
-        /*overflow-x: auto;*/
+        width: 90%;
+        margin-left: 5%;
+        height: 100px;
+        margin-bottom: 20px;
         ul{
-          width: 300px;
+          width: 100%;
           height: 100px;
+          white-space: nowrap;
+          overflow-x: auto;
+          overflow-y: hidden;
           .bank-card{
-            width: 300px;
-            margin-right: 20px;
             display: inline-block;
+            width: 210px;
+            height: 80px;
+            margin-right: 20px;
+            .bank-head{
+              .kuang{
+                position: absolute;
+                top:0;
+                right:0;
+                width: 16px;
+                height: 16px;
+                line-height: 20px;
+                border-radius: 4px;
+                background: #fff;
+                font-size: 0;
+                color: #fff;
+                &.active{
+                  font-size: 12px;
+                  background: #53e3ff;
+                }
+              }
+            }
           }
         }
       }
