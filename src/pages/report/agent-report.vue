@@ -130,7 +130,7 @@
 
       </div>
       <div class="record__table">
-        <el-table :data="compuTableData" style="width: 100%" header-align="center" :row-class-name="tableRowClassName">
+        <el-table :data="compuTableData" style="width: 100%" header-align="center" :row-class-name="tableRowClassName" v-loading.lock="tableLoading" :element-loading-text="elementLoadingText">
           <el-table-column v-for="col in getTableColsName()" :key="col" :prop="col" :label="tableColsStatus[col].label" width="130">
             <template scope="scope">
               <span v-if="col === 'code'" :class="getCodeClass(scope)">{{ scope.row[col] }}</span>
@@ -325,5 +325,12 @@ export default {
 .agent-report {
   min-height: 100%;
   box-sizing: border-box;
+}
+.el-picker-panel__body .el-input__inner {
+  color: #1f2d3d !important;
+  background-color: #fff !important;
+  background-image: none !important;
+  border-radius: 4px !important;
+  border: 1px solid #bfcbd9 !important;
 }
 </style>

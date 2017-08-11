@@ -1,12 +1,14 @@
 export default {
   data () {
     return {
+      tableLoading: false,
       allTotalObj: {},
       recordTabelCurrentPage: 1,
       pageSizes: [5, 10, 20],
       pageSize: 5,
       isFilter: false,
-      tableColsNameControl: []
+      tableColsNameControl: [],
+      elementLoadingText: '加载数据中'
     };
   },
   methods: {
@@ -138,5 +140,11 @@ export default {
       });
       return res;
     }
+  },
+  activated () {
+    this.tableLoading = true;
+    setTimeout(() => {
+      this.tableLoading = false;
+    }, 1500);
   }
 };

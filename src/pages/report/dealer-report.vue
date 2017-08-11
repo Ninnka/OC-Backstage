@@ -136,7 +136,7 @@
 
       </div>
       <div class="record__table">
-        <el-table :data="compuTableData" style="width: 100%" header-align="center" :row-class-name="tableRowClassName">
+        <el-table :data="compuTableData" style="width: 100%" header-align="center" :row-class-name="tableRowClassName" v-loading.lock="tableLoading" :element-loading-text="elementLoadingText">
           <el-table-column v-for="col in compuTableColsName" :key="col" :prop="col" :label="tableColsStatus[col].label" width="130">
             <template scope="scope">
               <span v-if="col === 'code'" :class="getCodeClass(scope)">{{ scope.row[col] }}</span>
