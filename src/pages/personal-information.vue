@@ -1,6 +1,16 @@
 <template>
   <div class="personal-information">
     <!--personal-information-->
+    <!--<div class="notice">-->
+      <!--<article>-->
+        <!--<header>通知</header>-->
+        <!--<div class="notice-content">-->
+          <!--<p>您已申请启用头寸功能，分成比例为 20%，启用该设置需要缴纳保证金 $50,000</p>-->
+          <!--<p>追加保证金</p>-->
+        <!--</div>-->
+        <!--<div class="close-icon">×</div>-->
+      <!--</article>-->
+    <!--</div>-->
     <div class="user-left">
       <article class="region user-message">
         <header>我的信息</header>
@@ -16,27 +26,30 @@
               <button class="modify-btn" type="submit">修改</button>
             </li>
             <li>
-              <div class="user-label">交易账号：</div>
-              <div class="user-mes">852456</div>
+              <!--<div class="user-label">交易账号：</div>-->
+              <!--<div class="user-mes">852456</div>-->
             </li>
             <li>
-              <div class="user-label">昵称：</div>
-              <div class="user-mes">陈晨</div>
-              <button class="modify-btn" type="submit">修改</button>
+              <!--<div class="user-label">昵称：</div>-->
+              <!--<div class="user-mes">陈晨</div>-->
+              <!--<button class="modify-btn" type="submit">修改</button>-->
+              <modify-input :label="'昵称'" :value="userName" :doneEvent="modify"></modify-input>
             </li>
             <li>
-              <div class="user-label">密码：</div>
-              <div class="user-mes">********</div>
-              <button class="modify-btn" type="submit">修改</button>
+              <!--<div class="user-label">密码：</div>-->
+              <!--<div class="user-mes">********</div>-->
+              <!--<button class="modify-btn" type="submit">修改</button>-->
+              <modify-input :label="'密码'" :value="pas" :doneEvent="modify"></modify-input>
             </li>
             <li>
               <div class="user-label">手机号码：</div>
               <div class="user-mes">13600000000</div>
             </li>
             <li>
-              <div class="user-label">邮箱地址：</div>
-              <div class="user-mes">molehe_1024@163.com</div>
-              <button class="modify-btn" type="submit">修改</button>
+              <!--<div class="user-label">邮箱地址：</div>-->
+              <!--<div class="user-mes">molehe_1024@163.com</div>-->
+              <!--<button class="modify-btn" type="submit">修改</button>-->
+              <modify-input :label="'邮箱地址'" :value="email" :doneEvent="modify"></modify-input>
             </li>
             <li>
               <div class="user-label">类型：</div>
@@ -74,9 +87,10 @@
               </div>
             </li>
             <li>
-              <div class="user-label">投递地址：</div>
-              <div class="user-mes">广东省 广州市 荔湾区1850创意园</div>
-              <button class="modify-btn" type="submit">修改</button>
+              <!--<div class="user-label">投递地址：</div>-->
+              <!--<div class="user-mes">广东省 广州市 荔湾区1850创意园</div>-->
+              <!--<button class="modify-btn" type="submit">修改</button>-->
+              <modify-input :label="'投递地址'" :value="address" :doneEvent="modify"></modify-input>
             </li>
           </ul>
           <ul class="user-list">
@@ -113,28 +127,26 @@
       <article class="region funds-info">
         <header>资金情况</header>
         <div class="region-main">
-          <ul class="user-list">
+          <ul class="user-list user-list-two">
             <li>
               <div class="user-label">余额：</div>
               <div class="user-mes">$999.999.000</div>
             </li>
-            <li>
-              <div class="user-label">总入金：</div>
-              <div class="user-mes">$999.999.000</div>
-            </li>
-            <li>
-              <div class="user-label">未结佣金：</div>
-              <div class="user-mes">$999.999.000</div>
-            </li>
-          </ul>
-          <ul class="user-list">
             <li>
               <div class="user-label">保证金：</div>
               <div class="user-mes">$999.999.000</div>
               <div class="append-btn">追加保证金</div>
             </li>
             <li>
+              <div class="user-label">总入金：</div>
+              <div class="user-mes">$999.999.000</div>
+            </li>
+            <li>
               <div class="user-label">总出金：</div>
+              <div class="user-mes">$999.999.000</div>
+            </li>
+            <li>
+              <div class="user-label">未结佣金：</div>
               <div class="user-mes">$999.999.000</div>
             </li>
             <li>
@@ -168,14 +180,20 @@
 
 <script>
 import invited from '@comps/invited';
+import modifyInput from '@comps/modify-input';
 export default {
   name: 'PersonalInformation',
   components: {
-    invited
+    invited,
+    'modify-input': modifyInput
   },
   data () {
     return {
-      inviteUrl: 'https://www.douban.com/group/topic/96482147/'
+      inviteUrl: 'https://www.douban.com/group/topic/96482147/',
+      userName: '陈晨',
+      pas: '*****',
+      email: 'molehe_1024@163.com',
+      address: '广东省 广州市 荔湾区1850创意园'
     };
   },
   computed: {
@@ -183,85 +201,55 @@ export default {
   created: function () {
   },
   methods: {
+    modify () {}
   }
 };
 </script>
 
 <style lang="less" scoped>
   .personal-information {
-    padding: 20px;
     align-items: flex-start;
     display: flex;
-    .user-list{
-      box-sizing: border-box;
-      width:100%;
-      height: auto;
-      padding: 0px 20px 20px 20px;
-      border-bottom: 2px solid #22232a;
-      overflow:hidden;
-      .align-top{
-        align-items: flex-start;
+    .notice{
+      background:#323740;
+      box-shadow:0 1px 6px 0 rgba(0,0,0,0.50);
+      border-radius:0 0 8px 8px;
+      width: 80%;
+      height:110px;
+      position: fixed;
+      top: 0;
+      padding: 20px 40px;
+      text-align: left;
+      header{
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
       }
-      li{
-        width: 100%;
-        margin: 10px 0;
-        text-align: left;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        .user-label{
-          width: 100px;
-          font-size:14px;
-          color:#94959a;
-          text-align: right;
-        }
-        .user-mes{
-          flex: 1;
-          font-size:18px;
-          color:#ffffff;
-          .user-img{
-            width: 70px;
-            height: 70px;
-            margin-top: -10px;
-            border-radius: 50%;
-            img{
-              border-radius: 50%;
-            }
-          }
-        }
-        .append-btn{
-          flex: 1;
-        }
-        .add-card{
-          color: #fff;
-          display: flex;
-          align-items: center;
-          .add-icon{
-            display: inline-block;
-            margin-right: 10px;
-            font-size: 20px;
-          }
-        }
-        .modify-btn{
-          width: 60px;
-          height: 25px;
-          line-height: 25px;
-          border:1px solid #55565c;
-          border-radius:6px;
-          background: #272a31;
+      .notice-content{
+        p{
+          margin-top: 10px;
           color: #94959a;
-          fon-size:12px;
+          font-size: 14px;
         }
       }
-      .band-card-list{
-        width:100%;
-        height:150px;
-        display:block;
-        .icon-shanchu {
-          color:#fff;
-          position: absolute;
-          right: 0;
-        }
+      .close-icon {
+        float: right;
+        font-size: 50px;
+        color: #fff;
+        /*float: right;*/
+      }
+    }
+    .append-btn{
+      flex: 1;
+    }
+    .band-card-list {
+      width: 100%;
+      height: 150px;
+      display: block;
+      .icon-shanchu {
+        color: #fff;
+        position: absolute;
+        right: 0;
       }
     }
     .add-card-btn {
