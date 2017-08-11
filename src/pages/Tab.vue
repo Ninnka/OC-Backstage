@@ -140,7 +140,7 @@ export default {
           break;
         case 'exit' :
           this.defaultRoute = '';
-          this.$router.replace('/signup');
+          this.$router.replace('/signin');
           break;
       }
     },
