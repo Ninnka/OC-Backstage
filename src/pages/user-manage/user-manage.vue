@@ -79,25 +79,19 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="nowPage"
-          :page-sizes="[10, 15, 20]"
-          :page-size="10"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="tableData.length">
-        </el-pagination>
+        <paging :sourceData="userList" :displayData.sync="tableData"></paging>
       </div>
     </article>
   </div>
 </template>
 
 <script>
+import paging from '@comps/paging.vue';
 import userManageData from './user-manage-data-mixin';
 export default {
   name: 'UserManage',
   components: {
+    paging
   },
   mixins: [
     userManageData
@@ -114,8 +108,7 @@ export default {
         superior: '',
         aboutIndirect: false
       },
-      tableData: [],
-      nowPage: 1
+      tableData: []
     };
   },
   computed: {
@@ -131,11 +124,12 @@ export default {
       });
       return item;
     });
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
       this.userList.map((item) => {
-        this.tableData.push(item);
+        this.userList.push(item);
       });
     }
+    this.tableData = this.userList;
   },
   methods: {
     getMainMt (list) {
@@ -149,12 +143,6 @@ export default {
     viewUserMes (mes) {
       this.$store.commit('UserManage/update_UserMes', mes);
       this.$router.push('user-information');
-    },
-    handleSizeChange (val) {
-      console.log(val);
-    },
-    handleCurrentChange (val) {
-      console.log(val);
     }
   }
 };

@@ -1,12 +1,14 @@
 <template>
   <div class="tab">
     <mention :show.sync="showMention"></mention>
+    <matter :show.sync="openMatters" :matterList="matterList"></matter>
     <header class="tab-head is-flex">
       <h1>
         <img src="../assets/img/logo.png" :alt="DeployApi.SystemName">
       </h1>
       <h2>{{DeployApi.SystemName}}</h2>
       <nav class="is-flex">
+        <div @click="openMatters = true">待办事项14</div>
         <ul class="is-flex">
           <li v-for="item in navList" :key="item.icon" @click="userAction(item.index)">
             <i class="iconfont" :class="item.icon"></i>
@@ -88,15 +90,18 @@
 
 <script>
 import mention from '@comps/mention.vue';
+import matter from '@comps/matter.vue';
 import { mapGetters } from 'vuex';
 export default {
   name: 'Tab',
   components: {
-    mention
+    mention,
+    matter
   },
   data () {
     return {
       defaultRoute: 'personal-information',
+      openMatters: false,
       navList: [
         {
           icon: 'icon-tixian',
@@ -118,6 +123,18 @@ export default {
               name: '用户审核'
             }
           ]
+        }
+      ],
+      matterList: [
+        {
+          time: '2017-07-07 10:12:13',
+          account: 'zhou1',
+          type: '注册审核'
+        },
+        {
+          time: '2017-07-07 10:12:13',
+          account: 'zhou2',
+          type: '出金审核'
         }
       ],
       showMention: false

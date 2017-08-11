@@ -65,21 +65,14 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="nowPage"
-          :page-sizes="[10, 15, 20]"
-          :page-size="10"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="tableData.length">
-        </el-pagination>
+        <paging :sourceData="userAuditList" :displayData.sync="tableData"></paging>
       </div>
     </article>
   </div>
 </template>
 
 <script>
+  import paging from '@comps/paging.vue';
   import UserAuditPopup from './user-audit-popup.vue';
   import userManageData from './user-manage-data-mixin';
   export default {
@@ -88,6 +81,7 @@
       userManageData
     ],
     components: {
+      paging,
       'user-audit-popup': UserAuditPopup
     },
     data () {
@@ -109,18 +103,18 @@
           '已驳回'
         ],
         tableData: [],
-        nowPage: 1,
         userMes: {}
       };
     },
     computed: {
     },
     created: function () {
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 3; i++) {
         this.userAuditList.map((item) => {
-          this.tableData.push(item);
+          this.userAuditList.push(item);
         });
       }
+      this.tableData = this.userList;
     },
     methods: {
       filterTable () {

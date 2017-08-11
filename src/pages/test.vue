@@ -67,6 +67,10 @@
           </el-table-column>
         </el-table>
       </div>
+      <!--分页组件：-->
+      <!--sourceData是源数组-->
+      <!--displayData是要显示的当页数组-->
+      <paging :sourceData="testList" :displayData.sync="tableData"></paging>
     </article>
 
     <!--信息页面单行公共样式-->
@@ -181,6 +185,7 @@
 </template>
 
 <script>
+import paging from '@comps/paging.vue';
 import invited from '@comps/invited.vue';
 import modifyInput from '@comps/modify-input';
 import verify from '@comps/verify.vue';
@@ -189,6 +194,7 @@ import uploadImage from '@comps/upload-image';
 export default {
   name: 'test',
   components: {
+    paging,
     verify,
     popup,
     uploadImage,
@@ -217,7 +223,7 @@ export default {
         timeRange: '',
         auditStatus: ''
       },
-      tableData: [{
+      testList: [{
         date: '2016-05-02',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1518 弄'
@@ -234,6 +240,7 @@ export default {
         name: '王小虎',
         address: '上海市普陀区金沙江路 1516 弄'
       }],
+      tableData: [],
       // 用于存储上传照片组件中的图片
       fileList: []
     };
@@ -241,6 +248,12 @@ export default {
   computed: {
   },
   created: function () {
+    for (let i = 0; i < 3; i++) {
+      this.testList.map((item) => {
+        this.testList.push(item);
+      });
+    }
+    this.tableData = this.testList;
   },
   methods: {
     contralPopup () {

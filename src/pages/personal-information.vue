@@ -98,7 +98,7 @@
                           <use></use>
                         </svg>
                       </i>
-                      <p class="bank-text">中国银行</p>
+                      <span class="bank-text">中国建设银行</span>
                       <i class="iconfont icon-shanchu" @click=""></i>
                     </div>
                     <p>张三</p>
@@ -120,11 +120,11 @@
             </li>
             <li>
               <div class="user-label">总入金：</div>
-              <div class="user-mes">$99.999.000</div>
+              <div class="user-mes">$999.999.000</div>
             </li>
             <li>
               <div class="user-label">未结佣金：</div>
-              <div class="user-mes">$99.999.000</div>
+              <div class="user-mes">$999.999.000</div>
             </li>
           </ul>
           <ul class="user-list">
@@ -257,8 +257,10 @@ export default {
         width:100%;
         height:150px;
         display:block;
-        .iconfont.icon-shanchu {
-          float: right;
+        .icon-shanchu {
+          color:#fff;
+          position: absolute;
+          right: 0;
         }
       }
     }
@@ -289,7 +291,6 @@ export default {
         text-align: center;
         .region-main{
           padding: 0 20px;
-
         }
       }
       .funds-info{

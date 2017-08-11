@@ -72,26 +72,20 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="nowPage"
-          :page-sizes="[10, 15, 20]"
-          :page-size="10"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="tableData.length">
-        </el-pagination>
+        <paging :sourceData="agentAuditList" :displayData.sync="tableData"></paging>
       </div>
     </article>
   </div>
 </template>
 
 <script>
+  import paging from '@comps/paging.vue';
   import AgentAuditPopup from './agent-audit-popup.vue';
   import agentManageData from './agent-manage-data-mixin';
   export default {
     name: 'UserAudit',
     components: {
+      paging,
       'agent-audit-popup': AgentAuditPopup
     },
     mixins: [
@@ -127,11 +121,12 @@
     computed: {
     },
     created: function () {
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 3; i++) {
         this.agentAuditList.map((item) => {
-          this.tableData.push(item);
+          this.agentAuditList.push(item);
         });
       }
+      this.tableData = this.agentAuditList;
     },
     methods: {
       filterTable () {

@@ -1,30 +1,31 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
+import Tab from '@pages/tab';
 Vue.use(Router);
 
 export default new Router({
+  mode: 'hash',
   routes: [
     {
       path: '/',
-      redirect: '/signin'
+      redirect: '/signIn'
     },
     {
-      path: '/signup',
+      path: '/signUp',
       name: 'signUp',
       component: (resolve) => {
         require(['@pages/sign-up'], resolve);
       }
     },
     {
-      path: '/signin',
+      path: '/signIn',
       name: 'signIn',
       component: (resolve) => {
         require(['@pages/sign-in'], resolve);
       }
     },
     {
-      path: '/resetpw',
+      path: '/resetPw',
       name: 'resetPw',
       component: (resolve) => {
         require(['@pages/reset-pw'], resolve);
@@ -32,10 +33,7 @@ export default new Router({
     },
     {
       path: '/tab',
-      name: 'Tab',
-      component: (resolve) => {
-        require(['@pages/Tab'], resolve);
-      },
+      component: Tab,
       children: [
         // 个人信息
         {

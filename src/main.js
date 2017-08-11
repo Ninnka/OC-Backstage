@@ -13,6 +13,18 @@ Vue.mixin({
       return [...new Set(list.map((item) => {
         return item[key];
       }))];
+    },
+    // 分页函数
+    handleSizeChangeData (page, size, List) {
+      if (List.length > size) {
+        return List.filter((item, index) => {
+          if (index < size * page && index >= size * (page - 1)) {
+            return item;
+          }
+        });
+      } else {
+        return List;
+      }
     }
   }
 });
@@ -43,11 +55,6 @@ Vue.config.productionTip = false;
 // 引入自定义的http模块
 import { axiosInstance } from '@http/config';
 Vue.prototype.$axios = axiosInstance;
-
-// NOTE: prod环境下可以删除
-if (process.env.NODE_ENV !== 'production') {
-  console.log('%c上传组件的自定义class的类型可以为字符串或者数组；增加可选选项：清除按钮（按钮默认不显示）。', 'background: #30333c; color: #ffffff');
-}
 
 /* eslint-disable no-new */
 new Vue({

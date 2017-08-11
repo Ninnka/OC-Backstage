@@ -170,7 +170,7 @@ export default {
   .module__form {
     position: relative;
     padding-right: 167px;
-    margin-top: 37px;
+    margin-top: 34px;
     text-align: left;
     .el-form .el-form-item .el-form-item__label {
       color: #94959a !important;
@@ -187,7 +187,7 @@ export default {
     }
   }
   .sperator-half {
-    margin-top: 6px;
+    margin-top: 4px;
     background: #52e3ff;
     width: 98px;
     height: 3px;

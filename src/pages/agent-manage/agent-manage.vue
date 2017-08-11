@@ -84,25 +84,19 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="nowPage"
-          :page-sizes="[10, 15, 20]"
-          :page-size="10"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="tableData.length">
-        </el-pagination>
+        <paging :sourceData="agentList" :displayData.sync="tableData"></paging>
       </div>
     </article>
   </div>
 </template>
 
 <script>
+import paging from '@comps/paging.vue';
 import AgentManageData from './agent-manage-data-mixin';
 export default {
   name: 'AgentManage',
   components: {
+    paging
   },
   mixins: [
     AgentManageData
@@ -128,8 +122,7 @@ export default {
         '已开启',
         '未开启'
       ],
-      tableData: [],
-      nowPage: 1
+      tableData: []
     };
   },
   computed: {
@@ -145,11 +138,12 @@ export default {
       });
       return item;
     });
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
       this.agentList.map((item) => {
-        this.tableData.push(item);
+        this.agentList.push(item);
       });
     }
+    this.tableData = this.agentList;
   },
   methods: {
     filterTable () {},

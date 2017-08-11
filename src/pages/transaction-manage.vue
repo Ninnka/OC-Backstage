@@ -4,50 +4,42 @@
     <article class="region">
       <header>交易管理</header>
       <div class="region-main">
-        <el-form class="filter-input" label-width="100px">
+        <el-form class="filter-input" label-width="100px" :model="transactionManageForm">
           <el-form-item label="账号/昵称">
-            <el-input placeholder="请输入账号或者昵称"></el-input>
+            <el-input placeholder="请输入账号或者昵称" v-model="transactionManageForm.userId"></el-input>
           </el-form-item>
           <el-form-item label="交易订单号">
-            <el-input placeholder="请输入交易订单号"></el-input>
+            <el-input placeholder="请输入交易订单号" v-model="transactionManageForm.orderId"></el-input>
           </el-form-item>
           <el-form-item label="MT账号">
-            <el-input placeholder="请输入MT账号"></el-input>
+            <el-input placeholder="请输入MT账号" v-model="transactionManageForm.mtAccount"></el-input>
           </el-form-item>
           <el-form-item label="交易类型">
-            <el-select>
-              <el-option value="">买单</el-option>
-              <el-option value="">卖单</el-option>
+            <el-select v-model="transactionManageForm.transactionType">
+              <el-option v-for="item in getSuperiorList(tableData, 'transactionType')" :key="item" :label="item" :value="item"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="交易种类">
-            <el-select>
-              <el-option value="">CNYHKD</el-option>
-              <el-option value="">USOil</el-option>
-              <el-option value="">Forex</el-option>
+            <el-select v-model="transactionManageForm.variety">
+              <el-option v-for="item in getSuperiorList(tableData, 'variety')" :key="item" :label="item" :value="item"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="订单类型">
-            <el-select>
-              <el-option value="">全部</el-option>
-              <el-option value="">持仓中</el-option>
-              <el-option value="">已平仓</el-option>
+            <el-select v-model="transactionManageForm.orderType">
+              <el-option v-for="item in getSuperiorList(tableData, 'orderType')" :key="item" :label="item" :value="item"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="开仓时间">
-            <el-input></el-input>
+            <el-date-picker v-model="transactionManageForm.openTime" type="datetimerange"></el-date-picker>
           </el-form-item>
           <el-form-item label="平仓时间">
-            <el-input></el-input>
+            <el-date-picker v-model="transactionManageForm.closeTime" type="datetimerange"></el-date-picker>
           </el-form-item>
         </el-form>
         <div class="query-btn">
-          <el-button type="info" @click="filterTable">查询</el-button>
-          <el-select>
-            <el-option>1111111</el-option>
-          </el-select>
+          <el-button type="info" @click="">查询</el-button>
         </div>
-        <el-table :data="TxList" stripe style="width: 100%">
+        <el-table :data="tableData" style="width: 100%">
           <el-table-column prop="id" label="账号"></el-table-column>
           <el-table-column prop="name" label="昵称"></el-table-column>
           <el-table-column prop="orderNumber" label="交易订单号"></el-table-column>
@@ -86,8 +78,19 @@ export default {
   },
   data () {
     return {
-      currentPage4: 4,
-      TxList: [
+      currentPage4: 3,
+      transactionManageForm: {
+        userId: '',
+        orderId: '',
+        mtAccount: '',
+        transactionType: '',
+        variety: '',
+        orderType: '',
+        openTime: '',
+        closeTime: ''
+      },
+      tableData: [],
+      transactionList: [
         {
           id: 123456,
           name: '金克丝',
@@ -126,6 +129,12 @@ export default {
   computed: {
   },
   created: function () {
+    for (let i = 0; i < 5; i++) {
+      this.transactionList.map((item) => {
+        console.log(item);
+        this.tableData.push(item);
+      });
+    }
   },
   methods: {
 //    handleSizeChange(val) {
@@ -141,7 +150,6 @@ export default {
 <style lang="less" scoped>
   .transaction-manage {
     .region-main{
-      width: 100%;
     }
   }
 </style>
