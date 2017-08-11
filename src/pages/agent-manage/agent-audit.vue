@@ -1,5 +1,6 @@
 <template>
   <div class="agent-audit">
+    <agent-audit-popup :showAudit.sync="showAuditPopup" :auditMes="agentMes"></agent-audit-popup>
     <article class="region">
       <header>
         代理商审核
@@ -67,7 +68,7 @@
           <el-table-column prop="processTime"  label="处理时间" width="200"></el-table-column>
           <el-table-column label="操作" fixed="right">
             <template scope="scope">
-              <el-button @click="viewUserMes()" type="text" size="small">{{scope.row.auditStatus === '待审'?'审核':'查看'}}</el-button>
+              <el-button @click="viewAgentMes(scope.row)" type="text" size="small">{{scope.row.auditStatus === '待审'?'审核':'查看'}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -86,10 +87,12 @@
 </template>
 
 <script>
+  import AgentAuditPopup from './agent-audit-popup.vue';
   import agentManageData from './agent-manage-data-mixin';
   export default {
     name: 'UserAudit',
     components: {
+      'agent-audit-popup': AgentAuditPopup
     },
     mixins: [
       agentManageData
@@ -117,7 +120,8 @@
         ],
         tableData: [],
         nowPage: 1,
-        userMes: {}
+        agentMes: {},
+        showAuditPopup: false
       };
     },
     computed: {
@@ -133,8 +137,9 @@
       filterTable () {
         console.log(this.agentAuditForm.timeRange);
       },
-      viewUserMes (mes) {
-        this.userMes = mes;
+      viewAgentMes (mes) {
+        this.agentMes = mes;
+        this.showAuditPopup = true;
       },
       handleSizeChange (val) {
         console.log(val);

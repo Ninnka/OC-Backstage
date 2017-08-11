@@ -1,5 +1,6 @@
 <template>
   <div class="user-audit">
+    <user-audit-popup :showAudit.sync="showAuditPopup" :auditMes="userMes"></user-audit-popup>
     <article class="region">
       <header>
         用户审核
@@ -60,7 +61,7 @@
           <el-table-column prop="processTime"  label="处理时间" width="200"></el-table-column>
           <el-table-column label="操作" fixed="right">
             <template scope="scope">
-              <el-button @click="viewUserMes()" type="text" size="small">{{scope.row.auditStatus === '待审'?'审核':'查看'}}</el-button>
+              <el-button @click="viewUserMes(scope.row)" type="text" size="small">{{scope.row.auditStatus === '待审'?'审核':'查看'}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -79,16 +80,19 @@
 </template>
 
 <script>
+  import UserAuditPopup from './user-audit-popup.vue';
   import userManageData from './user-manage-data-mixin';
   export default {
     name: 'UserAudit',
-    components: {
-    },
     mixins: [
       userManageData
     ],
+    components: {
+      'user-audit-popup': UserAuditPopup
+    },
     data () {
       return {
+        showAuditPopup: false,
         userAuditForm: {
           nickName: '',
           realName: '',
@@ -124,6 +128,7 @@
       },
       viewUserMes (mes) {
         this.userMes = mes;
+        this.showAuditPopup = true;
       },
       handleSizeChange (val) {
         console.log(val);

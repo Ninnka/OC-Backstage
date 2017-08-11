@@ -113,6 +113,7 @@ export default {
           account: 'JY00000001',
           nickName: '陈陈',
           realName: '陈晨',
+          phone: '2421412',
           type: '个人',
           cardId: '19950812',
           Documents: {
@@ -133,6 +134,7 @@ export default {
           account: 'JY00000001',
           nickName: '陈陈',
           realName: '陈晨',
+          phone: '2421412',
           type: '公司',
           cardId: '19950812',
           Documents: {
@@ -153,6 +155,7 @@ export default {
           account: 'JY00000001',
           nickName: '陈陈',
           realName: '陈晨',
+          phone: '2421412',
           type: '个人',
           cardId: '19950812',
           Documents: {

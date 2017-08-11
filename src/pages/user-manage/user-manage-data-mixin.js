@@ -171,7 +171,8 @@ export default {
           account: 'JY00000001',
           nickName: '陈陈',
           realName: '陈晨',
-          cardId: '19950812',
+          type: 0,
+          phone: '122321321',
           Documents: {
             type: '身份证',
             num: '123'
@@ -187,10 +188,11 @@ export default {
           processTime: '2017-01-01 10:00:00'
         },
         {
-          account: 'JY00000001',
+          account: 'JY00000002',
           nickName: '陈陈',
           realName: '陈晨',
-          cardId: '19950812',
+          type: 1,
+          phone: '122321321',
           Documents: {
             type: '身份证',
             num: '123'
@@ -206,10 +208,11 @@ export default {
           processTime: '2017-01-01 10:00:00'
         },
         {
-          account: 'JY00000001',
+          account: 'JY00000003',
           nickName: '陈陈',
           realName: '陈晨',
-          cardId: '19950812',
+          type: 1,
+          phone: '122321321',
           Documents: {
             type: '身份证',
             num: '123'
@@ -222,6 +225,27 @@ export default {
           invitingPeople: 'zhou',
           auditStatus: '已驳回',
           auditNum: 1,
+          processTime: '2017-01-01 10:00:00'
+        },
+
+        {
+          account: 'JY00000003',
+          nickName: '陈陈',
+          realName: '陈晨',
+          type: 1,
+          phone: '122321321',
+          Documents: {
+            type: '身份证',
+            num: '123'
+          },
+          banks: {
+            type: '招商银行',
+            num: '123456'
+          },
+          requestTime: '2017-01-01 10:00:00',
+          invitingPeople: 'zhou',
+          auditStatus: '待审',
+          auditNum: 3,
           processTime: '2017-01-01 10:00:00'
         }
       ]
