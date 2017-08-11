@@ -1,7 +1,7 @@
 <template>
   <div class="sign-up--wrap">
     <div class="popup popup-cus-bg" v-show="showSignUpForm">
-      <article class="popup-main posi-rel">
+      <article class="popup-main posi-rel sign-up--popup">
         <article class="popup-main popup-shadow"></article>
         <header>
           代理商开户
@@ -400,8 +400,8 @@ export default {
   position: absolute;
   top: -16px;
   left: -16px;
-  width: 552px !important;
-  height: 772px !important;
+  bottom: -16px;
+  right: -16px;
   z-index: -1;
   background: rgba(0, 0, 0, 0.5);
 }
@@ -436,6 +436,9 @@ export default {
   .el-steps {
     margin-bottom: 28px;
   }
+}
+.sign-up--popup {
+  width: 524px;
 }
 .form--main-wrap {
   position: relative;
