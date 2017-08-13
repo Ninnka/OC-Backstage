@@ -44,26 +44,18 @@
           <el-table-column prop="details" label="返佣明细"></el-table-column>
           <el-table-column prop="status" label="状态"></el-table-column>
         </el-table>
-        <div class="block">
-          <el-pagination
-            @size-change=""
-            @current-change=""
-            :current-page="currentPage4"
-            :page-sizes="[10, 20, 30, 40]"
-            :page-size="100"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="80">
-          </el-pagination>
-        </div>
+        <paging :sourceData="commiList" :displayData.sync="tableData"></paging>
       </div>
     </article>
   </div>
 </template>
 
 <script>
+import paging from '@comps/paging.vue';
 export default {
   name: 'CommiManage',
   components: {
+    paging
   },
   data () {
     return {
@@ -112,6 +104,7 @@ export default {
         this.tableData.push(item);
       });
     }
+    this.tableData = this.commiList;
   },
   methods: {
   }
