@@ -42,9 +42,11 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   .modify-input{
     width: 100%;
+    height: 36px;
+    line-height: 36px;
     text-align: left;
     display: flex;
     align-items: center;
@@ -59,6 +61,12 @@ export default {
       flex: 1;
       font-size:18px;
       color:#ffffff;
+      .el-input__inner{
+        background: #202228;
+        border: none;
+        border-radius: 0;
+        color: #fff;
+      }
     }
     .modify-btn{
       width: 60px;

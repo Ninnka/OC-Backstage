@@ -47,18 +47,7 @@
         </el-form>
         <div class="query-btns">
           <el-button type="info" @click="filterTable">查询</el-button>
-          <el-dropdown trigger="click" :hide-on-click="false" :divided="true" @command="filterData">
-            <el-button>
-              列表选项<i class="el-icon-caret-bottom el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item class="el-dropdown-item__control-height">
-                <div v-for="(col, index) in tableColsName" :key="col">
-                  <el-checkbox :disabled="index === 0" v-model="tableColsStatus[col].show">{{ tableColsStatus[col].label }}</el-checkbox>
-                </div>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <list-options :labelList.sync="labelList"></list-options>
         </div>
         <el-table
           :data="totalData"
@@ -202,6 +191,7 @@
 </template>
 
 <script>
+import listOptions from '@comps/list-options.vue';
 import paging from '@comps/paging.vue';
 import invited from '@comps/invited.vue';
 import modifyInput from '@comps/modify-input';
@@ -216,7 +206,8 @@ export default {
     popup,
     uploadImage,
     invited,
-    'modify-input': modifyInput
+    'modify-input': modifyInput,
+    'list-options': listOptions
   },
   data () {
     return {
@@ -262,17 +253,30 @@ export default {
         num: 3
       }],
       tableData: [],
+      labelList: [
+        {
+          label: '地址',
+          key: 'address',
+          show: true
+        },
+        {
+          label: '数值',
+          key: 'num',
+          show: true
+        }
+      ],
       // 用于存储上传照片组件中的图片
       fileList: []
     };
   },
   computed: {
     totalData () {
+      let list;
       let totalObj = {
         'date': '合计',
         num: (() => {
           let num = 0;
-          this.tableData.map((item, index) => {
+          this.labelList.map((item, index) => {
             num += item.num;
           });
           return num;
@@ -282,13 +286,23 @@ export default {
         'date': '总计',
         num: (() => {
           let num = 0;
-          this.testList.map((item) => {
+          this.labelList.map((item) => {
             num += item.num;
           });
           return num;
         })()
       };
-      return this.tableData.concat(totalObj, allObj);
+      list = this.tableData.concat(totalObj, allObj);
+      list.forEach((item) => {
+        this.labelList.map((label) => {
+          for (let variable in item) {
+            if (label.key === variable && !label.show) {
+              delete item[label.key];
+            }
+          }
+        });
+      });
+      return list;
     }
   },
   created: function () {
