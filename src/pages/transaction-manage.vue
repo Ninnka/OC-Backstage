@@ -70,7 +70,6 @@ export default {
   },
   data () {
     return {
-      currentPage4: 3,
       transactionManageForm: {
         userId: '',
         orderId: '',

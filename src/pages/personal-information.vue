@@ -1,16 +1,17 @@
 <template>
   <div class="personal-information">
     <!--personal-information-->
-    <!--<div class="notice">-->
-      <!--<article>-->
-        <!--<header>通知</header>-->
-        <!--<div class="notice-content">-->
-          <!--<p>您已申请启用头寸功能，分成比例为 20%，启用该设置需要缴纳保证金 $50,000</p>-->
-          <!--<p>追加保证金</p>-->
-        <!--</div>-->
-        <!--<div class="close-icon">×</div>-->
-      <!--</article>-->
-    <!--</div>-->
+    <div class="notice">
+      <article>
+        <header>通知</header>
+        <div class="notice-content">
+          <div class="attention-icon">!</div>
+          <p>您已申请启用头寸功能，分成比例为 20%，启用该设置需要缴纳保证金 $50,000</p>
+          <div class="append-btn">追加保证金</div>
+        </div>
+        <div class="close-icon">×</div>
+      </article>
+    </div>
     <div class="user-left">
       <article class="region user-message">
         <header>我的信息</header>
@@ -214,29 +215,52 @@ export default {
       background:#323740;
       box-shadow:0 1px 6px 0 rgba(0,0,0,0.50);
       border-radius:0 0 8px 8px;
-      width: 80%;
       height:110px;
       position: fixed;
-      top: 0;
-      padding: 20px 40px;
       text-align: left;
-      header{
-        color: #fff;
-        font-size: 16px;
-        font-weight: bold;
-      }
-      .notice-content{
-        p{
-          margin-top: 10px;
-          color: #94959a;
-          font-size: 14px;
+      top: 60px;
+      left:220px;
+      right: 28px;
+      article{
+        margin: 15px 40px;
+        height: 80px;
+        header{
+          color: #fff;
+          font-size: 16px;
+          font-weight: bold;
         }
-      }
-      .close-icon {
-        float: right;
-        font-size: 50px;
-        color: #fff;
-        /*float: right;*/
+        .notice-content{
+          .attention-icon{
+            text-align: center;
+            color: #fff;
+            background-color: #ff3b6a;
+            font-size: 10px;
+            width: 14px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 20px;
+          }
+          p{
+            display: inline-block;
+            margin-top: 10px;
+            color: #94959a;
+            font-size: 14px;
+          }
+          .append-btn{
+            margin-top: 10px;
+            color: #94959a;
+            font-size: 14px;
+            margin-left: 38px;
+          }
+        }
+        .close-icon {
+          position: absolute;
+          top: 35px;
+          right: 20px;
+          height: 40px;
+          font-size: 40px;
+          color: #fff;
+        }
       }
     }
     .append-btn{
