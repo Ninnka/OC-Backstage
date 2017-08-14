@@ -1,6 +1,7 @@
 export default {
   data () {
     return {
+      resData: [],
       tableLoading: false,
       allTotalObj: {},
       recordTabelCurrentPage: 1,
