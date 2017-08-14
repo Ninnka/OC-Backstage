@@ -108,7 +108,7 @@
         </el-form>
         <div class="el-form--buttons">
           <el-button type="info">查询</el-button>
-          <el-dropdown ref="tableColMenu" trigger="click" :hide-on-click="false" :divided="true" @command="menuClickCommand" @visible-change="agentMenuVisibleChange">
+          <el-dropdown ref="tableColMenu" trigger="click" :hide-on-click="false" :divided="true" @command="menuClickCommand">
             <el-button>
               列表选项<i class="el-icon-caret-bottom el-icon--right"></i>
             </el-button>
