@@ -45,8 +45,20 @@
             <el-date-picker v-model="userAuditForm.timeRange" type="datetimerange" placeholder="请选择时间范围"></el-date-picker>
           </el-form-item>
         </el-form>
-        <div class="query-btn">
+        <div class="query-btns">
           <el-button type="info" @click="filterTable">查询</el-button>
+          <el-dropdown trigger="click" :hide-on-click="false" :divided="true" @command="filterData">
+            <el-button>
+              列表选项<i class="el-icon-caret-bottom el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item class="el-dropdown-item__control-height">
+                <div v-for="(col, index) in tableColsName" :key="col">
+                  <el-checkbox :disabled="index === 0" v-model="tableColsStatus[col].show">{{ tableColsStatus[col].label }}</el-checkbox>
+                </div>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
         <el-table
           :data="totalData"
