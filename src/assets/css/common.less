@@ -106,14 +106,13 @@ body{
   .el-pagination button:hover{
     color: #53e3ff;
   }
-}
-
-body{
-  .el-input__inner{
-    background: #202228;
-    border: none;
-    border-radius: 0;
-    color: #fff;
+  .el-pagination{
+    .el-input__inner{
+      background: #202228;
+      border: none;
+      border-radius: 0;
+      color: #fff;
+    }
   }
 }
 
@@ -145,9 +144,34 @@ body{
     border-color:transparent;
     color: #fff;
   }
+  .el-date-editor--datetimerange.el-input{
+    width: 100%;
+  }
 }
 // 修改element表格风格样式
 #app{
+  .has-total{
+    .el-table{
+      tr:nth-last-of-type(1){
+        background:#22242a;
+        td{
+          background:#22242a;
+        }
+        td:nth-of-type(1){
+          color: #52e3ff;
+        }
+      }
+      tr:nth-last-of-type(2){
+        background:#22242a;
+        td{
+          background:#22242a;
+        }
+        td:nth-of-type(1){
+          color: #ff3b6a;
+        }
+      }
+    }
+  }
   .el-table{
     text-align: left;
     border: none;

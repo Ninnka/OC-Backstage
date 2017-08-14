@@ -36,16 +36,19 @@ export default {
     }
   },
   created: function () {
-    this.$emit('update:displayData', this.handleSizeChangeData(this.nowPage, this.nowPageSize, this.sourceData));
+    let data = this.handleSizeChangeData(this.nowPage, this.nowPageSize, this.sourceData);
+    this.$emit('update:displayData', data);
   },
   methods: {
     handleSizeChange (val) {
       this.nowPageSize = val;
-      this.$emit('update:displayData', this.handleSizeChangeData(this.nowPage, this.nowPageSize, this.sourceData));
+      let data = this.handleSizeChangeData(this.nowPage, this.nowPageSize, this.sourceData);
+      this.$emit('update:displayData', data);
     },
     handleCurrentChange (val) {
       this.nowPage = val;
-      this.$emit('update:displayData', this.handleSizeChangeData(this.nowPage, this.nowPageSize, this.sourceData));
+      let data = this.handleSizeChangeData(this.nowPage, this.nowPageSize, this.sourceData);
+      this.$emit('update:displayData', data);
     }
   }
 };

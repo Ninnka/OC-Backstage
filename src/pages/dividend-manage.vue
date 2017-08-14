@@ -1,7 +1,7 @@
 <template>
   <div class="dividend-manage">
     <!--dividend-manage-->
-    <article class="region">
+    <article class="region has-total">
       <header>红利管理</header>
       <div class="region-main">
         <el-form class="filter-input" label-width="100px" :model="dividendManageForm">
@@ -29,7 +29,7 @@
         <div class="query-btn">
           <el-button type="info" @click="">查询</el-button>
         </div>
-        <el-table :data="tableData" style="width: 100%">
+        <el-table :data="totalData" style="width: 100%">
           <el-table-column prop="id" label="编号"></el-table-column>
           <el-table-column prop="user" label="交易用户"></el-table-column>
           <el-table-column prop="mtAccount" label="MT账号"></el-table-column>
@@ -54,7 +54,6 @@ export default {
   },
   data () {
     return {
-      currentPage4: 2,
       dividendManageForm: {
         dividendId: '',
         orderId: '',
@@ -87,11 +86,33 @@ export default {
     };
   },
   computed: {
+    totalData () {
+      let totalObj = {
+        'id': '合计',
+        num: (() => {
+          let num = 0;
+          this.tableData.map((item, index) => {
+            num += item.num;
+          });
+          return num;
+        })()
+      };
+      let allObj = {
+        'id': '总计',
+        num: (() => {
+          let num = 0;
+          this.dividendList.map((item) => {
+            num += item.num;
+          });
+          return num;
+        })()
+      };
+      return this.tableData.concat(totalObj, allObj);
+    }
   },
   created: function () {
     for (let i = 0; i < 5; i++) {
       this.dividendList.map((item) => {
-        console.log(item);
         this.tableData.push(item);
       });
     }

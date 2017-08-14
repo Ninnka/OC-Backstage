@@ -19,9 +19,10 @@
         </div>
       </article>
     </div>
-    <article class="region">
+    <article class="region has-total">
+      <!--有合计的时候加has-total类名-->
       <header>
-        顶部表单列表样式
+        顶部表单列表样式以及具有合计与总计样式以及分页组件
       </header>
       <div class="region-main">
         <el-form class="filter-input" :model="userAuditForm" label-width="100px">
@@ -48,7 +49,7 @@
           <el-button type="info" @click="filterTable">查询</el-button>
         </div>
         <el-table
-          :data="tableData"
+          :data="totalData"
           stripe
           style="width: 100%">
           <el-table-column
@@ -64,6 +65,10 @@
           <el-table-column
             prop="address"
             label="地址">
+          </el-table-column>
+          <el-table-column
+            prop="num"
+            label="数值">
           </el-table-column>
         </el-table>
       </div>
@@ -226,19 +231,23 @@ export default {
       testList: [{
         date: '2016-05-02',
         name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        address: '上海市普陀区金沙江路 1518 弄',
+        num: 1
       }, {
         date: '2016-05-04',
         name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
+        address: '上海市普陀区金沙江路 1517 弄',
+        num: 2
       }, {
         date: '2016-05-01',
         name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
+        address: '上海市普陀区金沙江路 1519 弄',
+        num: 4
       }, {
         date: '2016-05-03',
         name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
+        address: '上海市普陀区金沙江路 1516 弄',
+        num: 3
       }],
       tableData: [],
       // 用于存储上传照片组件中的图片
@@ -246,6 +255,29 @@ export default {
     };
   },
   computed: {
+    totalData () {
+      let totalObj = {
+        'date': '合计',
+        num: (() => {
+          let num = 0;
+          this.tableData.map((item, index) => {
+            num += item.num;
+          });
+          return num;
+        })()
+      };
+      let allObj = {
+        'date': '总计',
+        num: (() => {
+          let num = 0;
+          this.testList.map((item) => {
+            num += item.num;
+          });
+          return num;
+        })()
+      };
+      return this.tableData.concat(totalObj, allObj);
+    }
   },
   created: function () {
     for (let i = 0; i < 3; i++) {
@@ -255,14 +287,9 @@ export default {
     }
     this.tableData = this.testList;
   },
+  mounted () {
+  },
   methods: {
-    contralPopup () {
-      if (this.show) {
-        this.show = false;
-      } else {
-        this.show = true;
-      }
-    },
     modify () {},
     filterTable () {},
     test () {

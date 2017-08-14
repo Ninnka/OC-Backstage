@@ -70,7 +70,6 @@ export default {
   },
   data () {
     return {
-      currentPage4: 3,
       transactionManageForm: {
         userId: '',
         orderId: '',
@@ -123,7 +122,6 @@ export default {
   created: function () {
     for (let i = 0; i < 5; i++) {
       this.transactionList.map((item) => {
-        console.log(item);
         this.tableData.push(item);
       });
     }
