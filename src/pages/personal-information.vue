@@ -1,15 +1,15 @@
 <template>
   <div class="personal-information">
     <!--personal-information-->
-    <div class="notice">
+    <div class="notice" v-if="showNotice">
       <article>
         <header>通知</header>
         <div class="notice-content">
           <div class="attention-icon">!</div>
           <p>您已申请启用头寸功能，分成比例为 20%，启用该设置需要缴纳保证金 $50,000</p>
-          <div class="append-btn">追加保证金</div>
+          <div class="append-btn" @click="showAppend = true">追加保证金</div>
         </div>
-        <div class="close-icon">×</div>
+        <div class="close-icon" @click="close">×</div>
       </article>
     </div>
     <div class="user-left">
@@ -34,13 +34,13 @@
               <!--<div class="user-label">昵称：</div>-->
               <!--<div class="user-mes">陈晨</div>-->
               <!--<button class="modify-btn" type="submit">修改</button>-->
-              <modify-input :label="'昵称'" :value="userName" :doneEvent="modify"></modify-input>
+              <modify-input :label="'昵称'" :value="userMes.userName" :doneEvent="modify"></modify-input>
             </li>
             <li>
               <!--<div class="user-label">密码：</div>-->
               <!--<div class="user-mes">********</div>-->
               <!--<button class="modify-btn" type="submit">修改</button>-->
-              <modify-input :label="'密码'" :value="pas" :doneEvent="modify"></modify-input>
+              <modify-input :label="'密码'" :value="userMes.pas" :doneEvent="modify"></modify-input>
             </li>
             <li>
               <div class="user-label">手机号码：</div>
@@ -50,7 +50,7 @@
               <!--<div class="user-label">邮箱地址：</div>-->
               <!--<div class="user-mes">molehe_1024@163.com</div>-->
               <!--<button class="modify-btn" type="submit">修改</button>-->
-              <modify-input :label="'邮箱地址'" :value="email" :doneEvent="modify"></modify-input>
+              <modify-input :label="'邮箱地址'" :value="userMes.email" :doneEvent="modify"></modify-input>
             </li>
             <li>
               <div class="user-label">类型：</div>
@@ -91,14 +91,14 @@
               <!--<div class="user-label">投递地址：</div>-->
               <!--<div class="user-mes">广东省 广州市 荔湾区1850创意园</div>-->
               <!--<button class="modify-btn" type="submit">修改</button>-->
-              <modify-input :label="'投递地址'" :value="address" :doneEvent="modify"></modify-input>
+              <modify-input :label="'投递地址'" :value="userMes.address" :doneEvent="modify"></modify-input>
             </li>
           </ul>
           <ul class="user-list">
             <li>
               <div class="user-label">银行卡：</div>
               <div class="user-mes">已绑定张</div>
-              <div class="add-card" @click="">
+              <div class="add-card" @click="showAddBank = true">
                 <div class="add-icon">+</div>
                 <p>添加银行卡</p>
               </div>
@@ -114,7 +114,7 @@
                         </svg>
                       </i>
                       <span class="bank-text">中国建设银行</span>
-                      <i class="iconfont icon-shanchu" @click=""></i>
+                      <i class="iconfont icon-shanchu" @click="showDelBank = true"></i>
                     </div>
                     <p>张三</p>
                     <p>123456789</p>
@@ -136,7 +136,7 @@
             <li>
               <div class="user-label">保证金：</div>
               <div class="user-mes">$999.999.000</div>
-              <div class="append-btn">追加保证金</div>
+              <div class="append-btn" @click="showAppend = true">追加保证金</div>
             </li>
             <li>
               <div class="user-label">总入金：</div>
@@ -176,25 +176,84 @@
     <div class="user-right">
       <invited :title="'邀请信息'" :invitationCode="'888'" :invitationUrl="'http://www.baidu.com'"></invited>
     </div>
+    <!--追加保证金弹框-->
+    <popup :show.sync="showAppend" :needCancel=true :title="'追加保证金'" :confirmText="'追加'" :cancelText="'取消'" v-on:confirmEvent="test" v-on:cancelEvent="test">
+      <template slot="content" >
+        <p class="del-text">
+          <el-form ref="form" :model="appendForm" label-width="100px">
+            <el-form-item label="追加金额">
+              <el-input v-model="appendForm.money"></el-input>
+            </el-form-item>
+            <!--验证码组件-->
+            <!--api说明：-->
+            <!--parentVerify：父组件验证码定义变量-->
+            <!--parentPhone：父组件号码定义变量-->
+            <!--needPhone：是否需要输入手机号码，默认为false-->
+            <verify :parentVerify.sync="appendForm.verify" :parentPhone.sync="appendForm.phone" :needPhone="true"></verify>
+            <p>追加保证金后，系统将对应扣除您的余额，该操作不可逆转。</p>
+            <p>保证金无法出金，需要减少保证金，请联系：400-400-400</p>
+          </el-form>
+        </p>
+      </template>
+    </popup>
+    <!--添加银行卡-->
+    <add-bank :show.sync="showAddBank"></add-bank>
+    <!--删除银行卡弹框-->
+    <popup :show.sync="showDelBank" :needCancel=true :title="'删除银行卡'" :confirmText="'确定'" :cancelText="'取消'" v-on:confirmEvent="test" v-on:cancelEvent="test">
+      <template slot="content" >
+        <p class="del-text">
+          您正在申请删除银行卡：
+        </p>
+        <div class="bank-card">
+          <div class="bank-head">
+            <i class="bank-icon">
+              <svg class="icon" aria-hidden="true">
+                <use></use>
+              </svg>
+            </i>
+            <span class="bank-text">中国建设银行</span>
+          </div>
+          <p>张三</p>
+          <p>123456789</p>
+        </div>
+        <p>删除后，您将无法通过此银行卡进行出金，是否要删除该银行卡？</p>
+      </template>
+    </popup>
   </div>
 </template>
 
 <script>
 import invited from '@comps/invited';
 import modifyInput from '@comps/modify-input';
+import verify from '@comps/verify.vue';
+import popup from '@comps/popup.vue';
+import addBank from '@comps/add-bank.vue';
 export default {
   name: 'PersonalInformation',
   components: {
     invited,
-    'modify-input': modifyInput
+    verify,
+    popup,
+    'modify-input': modifyInput,
+    'add-bank': addBank
   },
   data () {
     return {
-      inviteUrl: 'https://www.douban.com/group/topic/96482147/',
-      userName: '陈晨',
-      pas: '*****',
-      email: 'molehe_1024@163.com',
-      address: '广东省 广州市 荔湾区1850创意园'
+      showNotice: true,
+      showAppend: false,
+      showAddBank: false,
+      showDelBank: false,
+      userMes: {
+        userName: '陈晨',
+        pas: '*****',
+        email: 'molehe_1024@163.com',
+        address: '广东省 广州市 荔湾区1850创意园'
+      },
+      appendForm: {
+        money: '',
+        verify: '',
+        phone: ''
+      }
     };
   },
   computed: {
@@ -202,7 +261,16 @@ export default {
   created: function () {
   },
   methods: {
-    modify () {}
+    modify () {},
+    close () {
+      this.showNotice = false;
+    },
+    test () {
+      this.$message({
+        type: 'success',
+        message: '操作成功!'
+      });
+    }
   }
 };
 </script>
@@ -248,9 +316,9 @@ export default {
           }
           .append-btn{
             margin-top: 10px;
-            color: #94959a;
             font-size: 14px;
             margin-left: 38px;
+            color: #52e3ff;
           }
         }
         .close-icon {
@@ -265,6 +333,8 @@ export default {
     }
     .append-btn{
       flex: 1;
+      color: #52e3ff;
+      font-size: 14px;
     }
     .band-card-list {
       width: 100%;
