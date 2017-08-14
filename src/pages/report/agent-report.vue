@@ -118,10 +118,10 @@
                   <el-checkbox :disabled="index === 0" v-model="tableColsStatus[col].show">{{ tableColsStatus[col].label }}</el-checkbox>
                 </div>
               </el-dropdown-item>
-              <el-dropdown-item class="text-center" command="ensure_v1">
+              <el-dropdown-item class="text-center" command="ensure_v2">
                 <span class="hightlight-primary">确定</span>
               </el-dropdown-item>
-              <el-dropdown-item class="text-center" command="reset_v1">
+              <el-dropdown-item class="text-center" command="reset_v2">
                 <span class="hightlight-warn">重置</span>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -130,8 +130,8 @@
 
       </div>
       <div class="record__table">
-        <el-table :data="compuTableData" style="width: 100%" header-align="center" :row-class-name="tableRowClassName" v-loading.lock="tableLoading" :element-loading-text="elementLoadingText">
-          <el-table-column v-for="col in getTableColsName()" :key="col" :prop="col" :label="tableColsStatus[col].label" width="130">
+        <el-table :data="resData" style="width: 100%" header-align="center" :row-class-name="tableRowClassName" v-loading.lock="tableLoading" :element-loading-text="elementLoadingText">
+          <el-table-column v-for="col in compuTableColsName" :key="col" :prop="col" :label="tableColsStatus[col].label" width="130">
             <template scope="scope">
               <span v-if="col === 'code'" :class="getCodeClass(scope)">{{ scope.row[col] }}</span>
               <span v-else-if="col === 'superior'" :class="getSuperiorClass(scope)">{{ scope.row[col] }}</span>
@@ -177,7 +177,7 @@
         </el-table>
       </div>
 
-      <div class="record__pagination">
+      <!-- <div class="record__pagination">
         <el-pagination
           @size-change="recordTabelSizeChange"
           @current-change="recordTabelCurrentChange"
@@ -187,7 +187,10 @@
           layout="total, sizes, prev, pager, next, jumper"
           :total="paginationItemTotal">
         </el-pagination>
-      </div>
+      </div> -->
+
+      <paging :sourceData="tableData" @update:displayData="setResData"></paging>
+
     </div>
   </div>
 </template>
@@ -196,9 +199,14 @@
 import reportSubpageMixins from '@mixins/report-subpage-mixins';
 import tmpAgentReportTableDataMixins from '@mixins/tmp--agent-report--table-data-mixins';
 
+import paging from '@comps/paging';
+
 import moment from 'moment';
 
 export default {
+  components: {
+    paging
+  },
   mixins: [reportSubpageMixins, tmpAgentReportTableDataMixins],
   data () {
     return {
@@ -273,22 +281,13 @@ export default {
         rollOutCharge: 0
       };
       this.allTotalObj = this.getSummaries(resData, total);
+      // return this.getSummaries(resData, total);
     },
-    agentMenuVisibleChange (visible) {
-      if (!visible) {
-        for (let [index, col] of Object.entries(this.tableColsStatus)) {
-          if (this.tableColsNameControl.indexOf(index) === -1) {
-            if (index !== 'code') {
-              col.show = false;
-            }
-          }
-        }
+    setResData (data) {
+      if (this.allTotalObj.code === undefined) {
+        this.setAllTotal();
       }
-    }
-  },
-  computed: {
-    compuTableData () {
-      let resData = this.tableData.slice((this.recordTabelCurrentPage - 1) * this.pageSize, this.recordTabelCurrentPage * this.pageSize);
+      let resData = data;
       let total = {
         objSymbol: 'currentTotal',
         code: '合计',
@@ -312,11 +311,51 @@ export default {
       };
       resData.push(this.getSummaries(resData, total));
       resData.push(this.allTotalObj);
-      return resData;
+      this.resData = resData;
+    },
+    agentMenuVisibleChange (visible) {
+      if (!visible) {
+        for (let [index, col] of Object.entries(this.tableColsStatus)) {
+          if (this.tableColsNameControl.indexOf(index) === -1) {
+            if (index !== 'code') {
+              col.show = false;
+            }
+          }
+        }
+      }
+    }
+  },
+  computed: {
+    compuTableData () {
+      // let resData = this.tableData.slice((this.recordTabelCurrentPage - 1) * this.pageSize, this.recordTabelCurrentPage * this.pageSize);
+      // let total = {
+      //   objSymbol: 'currentTotal',
+      //   code: '合计',
+      //   account: '',
+      //   nickName: 0,
+      //   agentName: '',
+      //   superior: 0,
+      //   commissionTotal: 0,
+      //   profitFrequency: 0,
+      //   profitTotal: 0,
+      //   lossFrequency: 0,
+      //   lossTotal: 0,
+      //   epicycle: 0,
+      //   profitRate: 0,
+      //   shiftInFrequency: 0,
+      //   shiftInTotal: 0,
+      //   shiftInCharge: 0,
+      //   rollOutFrequency: 0,
+      //   rollOutTotal: 0,
+      //   rollOutCharge: 0
+      // };
+      // resData.push(this.getSummaries(resData, total));
+      // resData.push(this.allTotalObj);
+      // return resData;
     }
   },
   mounted () {
-    this.setAllTotal();
+    // this.setAllTotal();
   }
 };
 </script>

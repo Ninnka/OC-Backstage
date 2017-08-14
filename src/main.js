@@ -16,15 +16,7 @@ Vue.mixin({
     },
     // 分页函数
     handleSizeChangeData (page, size, List) {
-      if (List.length > size) {
-        return List.filter((item, index) => {
-          if (index < size * page && index >= size * (page - 1)) {
-            return item;
-          }
-        });
-      } else {
-        return List;
-      }
+      return List.slice((page - 1) * size, page * size);
     }
   }
 });
