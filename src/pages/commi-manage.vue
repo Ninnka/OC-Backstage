@@ -122,7 +122,6 @@ export default {
   created: function () {
     for (let i = 0; i < 5; i++) {
       this.commiList.map((item) => {
-        console.log(item);
         this.tableData.push(item);
       });
     }
