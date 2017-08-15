@@ -294,6 +294,7 @@ export default {
         }
         .el-submenu{
           .el-menu{
+            background: #26282f;
             .el-menu-item{
               font-size: 12px;
               display: flex;
