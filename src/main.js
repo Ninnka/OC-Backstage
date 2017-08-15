@@ -13,10 +13,6 @@ Vue.mixin({
       return [...new Set(list.map((item) => {
         return item[key];
       }))];
-    },
-    // 分页函数
-    handleSizeChangeData (page, size, List) {
-      return List.slice((page - 1) * size, page * size);
     }
   }
 });

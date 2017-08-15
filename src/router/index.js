@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Tab from '@pages/tab';
+import PersonalInformation from '@pages/personal-information';
 Vue.use(Router);
 
 export default new Router({
@@ -39,9 +40,10 @@ export default new Router({
         {
           path: 'personal-information',
           name: 'personal-information',
-          component: (resolve) => {
-            require(['@pages/personal-information'], resolve);
-          }
+          component: PersonalInformation
+          // component: (resolve) => {
+          //   require(['@pages/personal-information'], resolve);
+          // }
         },
         // 用户管理
         {

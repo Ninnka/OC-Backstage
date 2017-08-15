@@ -40,6 +40,10 @@ export default {
     this.$emit('update:displayData', data);
   },
   methods: {
+    // 分页函数
+    handleSizeChangeData (page, size, List) {
+      return List.slice((page - 1) * size, page * size);
+    },
     handleSizeChange (val) {
       this.nowPageSize = val;
       let data = this.handleSizeChangeData(this.nowPage, this.nowPageSize, this.sourceData);

@@ -162,7 +162,6 @@ export default {
       }
     },
     goRouter (index) {
-      console.log(index);
       this.$router.push('/tab/' + index);
     }
   }

@@ -47,30 +47,39 @@
         </el-form>
         <div class="query-btns">
           <el-button type="info" @click="filterTable">查询</el-button>
-          <list-options :labelList.sync="labelList"></list-options>
+          <!--列表选项组件：-->
+          <!--label数组选项格式参考当前页面labelList-->
+          <!--sourceList是源label数组-->
+          <!--displayList是要显示的label数组-->
+          <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
         </div>
         <el-table
           :data="totalData"
           stripe
           style="width: 100%">
-          <el-table-column
-            prop="date"
-            label="日期"
-            width="180">
+          <el-table-column v-for="col in showLabelList" v-show="col.show" :key="col.name"
+            :prop="col.key"
+            :label="col.label"
+          >
           </el-table-column>
-          <el-table-column
-            prop="name"
-            label="姓名"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="address"
-            label="地址">
-          </el-table-column>
-          <el-table-column
-            prop="num"
-            label="数值">
-          </el-table-column>
+          <!--<el-table-column-->
+            <!--prop="date"-->
+            <!--label="日期"-->
+            <!--width="180">-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--prop="name"-->
+            <!--label="姓名"-->
+            <!--width="180">-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--prop="address"-->
+            <!--label="地址">-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--prop="num"-->
+            <!--label="数值">-->
+          <!--</el-table-column>-->
         </el-table>
       </div>
       <!--分页组件：-->
@@ -255,46 +264,59 @@ export default {
       tableData: [],
       labelList: [
         {
+          label: '日期',
+          key: 'date',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '姓名',
+          key: 'name',
+          canSelect: false,
+          show: true
+        },
+        {
           label: '地址',
           key: 'address',
+          canSelect: true,
           show: true
         },
         {
           label: '数值',
           key: 'num',
+          canSelect: true,
           show: true
         }
       ],
+      showLabelList: [],
       // 用于存储上传照片组件中的图片
       fileList: []
     };
   },
   computed: {
     totalData () {
-      let list;
-      let totalObj = {
+      let list = [];
+      let totalNum = 0;
+      let allNum = 0;
+      let totalObj = {};
+      let allObj = {};
+      this.testList.map((item, index) => {
+        allNum += item.num;
+      });
+      this.tableData.map((item, index) => {
+        totalNum += item.num;
+      });
+      totalObj = {
         'date': '合计',
-        num: (() => {
-          let num = 0;
-          this.labelList.map((item, index) => {
-            num += item.num;
-          });
-          return num;
-        })()
+        num: totalNum
       };
-      let allObj = {
+      allObj = {
         'date': '总计',
-        num: (() => {
-          let num = 0;
-          this.labelList.map((item) => {
-            num += item.num;
-          });
-          return num;
-        })()
+        num: allNum
       };
-      list = this.tableData.concat(totalObj, allObj);
+      list = JSON.parse(JSON.stringify(this.tableData.concat(totalObj, allObj)));
       list.forEach((item) => {
-        this.labelList.map((label) => {
+        this.showLabelList.map((label) => {
           for (let variable in item) {
             if (label.key === variable && !label.show) {
               delete item[label.key];
@@ -311,7 +333,6 @@ export default {
         this.testList.push(item);
       });
     }
-    this.tableData = this.testList;
   },
   mounted () {
   },
@@ -324,6 +345,10 @@ export default {
         message: '禁用成功!'
       });
     },
+//    getLabel (col) {
+//
+//      if(col.key === ){}
+//    },
     // 用于监听事件图片组件的事件
     fileLoaded (param) {
       for (let i = 0; i < this.fileList.length; i++) {
