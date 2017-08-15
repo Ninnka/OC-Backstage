@@ -1,18 +1,11 @@
 <template>
   <div class="mention-end-audit">
-    <article class="nav">
+    <article class="region">
       <header>
-          <span>
-            <h2>
-            出金终审
-            </h2>
-          </span>
+        出金终审
       </header>
-      <div></div>
-    </article>
-    <div class="main">
-      <div class="form-qurey">
-        <el-form ref="form" :model="form" label-width="100px">
+      <div class="region-main">
+        <el-form class="filter-input" ref="form" :model="form" label-width="100px">
           <el-form-item label="出金单号">
             <el-input v-model="form.num" placeholder="请输入出金单号"></el-input>
           </el-form-item>
@@ -36,29 +29,29 @@
             <el-input v-model="form.belong" placeholder="代理商"></el-input>
           </el-form-item>
           <el-checkbox v-model="form.include">包含间接交易商</el-checkbox>
-          <el-form-item>
-            <!--下拉选择列-->
-            <el-dropdown trigger="hover" :hide-on-click="false">
-              <el-button type="primary">
-              列表选项<i class="el-icon-caret-bottom el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>
-                  <el-checkbox :indeterminate="cloumnChoose.isIndeterminate" v-model="cloumnChoose.checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-                  <div style="margin: 15px 0;"></div>
-                </el-dropdown-item>
-                <el-dropdown-item v-for="field in cloumnChoose.lists" :key="field">
-                  <el-checkbox-group v-model="cloumnChoose.checkedCities" @change="handleCheckedCitiesChange">
-                    <el-checkbox :label="field" :key="field">{{field}}</el-checkbox>
-                  </el-checkbox-group>
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-            <el-button type="primary" @click="findSubmit">查询</el-button>
-            <el-button type="primary" @click="guideonSubmit">导出</el-button>
-          </el-form-item>
         </el-form>
-      </div>
+
+        <div class="query-btn">
+          <!--下拉选择列-->
+          <el-dropdown trigger="hover" :hide-on-click="false">
+            <el-button type="primary">
+            列表选项<i class="el-icon-caret-bottom el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>
+                <el-checkbox :indeterminate="cloumnChoose.isIndeterminate" v-model="cloumnChoose.checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                <div style="margin: 15px 0;"></div>
+              </el-dropdown-item>
+              <el-dropdown-item v-for="field in cloumnChoose.lists" :key="field">
+                <el-checkbox-group v-model="cloumnChoose.checkedCities" @change="handleCheckedCitiesChange">
+                  <el-checkbox :label="field" :key="field">{{field}}</el-checkbox>
+                </el-checkbox-group>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <el-button type="info" @click="findSubmit">查询</el-button>
+          <el-button type="info" @click="guideonSubmit">导出</el-button>
+        </div>
         <div class="dateTable">
           <template>
             <el-table
@@ -150,7 +143,8 @@
               
               <el-table-column
                 label="操作"
-                width="120">
+                width="120"
+                fixed="right">
                 <template scope="scope">
                   <el-button
                     @click.native.prevent="review(scope.$index, scope.row)"
@@ -228,25 +222,16 @@
 
             <div class="table-Footer">
               <div class="table-botton">
-                  <el-button @click="toggleSelection()">全选</el-button>
-                  <el-button @click="byPassedAll()">通过</el-button>
-                  <el-button @click="notPassedAll()">驳回</el-button>
+                  <el-button type="info" @click="toggleSelection()">全选</el-button>
+                  <el-button type="info" @click="byPassedAll()">通过</el-button>
+                  <el-button type="info" @click="notPassedAll()">驳回</el-button>
               </div>
-              <div class="block">
-                <el-pagination
-                  @size-change="handleSizeChange"
-                  @current-change="handleCurrentChange"
-                  :current-page="currentPage4"
-                  :page-sizes="[100, 200, 300, 400]"
-                  :page-size="100"
-                  layout="total, sizes, prev, pager, next, jumper"
-                  :total="400">
-                </el-pagination>
-              </div>
+              <paging :sourceData="tableData" :displayData.sync="thisTableData"></paging>
             </div>
           </template>
         </div>
-      </div>
+        </div>
+    </article>
   </div>
 </template>
 
@@ -254,11 +239,13 @@
 var tableField = ['出金单号', '申请人', '联系方式', '出金金额／到账金额 ', '汇率', '出金银行卡', '申请时间', '审核状态', '处理时间', '审核人', '操作'];
 import popup from '@comps/popup.vue';
 import verify from '@comps/verify.vue';
+import paging from '@comps/paging.vue';
 export default {
   name: 'MentionEndAudit',
   components: {
     popup,
-    verify
+    verify,
+    paging
   },
   data () {
     return {
@@ -431,106 +418,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .el-buttoned{
-    width: 100px;
-    height: 40px;
-    color: #FFF;
-    background:#444b5b;
-    border-color: #444b5b;
-    &:hover{
-      background:#17191d;
-      border-color: #17191d;
-    }
-    &:focus{
-      background:#17191d;
-      border-color: #17191d;
-    }
-    &:active{
-      background:#17191d;
-      border-color: #17191d;
-    }
-  }
   .mention-end-audit {
-    .nav{
-      background:#272a31;
-      width:100%;
-      height:49px;
-      width: 100%;
-      header{
-        width: 200px;
-        height: 100%;
-        span{
-          font-family:PingFangSC-Medium;
-          font-size:14px;
-          letter-spacing:0;
-          color:#52e3ff;
-          letter-spacing:0; 
-          height: 100%;
-          display: inline-block;
-          h2{
-            width: 100px;
-            padding-top: 15px;
-            margin-right: 50px;
-          }
-        }
-      }
-      div{
-         background-image:linear-gradient(-90deg, #00e2b8 0%, #009acd 100%);
-         width:100%;
-         height:2px;
-       }
-    }
-    .main{
-      background:#272a31;
-      margin-top:16px;
-      height: 100%;
-      .form-qurey{
-        background:#272a31;
-        padding: 10px 0;
-        width: 100%;
-        form{
-          display: -webkit-flex;
-          display: flex;
-          flex-wrap: wrap;
-          width: 100%;
-          div{
-            margin-left: 10px;
-            &:last-child{
-              width: 100%;
-              >button{
-                float: right;
-                margin: 0 20px;
-              }
-              div.el-dropdown{
-                width: 100px;
-                height: 40px;
-                margin: 0 20px;
-                display: inline-block;
-                float: right;
-              }
-            };
-          }
-          div.el-select{
-            width: 230px;
-            height: 38px;
-          }
-          div.el-input{
-            width: 230px;
-            height: 38px;
-          }
-          label.el-checkbox{
-            margin-left: 20px;
-            margin-top: 10px;
-            color: white;
-          }
-        }
-        .el-button{
-          .el-buttoned;
-        }
-      }
-      .table-Footer{
-        height: 155px;
-      }
+    .region-main{
       div.dateTable{
         .el-table{
           .cell{
@@ -554,6 +443,10 @@ export default {
           }
         }
       }
+      .table-Footer{
+        height: 155px;
+      }
+
     }
   }
   .el-table{
@@ -572,9 +465,6 @@ export default {
     margin: 52px 34px 0 20px;
     float: left;
     display: inline-block;
-    .el-button{
-      .el-buttoned;
-    }
   }
   .popup-main{
     width: 900px;
