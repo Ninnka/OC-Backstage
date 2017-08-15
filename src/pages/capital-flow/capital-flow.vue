@@ -1,6 +1,6 @@
 <template>
   <div class="capital-flow">
-    <article class="region">
+    <article class="region has-total">
       <header>
         资金流水
       </header>
@@ -35,43 +35,35 @@
               </el-option>
             </el-select>
           </el-form-item>
-
-          <el-checkbox v-model="capitalFlowForm.includeProxy">包含下级代理商</el-checkbox>
-          <el-checkbox v-model="capitalFlowForm.includeTransaction">包含下级交易商</el-checkbox>
+          
+          <el-form-item label="">
+            <el-checkbox v-model="capitalFlowForm.includeProxy">包含下级代理商</el-checkbox>
+          </el-form-item>
+          
+          <el-form-item label="">
+            <el-checkbox v-model="capitalFlowForm.includeTransaction">包含下级交易商</el-checkbox>
+          </el-form-item>
         </el-form>
         <!--查询输入框 结束-->
-        <div class="query-btn">
+        <div class="query-btns">
           <el-button type="info" @click="findSubmit">查询</el-button>
-          <!--下拉选择列-->
-          <el-dropdown trigger="hover" :hide-on-click="false">
-            <el-button type="primary">
-            列表选项<i class="el-icon-caret-bottom el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
-                <el-checkbox :indeterminate="cloumnChoose.isIndeterminate" v-model="cloumnChoose.checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-                <div style="margin: 15px 0;"></div>
-              </el-dropdown-item>
-              <el-dropdown-item v-for="field in cloumnChoose.lists" :key="field">
-                <el-checkbox-group v-model="cloumnChoose.checkedCities" @change="handleCheckedCitiesChange">
-                  <el-checkbox :label="field" :key="field">{{field}}</el-checkbox>
-                </el-checkbox-group>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+
+          <list-options :sourceList="labelList" :displayList.sync="capitalTableDate"></list-options>
+          <!--下拉选择列
           <!--下拉选择列 结束-->
         </div>
         <!--数据表格 -->
         <el-table
           ref="multipleTable"
           :data="capitalTableDate"
-          border
+          stripe
           style="width: 100%"
           >
 
             <el-table-column
               label="流水编号"
-              width="150">
+              width="150"
+              v-show="labelList[0]">
               <template scope="scope">
                 <div slot="reference" class="name-wrapper">
                   <template v-if="scope.row.objSymbol === 'pagaSum'">
@@ -127,13 +119,15 @@
 
             <el-table-column
               label="时间"
-              width="130">
+              width="150"
+              v-show="labelList[1].show">
               <template scope="scope">
                   <template v-if="scope.row.objSymbol === 'pagaSum'">
                     <div>
                       <span>
                         入金：{{ scope.row.recharge }}笔
                       </span>
+                      <br>
                       <span>
                         金额：{{ scope.row.rechargeMoney }}
                       </span>
@@ -144,6 +138,7 @@
                       <span>
                         入金：{{ scope.row.recharge }}笔
                       </span>
+                      <br>
                       <span>
                         金额：{{ scope.row.rechargeMoney }}
                       </span>
@@ -159,7 +154,8 @@
 
             <el-table-column
               label="类型"
-              width="170">
+              width="170"
+              v-show="labelList[2].show">
               <template scope="scope">
                 <template v-if="scope.row.objSymbol === 'pagaSum'">
                  <span>入金续费：{{ scope.row.inFee}}</span>
@@ -181,7 +177,8 @@
 
             <el-table-column
               label="余额"
-              width="150">
+              width="150"
+              v-show="labelList[3].show">
               <template scope="scope">
                 <template v-if="scope.row.objSymbol === 'pagaSum'">
                  <span>佣金：{{ scope.row.commission }}</span>
@@ -197,7 +194,8 @@
 
             <el-table-column
               label="变动金额"
-              width="150">
+              width="150"
+              v-show="labelList[4].show">
               <template scope="scope">
                 <template v-if="scope.row.objSymbol === 'pagaSum'">
                  <span>佣金：{{ scope.row.profitWin }}</span>
@@ -213,7 +211,8 @@
 
             <el-table-column
               label="说明"
-              show-overflow-tooltip>
+              show-overflow-tooltip
+              v-show="labelList[5].show">
               <template scope="scope">
                 <template v-if="scope.row.objSymbol === 'pagaSum'">
                   红利盈利：{{ scope.row.profitWin }} 红利亏损：{{ scope.row.profitLose }}
@@ -231,7 +230,7 @@
         <!--数据表格 结束-->
         
         <!--分页 -->
-        <paging :sourceData="capitalTableDate" :displayData.sync="tableData"></paging>
+        <paging :sourceData="tableData" :displayData.sync="capitalTableDate"></paging>
          <!--分页 结束-->
       </div>
     </article>
@@ -240,18 +239,15 @@
 
 <script>
 import paging from '@comps/paging.vue';
-var tableField = ['流水编号', '用户', '时间', '类型 ', '金额', '变动金额', '说明'];
+import listOptions from '@comps/list-options.vue';
 export default {
   name: 'CapitalFlow',
   components: {
-    paging
+    paging,
+    'list-options': listOptions
   },
   data () {
     return {
-      currentPage: 1,
-      sizesPage: [10, 30, 50, 70],
-      statusPage: 0,
-      maxPage: 10,
       UserNumoptions: [],
       capitalFlowForm: {
         account: '', // 账号
@@ -261,12 +257,44 @@ export default {
         includeTransaction: false, // 是否包含下级交易
         userCategory: ''
       },
-      cloumnChoose: {
-        isIndeterminate: true,
-        checkedCities: tableField, // 多选框数据
-        lists: tableField,
-        checkAll: true
-      },
+      labelList: [
+        {
+          label: '流水编号',
+          key: 'waterMoneyNum',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '时间',
+          key: 'dateTime',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '类型',
+          key: 'moneyType',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '金额',
+          key: 'overMoney',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '变动金额',
+          key: 'changeMoney',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '说明',
+          key: 'description',
+          canSelect: true,
+          show: true
+        }
+      ],
       tableData: []
     };
   },
@@ -300,21 +328,9 @@ export default {
     }
   },
   created: function () {
-    this.tableData = this.capitalTableDate;
+    this.tableData = this.getTableDate();
   },
   methods: {
-    handleCheckAllChange (event) {
-      // 多选框点击全选的方法
-      this.cloumnChoose.checkedCities = event.target.checked ? tableField : [];
-      this.cloumnChoose.isIndeterminate = false;
-    },
-    handleCheckedCitiesChange (value) {
-      // 点击多选框的方法
-      // console.log(value);
-      let checkedCount = value.length;
-      this.cloumnChoose.checkAll = checkedCount === this.cloumnChoose.lists.length;
-      this.cloumnChoose.isIndeterminate = checkedCount > 0 && checkedCount < this.cloumnChoose.lists.length;
-    },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`);
       this.maxPage = Number(val);
@@ -493,6 +509,7 @@ export default {
             width: 60px;
             height: 30px;
             margin: auto 0;
+            text-align: center;
           }
           div{
             width: 60%;

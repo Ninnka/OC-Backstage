@@ -29,29 +29,16 @@
             <el-form-item label="所属代理商">
               <el-input v-model="form.belong" placeholder="代理商"></el-input>
             </el-form-item>
-            <el-checkbox v-model="form.include">包含间接交易商</el-checkbox>
+            <el-form-item label="">
+              <el-checkbox v-model="form.include">包含间接交易商</el-checkbox>
+            </el-form-item>
           </el-form>
           
-          <div class="query-btn">
-            <!--下拉选择列-->
-            <el-dropdown trigger="hover" :hide-on-click="false">
-              <el-button type="primary">
-              列表选项<i class="el-icon-caret-bottom el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>
-                  <el-checkbox :indeterminate="cloumnChoose.isIndeterminate" v-model="cloumnChoose.checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-                  <div style="margin: 15px 0;"></div>
-                </el-dropdown-item>
-                <el-dropdown-item v-for="field in cloumnChoose.lists" :key="field">
-                  <el-checkbox-group v-model="cloumnChoose.checkedCities" @change="handleCheckedCitiesChange">
-                    <el-checkbox :label="field" :key="field">{{field}}</el-checkbox>
-                  </el-checkbox-group>
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
+          <div class="query-btns">
+             
             <el-button type="info" @click="guideonSubmit">导出</el-button>
             <el-button type="info" @click="findSubmit">查询</el-button>
+            <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
           </div>
           <div class="dateTable">
             <template>
@@ -154,15 +141,14 @@
 
               <popup  :show.sync="showDelMt"  :needCancel=true :title="'出金初审意见'"   :cancelText="'驳回'"   v-on:cancelEvent="reviewRefuse"  v-on:confirmEvent="reviewBy"  :confirmText="'通过'">
                 <template slot="content" >
-
-                  <p class="del-text">
-                    <el-form ref="form" :model="reviewFrom" label-width="100px">
-                      <el-form-item label="审核意见">
-                        <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 7 }" v-model="reviewFrom.reviewOpinion"></el-input>
-                      </el-form-item>
-
-                    </el-form>
-                  </p>
+                  <ul class="user-list">
+                  <li>
+                    <div class="user-label">审核意见：</div>
+                    <div class="user-mes">
+                      <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 7 }" v-model="reviewFrom.remarks"></el-input>
+                    </div>
+                  </li>
+                  </ul>
                 </template>
               </popup>
 
@@ -184,16 +170,17 @@
 </template>
 
 <script>
-var tableField = ['出金单号', '申请人', '联系方式', '出金金额／到账金额 ', '出金银行卡', '风控状态', '申请时间', '操作'];
 import popup from '@comps/popup.vue';
 import verify from '@comps/verify.vue';
 import paging from '@comps/paging.vue';
+import listOptions from '@comps/list-options.vue';
 export default {
   name: 'mentionStartAudit',
   components: {
     popup,
     verify,
-    paging
+    paging,
+    'list-options': listOptions
   },
   data () {
     return {
@@ -211,13 +198,39 @@ export default {
       },
       showDelMt: false, // 控制弹出框
       show: false, // 控制弹出框
-      currentPage4: 1, // 开始页
-      cloumnChoose: {
-        isIndeterminate: true,
-        checkedCities: tableField,
-        lists: tableField,
-        checkAll: true
-      },
+      labelList: [
+        {
+          label: '流水编号',
+          key: 'waterMoneyNum',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '联系方式',
+          key: 'phoneNunber',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '出金银行卡',
+          key: 'bankCardname',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '风控状态',
+          key: 'dangerStatus',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '申请时间',
+          key: 'applicationDate',
+          canSelect: true,
+          show: true
+        }
+      ],
+      showLabelList: [],
       tableData: [{
         orderNumber: 'CJ000000001',
         character: '交易商',
@@ -337,18 +350,6 @@ export default {
       };
       this.showDelMt = true;
     },
-    handleCheckAllChange (event) {
-      // 点击全选的方法
-      this.cloumnChoose.checkedCities = event.target.checked ? tableField : [];
-      this.cloumnChoose.isIndeterminate = false;
-    },
-    handleCheckedCitiesChange (value) {
-      // 点击多选框的方法
-      // console.log(value);
-      let checkedCount = value.length;
-      this.cloumnChoose.checkAll = checkedCount === this.cloumnChoose.lists.length;
-      this.cloumnChoose.isIndeterminate = checkedCount > 0 && checkedCount < this.cloumnChoose.lists.length;
-    },
     findSubmit () {
       console.log('点击查询');
     },
@@ -397,6 +398,9 @@ export default {
   }
   .mention-start-audit {
     .region-main{
+      .table-Footer{
+        height: 155px;
+      }
       div.dateTable{
         .el-table{
           .cell{
@@ -408,12 +412,14 @@ export default {
                 width: 60px;
                 height: 30px;
                 margin: auto 0;
+                text-align: center;
               }
               div{
                 width: 60%;
                 span{
                   display: block;
                   margin-left: 6px;
+                  text-align: center;
                 }
               }
             }
