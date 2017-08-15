@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1502097336846'); /* IE9*/
-  src: url('iconfont.eot?t=1502097336846#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1502097336846') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1502097336846') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1502097336846#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1502781258623'); /* IE9*/
+  src: url('iconfont.eot?t=1502781258623#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1502781258623') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1502781258623') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1502781258623#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -60,6 +60,8 @@
 .icon-beijingyinhang:before { content: "\e61a"; }
 
 .icon-hangzhouyinhang:before { content: "\e61b"; }
+
+.icon-tixing:before { content: "\e600"; }
 
 .icon-zhaoshangyinhang:before { content: "\e628"; }
 
