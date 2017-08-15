@@ -28,29 +28,18 @@
           <el-form-item label="所属代理商">
             <el-input v-model="form.belong" placeholder="代理商"></el-input>
           </el-form-item>
-          <el-checkbox v-model="form.include">包含间接交易商</el-checkbox>
+
+          <el-form-item label="">
+            <el-checkbox v-model="form.include">包含间接交易商</el-checkbox>
+          </el-form-item>
+
         </el-form>
 
-        <div class="query-btn">
-          <!--下拉选择列-->
-          <el-dropdown trigger="hover" :hide-on-click="false">
-            <el-button type="primary">
-            列表选项<i class="el-icon-caret-bottom el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
-                <el-checkbox :indeterminate="cloumnChoose.isIndeterminate" v-model="cloumnChoose.checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-                <div style="margin: 15px 0;"></div>
-              </el-dropdown-item>
-              <el-dropdown-item v-for="field in cloumnChoose.lists" :key="field">
-                <el-checkbox-group v-model="cloumnChoose.checkedCities" @change="handleCheckedCitiesChange">
-                  <el-checkbox :label="field" :key="field">{{field}}</el-checkbox>
-                </el-checkbox-group>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+        <div class="query-btns">
+          
           <el-button type="info" @click="findSubmit">查询</el-button>
           <el-button type="info" @click="guideonSubmit">导出</el-button>
+          <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
         </div>
         <div class="dateTable">
           <template>
@@ -165,58 +154,65 @@
 
             </el-table>
 
-            <popup :show.sync="showDelMt" :needCancel="needCancel" :title="'出金详情'" v-on:confirmEvent="reviewBy" :confirmText="'通过'" :cancelText="'拒绝'" v-on:cancelEvent="reviewRefuse">
+            <popup :show.sync="showDelMt" :needCancel="needCancel" :title="'出金详情'" v-on:confirmEvent="reviewBy" :confirmText="confirmText" :cancelText="'拒绝'" v-on:cancelEvent="reviewRefuse">
               <template slot="content" >
-
-                <p class="del-text">
-                  <el-row :gutter="20">
-                    <el-col :span="6">
-                    <div class="grid-content bg-purple">联系方式：{{ reviewFrom.userDate.orderNumber }}</div>
-                    </el-col>
-                    <el-col :span="6">
-                      <div class="grid-content bg-purple">昵称：{{ reviewFrom.userDate.userNum }}</div>
-                    </el-col>
-                    <el-col :span="6">
-                      <div class="grid-content bg-purple">MT账户：{{ reviewFrom.userDate.userMtnum }}</div>
-                    </el-col>
-                    <el-col :span="6">
-                      <div class="grid-content bg-purple">联系方式：{{ reviewFrom.userDate.phoneNunber }}</div>
-                    </el-col>
-                  </el-row>
-                  <el-row :gutter="20">
-                    <el-col :span="6">
-                      <div class="grid-content bg-purple">出金／到账金额：{{ reviewFrom.userDate.accessMoneyout }}／{{ reviewFrom.userDate.accessMoneyin }}</div>
-                    </el-col>
-                    <el-col :span="6">
-                      <div class="grid-content bg-purple">汇率：{{ reviewFrom.userDate.exchangeRate }}</div>
-                    </el-col>
-                    <el-col :span="12">
-                      <div class="grid-content bg-purple">出金银行卡：{{ reviewFrom.userDate.bankCardname }} {{ reviewFrom.userDate.bankCardnum }}</div>
-                    </el-col>
-                  </el-row>
-                  <el-row :gutter="20">
-                    <el-col :span="6">
-                      <div class="grid-content bg-purple">状态：{{ reviewFrom.userDate.applicationStatus }}</div>
-                    </el-col>
-                    <el-col :span="6">
-                      <div class="grid-content bg-purple">申请时间：{{ reviewFrom.userDate.applicationDate }}</div>
-                    </el-col>
-                    <el-col :span="6">
-                      <div class="grid-content bg-purple">处理时间：{{ reviewFrom.userDate.dealWithTime === '' ? '未处理':'已处理' }}</div>
-                    </el-col>
-                    <el-col :span="6">
-                      <div class="grid-content bg-purple">审核人：{{ reviewFrom.userDate.auditorNme === '' ? '无':reviewFrom.userDate.auditorNme }}</div>
-                    </el-col>
-                  </el-row>
-
-                  <el-form ref="form" :model="reviewFrom" label-width="100px">
-                    <el-form-item label="备注">
-                      <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 7 }" v-model="reviewFrom.remarks"></el-input>
-                    </el-form-item>
-
-                    <verify :parentVerify.sync="reviewFrom.verify = this.reviewVerify" :parentPhone.sync="managePhone" ></verify>
-                  </el-form>
-                </p>
+                <ul class="user-list user-list-three" style="width: 1000px;">
+                  <li>
+                    <div class="user-label">出金单号：</div>
+                    <div class="user-mes">{{ reviewFrom.userDate.orderNumber }}</div>
+                  </li>
+                  <li>
+                    <div class="user-label">昵称：</div>
+                    <div class="user-mes">{{ reviewFrom.userDate.userNum }}</div>
+                  </li>
+                  <li>
+                    <div class="user-label">MT账户：</div>
+                    <div class="user-mes">{{ reviewFrom.userDate.userMtnum }}</div>
+                  </li>
+                  <li>
+                    <div class="user-label">联系方式：</div>
+                    <div class="user-mes">{{ reviewFrom.userDate.phoneNunber }}</div>
+                  </li>
+                  <li>
+                      <div class="user-label">出金／到账金额：</div>
+                      <div class="user-mes">{{ reviewFrom.userDate.accessMoneyout }}／{{ reviewFrom.userDate.accessMoneyin }}</div>
+                  </li>
+                  <li>
+                    <div class="user-label">汇率：</div>
+                    <div class="user-mes">{{ reviewFrom.userDate.exchangeRate }}</div>
+                  </li>
+                  <li>
+                      <div class="user-label">出金银行卡：</div>
+                      <div class="user-mes">{{ reviewFrom.userDate.bankCardname }} &nbsp;&nbsp;&nbsp;{{ reviewFrom.userDate.bankCardnum }}</div>
+                  </li>
+                  <li>
+                    <div class="user-label">状态：</div>
+                    <div class="user-mes">{{ reviewFrom.userDate.applicationStatus }}</div>
+                  </li>
+                  <li>
+                    <div class="user-label">申请时间：</div>
+                    <div class="user-mes">{{ reviewFrom.userDate.applicationDate }}</div>
+                  </li>
+                  <li>
+                    <div class="user-label">处理时间：</div>
+                    <div class="user-mes">{{ reviewFrom.userDate.dealWithTime === '' ? '未处理':'已处理' }}</div>
+                  </li>
+                  <li>
+                    <div class="user-label">审核人：</div>
+                    <div class="user-mes">{{ reviewFrom.userDate.auditorNme === '' ? '无':reviewFrom.userDate.auditorNme }}</div>
+                  </li>
+                </ul> 
+                <ul class="user-list">
+                <li>
+                  <div class="user-label">审核意见：</div>
+                  <div class="user-mes">
+                    <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 7 }" v-model="reviewFrom.remarks"></el-input>
+                  </div>
+                </li>
+                </ul>
+                <el-form :model="reviewFrom" label-width="100px">
+                  <verify :parentVerify.sync="reviewFrom.verify" :parentPhone.sync="managePhone" ></verify>
+                </el-form>
               </template>
             </popup>
 
@@ -236,16 +232,17 @@
 </template>
 
 <script>
-var tableField = ['出金单号', '申请人', '联系方式', '出金金额／到账金额 ', '汇率', '出金银行卡', '申请时间', '审核状态', '处理时间', '审核人', '操作'];
 import popup from '@comps/popup.vue';
 import verify from '@comps/verify.vue';
 import paging from '@comps/paging.vue';
+import listOptions from '@comps/list-options.vue';
 export default {
   name: 'MentionEndAudit',
   components: {
     popup,
     verify,
-    paging
+    paging,
+    'list-options': listOptions
   },
   data () {
     return {
@@ -257,6 +254,7 @@ export default {
         include: false,
         belong: ''
       },
+      confirmText: '通过',
       reviewFrom: { // 弹出框数据
         remarks: '',
         userDate: {
@@ -275,20 +273,48 @@ export default {
           dealWithTime: '', // 处理时间
           auditorNme: '' // 处理人
         },
-        verify: 0
+        verify: ''
       },
       managePhone: '13726989665',
       showDelMt: false, // 控制弹出框
       show: false, // 控制弹出框
       currentPage4: 1, // 开始页
       needCancel: true, // 是否显示取消按钮
-      cloumnChoose: {
-        isIndeterminate: true,
-        checkedCities: tableField,
-        lists: tableField,
-        checkAll: true
-      },
+      labelList: [
+        {
+          label: '流水编号',
+          key: 'waterMoneyNum',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '联系方式',
+          key: 'phoneNunber',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '出金银行卡',
+          key: 'bankCardname',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '风控状态',
+          key: 'dangerStatus',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '申请时间',
+          key: 'applicationDate',
+          canSelect: true,
+          show: true
+        }
+      ],
+      showLabelList: [],
       tableData: [],
+      thisTableData: [],
       multipleSelection: []
     };
   },
@@ -317,21 +343,10 @@ export default {
     },
     examine (index, row) {
       this.reviewFrom.userDate = row;
+      this.confirmText = '确认';
       this.needCancel = false;
       this.showDelMt = true;
       console.log(`当前选中查看的用户: ${row}`);
-    },
-    handleCheckAllChange (event) {
-      // 点击全选的方法
-      this.cloumnChoose.checkedCities = event.target.checked ? tableField : [];
-      this.cloumnChoose.isIndeterminate = false;
-    },
-    handleCheckedCitiesChange (value) {
-      // 点击多选框的方法
-      // console.log(value);
-      let checkedCount = value.length;
-      this.cloumnChoose.checkAll = checkedCount === this.cloumnChoose.lists.length;
-      this.cloumnChoose.isIndeterminate = checkedCount > 0 && checkedCount < this.cloumnChoose.lists.length;
     },
     findSubmit () {
       console.log('点击查询');
@@ -349,6 +364,7 @@ export default {
       // 审核
       console.log(`当前选中的用户: ${row.orderNumber}`);
       this.reviewFrom.userDate = row;
+      this.confirmText = '通过';
       this.needCancel = true;
       this.showDelMt = true;
     },
@@ -446,7 +462,6 @@ export default {
       .table-Footer{
         height: 155px;
       }
-
     }
   }
   .el-table{
@@ -468,10 +483,5 @@ export default {
   }
   .popup-main{
     width: 900px;
-  }
-  div.block{
-    margin: 52px 34px 0 0;
-    display: inline-block;
-    float: right;
   }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="mt-capital-flow">
-    <article class="region">
+    <article class="region has-total">
       <header>
         CRM资金流水
       </header>
@@ -38,30 +38,18 @@
                 </el-select>
               </el-form-item>
 
-              <el-checkbox v-model="mtCapitalFlowForm.includeProxy">包含下级代理商</el-checkbox>
-              <el-checkbox v-model="mtCapitalFlowForm.includeTransaction">包含下级交易商</el-checkbox>
+              <el-form-item label="">
+                <el-checkbox v-model="mtCapitalFlowForm.includeProxy">包含下级代理商</el-checkbox>
+              </el-form-item>
+
+              <el-form-item label="">
+                <el-checkbox v-model="mtCapitalFlowForm.includeTransaction">包含下级交易商</el-checkbox>
+              </el-form-item>
             </el-form>
             <!--查询输入框 结束-->
-            <div class="query-btn">
+            <div class="query-btns">
               <el-button type="info" @click="findSubmit">查询</el-button>
-              <!--下拉选择列-->
-              <el-dropdown trigger="hover" :hide-on-click="false">
-                <el-button type="primary">
-                列表选项<i class="el-icon-caret-bottom el-icon--right"></i>
-                </el-button>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>
-                    <el-checkbox :indeterminate="cloumnChoose.isIndeterminate" v-model="cloumnChoose.checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-                    <div style="margin: 15px 0;"></div>
-                  </el-dropdown-item>
-                  <el-dropdown-item v-for="field in cloumnChoose.lists" :key="field">
-                    <el-checkbox-group v-model="cloumnChoose.checkedCities" @change="handleCheckedCitiesChange">
-                      <el-checkbox :label="field" :key="field">{{field}}</el-checkbox>
-                    </el-checkbox-group>
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-              <!--下拉选择列 结束-->
+              <list-options :sourceList="labelList" :displayList.sync="capitalTableDate"></list-options>
             </div>
 
             <!--数据表格 -->
@@ -245,11 +233,12 @@
 
 <script>
 import paging from '@comps/paging.vue';
-var tableField = ['流水编号', '用户', '时间', '类型 ', '余额', '变动金额', '说明'];
+import listOptions from '@comps/list-options.vue';
 export default {
   name: 'MtCapitalFlow',
   components: {
-    paging
+    paging,
+    'list-options': listOptions
   },
   data () {
     return {
@@ -267,12 +256,44 @@ export default {
         includeTransaction: false, // 是否包含下级交易
         userCategory: ''
       },
-      cloumnChoose: {
-        isIndeterminate: true,
-        checkedCities: tableField, // 多选框数据
-        lists: tableField,
-        checkAll: true
-      }
+      labelList: [
+        {
+          label: '流水编号',
+          key: 'waterMoneyNum',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '时间',
+          key: 'dateTime',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '类型',
+          key: 'moneyType',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '金额',
+          key: 'overMoney',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '变动金额',
+          key: 'changeMoney',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '说明',
+          key: 'description',
+          canSelect: true,
+          show: true
+        }
+      ]
     };
   },
   computed: {
@@ -295,18 +316,6 @@ export default {
   created: function () {
   },
   methods: {
-    handleCheckAllChange (event) {
-      // 多选框点击全选的方法
-      this.cloumnChoose.checkedCities = event.target.checked ? tableField : [];
-      this.cloumnChoose.isIndeterminate = false;
-    },
-    handleCheckedCitiesChange (value) {
-      // 点击多选框的方法
-      // console.log(value);
-      let checkedCount = value.length;
-      this.cloumnChoose.checkAll = checkedCount === this.cloumnChoose.lists.length;
-      this.cloumnChoose.isIndeterminate = checkedCount > 0 && checkedCount < this.cloumnChoose.lists.length;
-    },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`);
       this.maxPage = Number(val);

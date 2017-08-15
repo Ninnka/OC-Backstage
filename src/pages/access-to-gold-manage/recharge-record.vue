@@ -1,6 +1,6 @@
 <template>
   <div class="recharge-record">
-    <article class="region">
+    <article class="region has-total">
       <header>
         入金纪录
       </header>
@@ -28,34 +28,24 @@
               <el-option label="代理商" value="proxy"></el-option>
             </el-select>
           </el-form-item>
-
-          <el-checkbox v-model="form.includeProxy">包含下级代理商</el-checkbox>
-          <el-checkbox v-model="form.includeTransaction">包含下级交易商</el-checkbox>
-
+          
           <el-form-item label="时间范围">
             <el-date-picker v-model="form.date" type="datetimerange" placeholder="请选择时间范围"></el-date-picker>
           </el-form-item>
+          
+          <el-form-item label="">
+            <el-checkbox v-model="form.includeProxy">包含下级代理商</el-checkbox>
+          </el-form-item>
+
+          <el-form-item label="">
+            <el-checkbox v-model="form.includeTransaction">包含下级交易商</el-checkbox>
+          </el-form-item>
           <!-- 条件输入框 结束-->    
         </el-form>
-        <div class="query-btn">
+        <div class="query-btns">
           <el-button type="info" @click="findSubmit">查询</el-button>
           <!--下拉选择列-->
-          <el-dropdown trigger="hover" :hide-on-click="false">
-            <el-button type="primary">
-            列表选项<i class="el-icon-caret-bottom el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
-                <el-checkbox :indeterminate="cloumnChoose.isIndeterminate" v-model="cloumnChoose.checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-                <div style="margin: 15px 0;"></div>
-              </el-dropdown-item>
-              <el-dropdown-item v-for="field in cloumnChoose.lists" :key="field">
-                <el-checkbox-group v-model="cloumnChoose.checkedCities" @change="handleCheckedCitiesChange">
-                  <el-checkbox :label="field" :key="field">{{field}}</el-checkbox>
-                </el-checkbox-group>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+           <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
           <!--下拉选择列 结束-->
         </div>
         <div class="dateTable">
@@ -268,12 +258,13 @@
 </template>
 
 <script>
-var tableField = ['入金编号', '用户', '时间', '余额 ', '手续费', '金额', '汇率', '状态', '说明'];
 import paging from '@comps/paging.vue';
+import listOptions from '@comps/list-options.vue';
 export default {
   name: 'RechargeRecord',
   components: {
-    paging
+    paging,
+    'list-options': listOptions
   },
   data () {
     return {
@@ -292,12 +283,45 @@ export default {
         includeProxy: false, // 是否包含下级代理
         includeTransaction: false // 是否包含下级交易
       },
-      cloumnChoose: {
-        isIndeterminate: true,
-        checkedCities: tableField, // 多选框数据
-        lists: tableField,
-        checkAll: true
-      }
+      labelList: [
+        {
+          label: '时间',
+          key: 'time',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '余额',
+          key: 'balance',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '手续费',
+          key: 'Fee',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '金额',
+          key: 'Money',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '汇率',
+          key: 'applicationDate',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '状态',
+          key: 'applicationDate',
+          canSelect: true,
+          show: true
+        }
+      ],
+      showLabelList: []
     };
   },
   computed: {
@@ -320,18 +344,6 @@ export default {
     this.tableData = this.thisTableData;
   },
   methods: {
-    handleCheckAllChange (event) {
-      // 多选框点击全选的方法
-      this.cloumnChoose.checkedCities = event.target.checked ? tableField : [];
-      this.cloumnChoose.isIndeterminate = false;
-    },
-    handleCheckedCitiesChange (value) {
-      // 点击多选框的方法
-      // console.log(value);
-      let checkedCount = value.length;
-      this.cloumnChoose.checkAll = checkedCount === this.cloumnChoose.lists.length;
-      this.cloumnChoose.isIndeterminate = checkedCount > 0 && checkedCount < this.cloumnChoose.lists.length;
-    },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`);
       this.maxPage = Number(val);
