@@ -466,6 +466,7 @@ export default {
             width: 60px;
             height: 30px;
             margin: auto 0;
+            text-align: center;
           }
           div{
             width: 60%;
