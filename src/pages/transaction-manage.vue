@@ -158,6 +158,7 @@ export default {
     this.tableData = this.transactionList;
   },
   methods: {
+    filterTable () {}
 //    handleSizeChange(val) {
 //      console.log(`每页 ${val} 条`);
 //    },

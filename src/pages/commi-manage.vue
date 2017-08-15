@@ -144,6 +144,7 @@ export default {
     }
   },
   methods: {
+    filterTable () {}
   }
 };
 </script>
