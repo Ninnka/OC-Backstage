@@ -1,6 +1,6 @@
 <template>
   <div class="discrepancy-amount">
-    <div class="content--main__item in-amount-setting">
+    <div class="region in-amount-setting">
       <article class="item__header">
         <header>
           入金设置
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div class="content--main__item out-amount-setting">
+    <div class="region out-amount-setting">
       <article class="item__header">
         <header>
           出金设置
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <div class="content--main__item out-time-setting">
+    <div class="region out-time-setting">
       <article class="item__header">
         <header>
           出金时间设置

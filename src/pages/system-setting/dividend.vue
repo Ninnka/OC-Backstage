@@ -1,6 +1,6 @@
 <template>
   <div class="dividend">
-    <div class="content--main__item basic-setting">
+    <div class="region basic-setting">
       <article class="item__header">
         <header>
           基本设置
@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div class="content--main__item explosion-setting">
+    <div class="region explosion-setting">
       <article class="item__header">
         <header>
           爆仓设置

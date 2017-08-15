@@ -498,7 +498,9 @@ body{
 //页面单独模块风格样式
 .region{
   background:#272a31;
-  margin-bottom: 20px;
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
   header{
     height: 45px;
     line-height: 45px;

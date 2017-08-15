@@ -1,6 +1,6 @@
 <template>
   <div class="risk-management">
-    <div class="content--main__item bond-setting">
+    <div class="region bond-setting">
       <article class="item__header">
         <header>
           保证金设置
@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div class="content--main__item risk-setting">
+    <div class="region risk-setting">
       <article class="item__header">
         <header>
           风控设置
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div class="content--main__item safe-setting">
+    <div class="region safe-setting">
       <article class="item__header">
         <header>
           安全设置

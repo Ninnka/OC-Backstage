@@ -1,6 +1,6 @@
 <template>
   <div class="open-account">
-    <div class="content--main__item simulation-account-setting">
+    <div class="region simulation-account-setting">
       <article class="item__header">
         <header>
           模拟账户设置
@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div class="content--main__item open-account-setting">
+    <div class="region open-account-setting">
       <article class="item__header">
         <header>
           开户设置
@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <div class="content--main__item mt-account-setting">
+    <div class="region mt-account-setting">
       <article class="item__header">
         <header>
           开户设置

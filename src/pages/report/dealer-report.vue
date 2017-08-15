@@ -1,6 +1,6 @@
 <template>
   <div class="dealer-report">
-    <div class="content--main__item manage--record">
+    <div class="region">
       <article class="item__header">
         <header>
           资金管理
