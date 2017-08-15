@@ -31,8 +31,9 @@
             </el-select>
           </el-form-item>
         </el-form>
-        <div class="query-btn">
+        <div class="query-btns">
           <el-button type="info" @click="filterTable">查询</el-button>
+          <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
         </div>
         <el-table :data="tableData" style="width: 100%">
           <el-table-column prop="account" label="账号"></el-table-column>
@@ -75,6 +76,7 @@
   import paging from '@comps/paging.vue';
   import UserAuditPopup from './user-audit-popup.vue';
   import userManageData from './user-manage-data-mixin';
+  import listOptions from '@comps/list-options.vue';
   export default {
     name: 'UserAudit',
     mixins: [
@@ -82,6 +84,7 @@
     ],
     components: {
       paging,
+      'list-options': listOptions,
       'user-audit-popup': UserAuditPopup
     },
     data () {
@@ -103,6 +106,33 @@
           '已驳回'
         ],
         tableData: [],
+        labelList: [
+          {
+            label: '日期',
+            key: 'date',
+            canSelect: false,
+            show: true
+          },
+          {
+            label: '姓名',
+            key: 'name',
+            canSelect: false,
+            show: true
+          },
+          {
+            label: '地址',
+            key: 'address',
+            canSelect: true,
+            show: true
+          },
+          {
+            label: '数值',
+            key: 'num',
+            canSelect: true,
+            show: true
+          }
+        ],
+        showLabelList: [],
         userMes: {}
       };
     },

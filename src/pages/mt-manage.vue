@@ -15,8 +15,9 @@
             </el-select>
           </el-form-item>
         </el-form>
-        <div class="query-btn">
+        <div class="query-btns">
           <el-button type="info" @click="filterTable">查询</el-button>
+          <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
         </div>
         <el-table :data="tableData" style="width: 100%">
           <el-table-column prop="account" label="MT账号"></el-table-column>
@@ -40,15 +41,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="nowPage"
-          :page-sizes="[10, 15, 20]"
-          :page-size="10"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="tableData.length">
-        </el-pagination>
+        <paging :sourceData="mtList" :displayData.sync="tableData"></paging>
       </div>
     </article>
   </div>
@@ -56,9 +49,13 @@
 
 <script>
 import mtManageData from '@mixins/mt-manage-data-mixin';
+import paging from '@comps/paging.vue';
+import listOptions from '@comps/list-options.vue';
 export default {
   name: 'MtManage',
   components: {
+    paging,
+    'list-options': listOptions
   },
   mixins: [
     mtManageData
@@ -70,7 +67,33 @@ export default {
         superior: ''
       },
       tableData: [],
-      nowPage: 1
+      labelList: [
+        {
+          label: '日期',
+          key: 'date',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '姓名',
+          key: 'name',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '地址',
+          key: 'address',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '数值',
+          key: 'num',
+          canSelect: true,
+          show: true
+        }
+      ],
+      showLabelList: []
     };
   },
   computed: {
