@@ -1,6 +1,6 @@
 <template>
   <div class="basic">
-    <div class="content--main__item avatar-setting">
+    <div class="region avatar-setting">
       <article class="item__header">
         <header>
           默认头像设置
@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="content--main__item currency-setting">
+    <div class="region currency-setting">
       <article class="item__header">
         <header>
           货币设置
@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <div class="content--main__item dealer-setting">
+    <div class="region dealer-setting">
       <article class="item__header">
         <header>
           交易设置
@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <div class="content--main__item other-setting">
+    <div class="region other-setting">
       <article class="item__header">
         <header>
           其他设置
@@ -146,9 +146,9 @@ export default {
 <style lang="less">
 .basic {
   color: #ffffff;
-  > div:not(:last-child) {
-    margin-bottom: 20px;
-  }
+  // > div:not(:last-child) {
+  //   margin-bottom: 20px;
+  // }
 }
 .setting-content {
   box-sizing: border-box;
