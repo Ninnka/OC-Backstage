@@ -8,6 +8,9 @@
         <el-dropdown-item v-for="col in optionsList" :key="col.label">
           <el-checkbox v-model="col.show">{{ col.label }}</el-checkbox>
         </el-dropdown-item>
+        <el-dropdown-item command="reset">
+          <p style="text-align: center">重置</p>
+        </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
@@ -53,19 +56,29 @@ export default {
     }));
   },
   methods: {
-    filterData () {
-      this.$emit('update:displayList', this.sourceList.filter((item) => {
-        if (item.show) {
-          return item;
-        }
-      }));
+    filterData (val) {
+      if (val === 'reset') {
+        this.sourceList.forEach((item) => {
+          if (!item.show) {
+            item.show = true;
+          }
+        });
+        this.$emit('update:displayList', this.sourceList);
+      } else {
+        this.$emit('update:displayList', this.sourceList.filter((item) => {
+          if (item.show) {
+            return item;
+          }
+        }));
+      }
     }
   }
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   .list-options{
     display: inline-block;
+    text-align: center;
   }
 </style>

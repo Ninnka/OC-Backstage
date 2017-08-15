@@ -37,8 +37,9 @@
             <el-checkbox v-model="agentManageForm.aboutIndirect">包含间接交易商</el-checkbox>
           </el-form-item>
         </el-form>
-        <div class="query-btn">
+        <div class="query-btns">
           <el-button type="info" @click="filterTable">查询</el-button>
+          <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
         </div>
         <el-table :data="tableData" style="width: 100%">
           <el-table-column prop="account" label="账号"></el-table-column>
@@ -92,11 +93,13 @@
 
 <script>
 import paging from '@comps/paging.vue';
+import listOptions from '@comps/list-options.vue';
 import AgentManageData from './agent-manage-data-mixin';
 export default {
   name: 'AgentManage',
   components: {
-    paging
+    paging,
+    'list-options': listOptions
   },
   mixins: [
     AgentManageData
@@ -122,7 +125,34 @@ export default {
         '已开启',
         '未开启'
       ],
-      tableData: []
+      tableData: [],
+      labelList: [
+        {
+          label: '日期',
+          key: 'date',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '姓名',
+          key: 'name',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '地址',
+          key: 'address',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '数值',
+          key: 'num',
+          canSelect: true,
+          show: true
+        }
+      ],
+      showLabelList: []
     };
   },
   computed: {

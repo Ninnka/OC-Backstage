@@ -1,125 +1,171 @@
 export default {
   data () {
     return {
-      tableColsName: [
-        'code',
-        'account',
-        'nickName',
-        'agentName',
-        'superior',
-        'dealerFrequency',
-        'dealerAmount',
-        'charge',
-        'profitFrequency',
-        'profitTotal',
-        'lossFrequency',
-        'lossTotal',
-        'drawFrequency',
-        'drawTotal',
-        'interest',
-        'epicycle',
-        'profitRate',
-        'shiftInFrequency',
-        'shiftInTotal',
-        'shiftInCharge',
-        'rollOutFrequency',
-        'rollOutTotal',
-        'rollOutCharge'
-      ],
-      tableColsStatus: {
-        code: {
+      // tableColsName: [
+      //   'code',
+      //   'account',
+      //   'nickName',
+      //   'agentName',
+      //   'superior',
+      //   'dealerFrequency',
+      //   'dealerAmount',
+      //   'charge',
+      //   'profitFrequency',
+      //   'profitTotal',
+      //   'lossFrequency',
+      //   'lossTotal',
+      //   'drawFrequency',
+      //   'drawTotal',
+      //   'interest',
+      //   'epicycle',
+      //   'profitRate',
+      //   'shiftInFrequency',
+      //   'shiftInTotal',
+      //   'shiftInCharge',
+      //   'rollOutFrequency',
+      //   'rollOutTotal',
+      //   'rollOutCharge'
+      // ],
+      tableColsStatus: [
+        {
           show: true,
-          label: '编号'
+          label: '编号',
+          key: 'code',
+          canSelect: false
         },
-        account: {
+        {
           show: true,
-          label: '账号'
+          label: '账号',
+          key: 'account',
+          canSelect: true
         },
-        nickName: {
+        {
           show: true,
-          label: '昵称'
+          label: '昵称',
+          key: 'nickName',
+          canSelect: true
         },
-        agentName: {
+        {
           show: true,
-          label: '名称'
+          label: '名称',
+          key: 'agentName',
+          canSelect: true
         },
-        superior: {
+        {
           show: true,
-          label: '所属上级'
+          label: '所属上级',
+          key: 'superior',
+          canSelect: true
         },
-        dealerFrequency: {
+        {
           show: true,
-          label: '交易次数'
+          label: '交易次数',
+          key: 'dealerFrequency',
+          canSelect: true
         },
-        dealerAmount: {
+        {
           show: true,
-          label: '交易量'
+          label: '交易量',
+          key: 'dealerAmount',
+          canSelect: true
         },
-        charge: {
+        {
           show: true,
-          label: '手续费'
+          label: '手续费',
+          key: 'charge',
+          canSelect: true
         },
-        profitFrequency: {
+        {
           show: true,
-          label: '红利盈利次数'
+          label: '红利盈利次数',
+          key: 'profitFrequency',
+          canSelect: true
         },
-        profitTotal: {
+        {
           show: true,
-          label: '红利盈利总额'
+          label: '红利盈利总额',
+          key: 'profitTotal',
+          canSelect: true
         },
-        lossFrequency: {
+        {
           show: true,
-          label: '红利亏损次数'
+          label: '红利亏损次数',
+          key: 'lossFrequency',
+          canSelect: true
         },
-        lossTotal: {
+        {
           show: true,
-          label: '红利亏损总额'
+          label: '红利亏损总额',
+          key: 'lossTotal',
+          canSelect: true
         },
-        drawFrequency: {
+        {
           show: true,
-          label: '平手次数'
+          label: '平手次数',
+          key: 'drawFrequency',
+          canSelect: true
         },
-        drawTotal: {
+        {
           show: true,
-          label: '平手总额'
+          label: '平手总额',
+          key: 'drawTotal',
+          canSelect: true
         },
-        interest: {
+        {
           show: true,
-          label: '利息'
+          label: '利息',
+          key: 'interest',
+          canSelect: true
         },
-        epicycle: {
+        {
           show: true,
-          label: '红利总盈亏'
+          label: '红利总盈亏',
+          key: 'epicycle',
+          canSelect: true
         },
-        profitRate: {
+        {
           show: true,
-          label: '盈利率'
+          label: '盈利率',
+          key: 'profitRate',
+          canSelect: true
         },
-        shiftInFrequency: {
+        {
           show: true,
-          label: '入金次数'
+          label: '入金次数',
+          key: 'shiftInFrequency',
+          canSelect: true
         },
-        shiftInTotal: {
+        {
           show: true,
-          label: '入金总额'
+          label: '入金总额',
+          key: 'shiftInTotal',
+          canSelect: true
         },
-        shiftInCharge: {
+        {
           show: true,
-          label: '入金手续费'
+          label: '入金手续费',
+          key: 'shiftInCharge',
+          canSelect: true
         },
-        rollOutFrequency: {
+        {
           show: true,
-          label: '出金次数'
+          label: '出金次数',
+          key: 'rollOutFrequency',
+          canSelect: true
         },
-        rollOutTotal: {
+        {
           show: true,
-          label: '出金总额'
+          label: '出金总额',
+          key: 'rollOutTotal',
+          canSelect: true
         },
-        rollOutCharge: {
+        {
           show: true,
-          label: '出金手续费'
+          label: '出金手续费',
+          key: 'rollOutCharge',
+          canSelect: true
         }
-      },
+      ],
       tableData: [
         {
           code: 'JY00000001',

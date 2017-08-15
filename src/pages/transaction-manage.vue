@@ -36,8 +36,9 @@
             <el-date-picker v-model="transactionManageForm.closeTime" type="datetimerange"></el-date-picker>
           </el-form-item>
         </el-form>
-        <div class="query-btn">
-          <el-button type="info" @click="">查询</el-button>
+        <div class="query-btns">
+          <el-button type="info" @click="filterTable">查询</el-button>
+          <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
         </div>
         <el-table :data="tableData" style="width: 100%">
           <el-table-column prop="id" label="账号"></el-table-column>
@@ -63,10 +64,12 @@
 
 <script>
 import paging from '@comps/paging.vue';
+import listOptions from '@comps/list-options.vue';
 export default {
   name: 'TransactionManage',
   components: {
-    paging
+    paging,
+    'list-options': listOptions
   },
   data () {
     return {
@@ -114,7 +117,34 @@ export default {
           fee: '-$80',
           profitOrLoss: '未平仓'
         }
-      ]
+      ],
+      labelList: [
+        {
+          label: '日期',
+          key: 'date',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '姓名',
+          key: 'name',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '地址',
+          key: 'address',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '数值',
+          key: 'num',
+          canSelect: true,
+          show: true
+        }
+      ],
+      showLabelList: []
     };
   },
   computed: {

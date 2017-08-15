@@ -31,8 +31,9 @@
             <el-checkbox  v-model="commiManageForm.aboutAgents">包含下级所有代理商</el-checkbox>
           </el-form-item>
         </el-form>
-        <div class="query-btn">
-          <el-button type="info" @click="">查询</el-button>
+        <div class="query-btns">
+          <el-button type="info" @click="filterTable">查询</el-button>
+          <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
         </div>
         <el-table :data="tableData" style="width: 100%">
           <el-table-column prop="id" label="编号"></el-table-column>
@@ -61,9 +62,11 @@
 </template>
 
 <script>
+import listOptions from '@comps/list-options.vue';
 export default {
   name: 'CommiManage',
   components: {
+    'list-options': listOptions
   },
   data () {
     return {
@@ -100,7 +103,34 @@ export default {
           details: '20% / $99.999.00',
           status: '未结算'
         }
-      ]
+      ],
+      labelList: [
+        {
+          label: '日期',
+          key: 'date',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '姓名',
+          key: 'name',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '地址',
+          key: 'address',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '数值',
+          key: 'num',
+          canSelect: true,
+          show: true
+        }
+      ],
+      showLabelList: []
     };
   },
   computed: {

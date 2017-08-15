@@ -8,10 +8,11 @@
       </h1>
       <h2>{{DeployApi.SystemName}}</h2>
       <nav class="is-flex">
-        <div @click="openMatters = true">待办事项14</div>
         <ul class="is-flex">
           <li v-for="item in navList" :key="item.icon" @click="userAction(item.index)">
-            <i class="iconfont" :class="item.icon"></i>
+            <div class="iconfont nav-icon tixing-icon" :class="item.icon">
+              <div class="tixing-num" v-if="item.index==='tixing'">{{matterList.length}}</div>
+            </div>
           </li>
         </ul>
         <div class="user-menu">
@@ -104,6 +105,10 @@ export default {
       openMatters: false,
       navList: [
         {
+          icon: 'icon-tixing',
+          index: 'tixing'
+        },
+        {
           icon: 'icon-tixian',
           index: 'mention'
         }
@@ -150,6 +155,9 @@ export default {
       switch (command) {
         case 'mention' :
           this.showMention = true;
+          break;
+        case 'tixing' :
+          this.openMatters = true;
           break;
         case 'personalInformation' :
           this.defaultRoute = '';
@@ -208,8 +216,24 @@ export default {
           margin-right: 40px;
           width: 25px;
           height: auto;
-          i{
+          .nav-icon{
             font-size: 25px;
+          }
+          .tixing-icon{
+            position: relative;
+            .tixing-num{
+              position: absolute;
+              width: 16px;
+              height: 16px;
+              top:15%;
+              right:-6px;
+              line-height: 16px;
+              text-align: center;
+              border-radius: 50%;
+              background:#ff3b6a;
+              font-size: 12px;
+              color: #fff;
+            }
           }
         }
       }

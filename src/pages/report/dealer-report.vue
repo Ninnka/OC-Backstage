@@ -111,7 +111,8 @@
         </el-form>
         <div class="el-form--buttons">
           <el-button type="info">查询</el-button>
-          <el-dropdown ref="tableColMenu" trigger="click" :hide-on-click="false" :divided="true" @command="menuClickCommand">
+          <list-options :sourceList="tableColsStatus" @update:displayList="updateTableColsStatus"></list-options>
+          <!-- <el-dropdown ref="tableColMenu" trigger="click" :hide-on-click="false" :divided="true" @command="menuClickCommand">
             <el-button>
               列表选项<i class="el-icon-caret-bottom el-icon--right"></i>
             </el-button>
@@ -127,26 +128,23 @@
               <el-dropdown-item class="text-center" command="reset_v2">
                 <span class="hightlight-warn">重置</span>
               </el-dropdown-item>
-              <!-- <el-dropdown-item class="text-center" command="clear">
-                <span class="hightlight-danger">清空</span>
-              </el-dropdown-item> -->
             </el-dropdown-menu>
-          </el-dropdown>
+          </el-dropdown> -->
         </div>
 
       </div>
       <div class="record__table">
         <el-table :data="resData" style="width: 100%" header-align="center" :row-class-name="tableRowClassName" v-loading.lock="tableLoading" :element-loading-text="elementLoadingText">
-          <el-table-column v-for="col in compuTableColsName" :key="col" :prop="col" :label="tableColsStatus[col].label" width="130">
+          <el-table-column v-for="col in tableColsName" :key="col.key" :prop="col.key" :label="col.label" width="130">
             <template scope="scope">
-              <span v-if="col === 'code'" :class="getCodeClass(scope)">{{ scope.row[col] }}</span>
-              <span v-else-if="col === 'superior'" :class="getSuperiorClass(scope)">
-                {{ scope.row[col] }}
+              <span v-if="col.key === 'code'" :class="getCodeClass(scope)">{{ scope.row[col.key] }}</span>
+              <span v-else-if="col.key === 'superior'" :class="getSuperiorClass(scope)">
+                {{ scope.row[col.key] }}
               </span>
-              <span v-else-if="col === 'profitRate'">
+              <span v-else-if="col.key === 'profitRate'">
                 {{ scope.row.objSymbol !== 'currentTotal' && scope.row.objSymbol !== 'allTotal' ? scope.row.profitRate * 100 + '%' : scope.row.profitRate }}
               </span>
-              <span v-else>{{ scope.row[col] }}</span>
+              <span v-else>{{ scope.row[col.key] }}</span>
             </template>
           </el-table-column>
           <!-- 下面的暂时留下来备用 -->
@@ -212,16 +210,19 @@ import reportSubpageMixins from '@mixins/report-subpage-mixins';
 import tmpDealerReportTableDataMixins from '@mixins/tmp--dealer-report--table-data-mixins';
 
 import paging from '@comps/paging';
+import listOptions from '@comps/list-options';
 
 import moment from 'moment';
 
 export default {
   components: {
-    paging
+    paging,
+    listOptions
   },
   mixins: [reportSubpageMixins, tmpDealerReportTableDataMixins],
   data () {
     return {
+      tableColsName: [],
       dealerReportFormInfo: {
         code: '',
         nickName: '',
@@ -304,7 +305,6 @@ export default {
         rollOutCharge: 0
       };
       this.allTotalObj = this.getSummaries(resData, total);
-      // return this.getSummaries(resData, total);
     },
     setResData (data) {
       if (this.allTotalObj.code === undefined) {
@@ -340,6 +340,9 @@ export default {
       resData.push(this.getSummaries(resData, total));
       resData.push(this.allTotalObj);
       this.resData = resData;
+    },
+    updateTableColsStatus (param) {
+      this.tableColsName = param;
     }
   },
   computed: {
