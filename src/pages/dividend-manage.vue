@@ -149,6 +149,7 @@ export default {
     this.tableData = this.dividendList;
   },
   methods: {
+    filterTable () {}
   }
 };
 </script>
