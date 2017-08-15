@@ -472,6 +472,7 @@ export default {
       .name-wrapper{
         .el-tag{
           width: 80px;
+          text-align: center;
         }
       }
     }

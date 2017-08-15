@@ -47,7 +47,7 @@
         <!--查询输入框 结束-->
         <div class="query-btns">
           <el-button type="info" @click="findSubmit">查询</el-button>
-          
+
           <list-options :sourceList="labelList" :displayList.sync="capitalTableDate"></list-options>
           <!--下拉选择列
           <!--下拉选择列 结束-->
@@ -509,6 +509,7 @@ export default {
             width: 60px;
             height: 30px;
             margin: auto 0;
+            text-align: center;
           }
           div{
             width: 60%;
