@@ -61,12 +61,6 @@ export default {
       flex: 1;
       font-size:18px;
       color:#ffffff;
-      .el-input__inner{
-        background: #202228;
-        border: none;
-        border-radius: 0;
-        color: #fff;
-      }
     }
     .modify-btn{
       width: 60px;
