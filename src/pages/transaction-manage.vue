@@ -40,7 +40,7 @@
           <el-button type="info" @click="filterTable">查询</el-button>
           <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
         </div>
-        <el-table :data="totalData" style="width: 100%">
+        <el-table :data="tableData" style="width: 100%">
           <el-table-column v-for="col in showLabelList" v-show="col.show" :key="col.name" :prop="col.key" :label="col.label">
           </el-table-column>
           <!--<el-table-column prop="id" label="账号"></el-table-column>-->
@@ -213,19 +213,16 @@ export default {
     totalData () {
       let list = [];
       list = JSON.parse(JSON.stringify(this.tableData));
-      let test = function (list, labelList) {
-        list.forEach((item) => {
-          labelList.map((label) => {
-            for (let variable in item) {
-              if (label.key === variable && !label.show) {
-                delete item[label.key];
-              }
+      list.forEach((item) => {
+        this.showLabelList.map((label) => {
+          for (let variable in item) {
+            if (label.key === variable && !label.show) {
+              delete item[label.key];
             }
-          });
+          }
         });
-        return list;
-      };
-      return test(list, this.showLabelList);
+      });
+      return list;
     }
   },
   created: function () {
