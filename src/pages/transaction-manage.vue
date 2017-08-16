@@ -40,7 +40,7 @@
           <el-button type="info" @click="filterTable">查询</el-button>
           <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
         </div>
-        <el-table :data="tableData" style="width: 100%">
+        <el-table :data="totalData" style="width: 100%">
           <el-table-column v-for="col in showLabelList" v-show="col.show" :key="col.name" :prop="col.key" :label="col.label">
           </el-table-column>
           <!--<el-table-column prop="id" label="账号"></el-table-column>-->
@@ -212,35 +212,20 @@ export default {
   computed: {
     totalData () {
       let list = [];
-      let totalNum = 0;
-      let allNum = 0;
-      let totalObj = {};
-      let allObj = {};
-      this.transactionList.map((item, index) => {
-        allNum += item.num;
-      });
-      this.tableData.map((item, index) => {
-        totalNum += item.num;
-      });
-      totalObj = {
-        'id': '合计',
-        num: totalNum
-      };
-      allObj = {
-        'id': '总计',
-        num: allNum
-      };
-      list = JSON.parse(JSON.stringify(this.tableData.concat(totalObj, allObj)));
-      list.forEach((item) => {
-        this.showLabelList.map((label) => {
-          for (let variable in item) {
-            if (label.key === variable && !label.show) {
-              delete item[label.key];
+      list = JSON.parse(JSON.stringify(this.tableData));
+      let test = function (list, labelList) {
+        list.forEach((item) => {
+          labelList.map((label) => {
+            for (let variable in item) {
+              if (label.key === variable && !label.show) {
+                delete item[label.key];
+              }
             }
-          }
+          });
         });
-      });
-      return list;
+        return list;
+      };
+      return test(list, this.showLabelList);
     }
   },
   created: function () {
