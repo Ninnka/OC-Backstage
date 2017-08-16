@@ -41,6 +41,7 @@
               <el-table
                 ref="multipleTable"
                 :data="pageTableData"
+                v-loading.lock="false"
                 stripe
                 tooltip-effect="light"
                 style="width: 100%"
@@ -66,10 +67,10 @@
                     <div slot="reference" class="name-wrapper">
                       <el-tag>{{ scope.row.character }}</el-tag>
                       <div>
-                        <span>
+                        <span @click="viewUserMes (scope.row.userNum)">
                           账号：{{ scope.row.userNum }}
                         </span>
-                        <span>
+                        <span @click="viewUserMes (scope.row.userMtnum)">
                           MT账号：{{ scope.row.userMtnum }}
                         </span>
                       </div>
@@ -220,7 +221,87 @@ export default {
         }
       ],
       showLabelList: [],
-      tableData: [{
+      tableData: [],
+      pageTableData: [],
+      multipleSelection: []
+    };
+  },
+  computed: {
+  },
+  created: function () {
+    this.tableData = this.tableAll();
+  },
+  methods: {
+    toggleSelection () {
+      this.tableData.forEach(row => {
+        this.$refs.multipleTable.toggleRowSelection(row);
+      });
+    },
+    handleSelectionChange (val) {
+      console.log(val);
+      this.multipleSelection = val;
+    },
+    review (index, row) {
+      // 审核
+      console.log(`当前选中的用户: ${row.userMtnum}`);
+      let num = row.userMtnum;
+      let phone = row.phoneNunber;
+      this.reviewFrom = {
+        userNum: row.userMtnum,
+        reviewOpinion: ''
+      };
+      this.showDelMt = true;
+    },
+    findSubmit () {
+      console.log('点击查询');
+    },
+    guideonSubmit () {
+      console.log('点击导出');
+    },
+    byPassedAll () {
+      console.log('点击一键通过');
+      console.log(`选中的用户 ${this.multipleSelection}`);
+    },
+    notPassedAll () {
+      console.log('点击一键驳回');
+      console.log(this.showLabelList[0].show);
+    },
+    reviewBy () {
+      console.log(this.reviewFrom);
+      this.showDelMt = false;
+      this.reviewFrom = this.clearedObject(this.reviewFrom);
+      this.$message({
+        type: 'success',
+        message: '已通过!'
+      });
+    },
+    reviewRefuse () {
+      console.log(this.reviewFrom);
+      this.showDelMt = false;
+      this.reviewFrom = this.clearedObject(this.reviewFrom);
+      this.$message({
+        type: 'success',
+        message: '已驳回!'
+      });
+    },
+    clearedObject (object) {
+      for (let obj in object) {
+        object[obj] = '';
+      }
+      return object;
+    },
+    viewUserMes (mes) {
+      this.$router.push('personal-information');
+    },
+    openLoading () {
+      this.tableLoading = true;
+      setInterval(() => {
+        this.tableLoading = false;
+      }, 2000);
+    },
+    tableAll () {
+      this.openLoading();
+      return [{
         orderNumber: 'CJ000000001',
         character: '交易商',
         userNum: '某某某',
@@ -364,73 +445,7 @@ export default {
         bankCardnum: '6228480402564890018',
         dangerStatus: '正常',
         applicationDate: '2016-05-03'
-      }],
-      pageTableData: [],
-      multipleSelection: []
-    };
-  },
-  computed: {
-  },
-  created: function () {
-  },
-  methods: {
-    toggleSelection () {
-      this.tableData.forEach(row => {
-        this.$refs.multipleTable.toggleRowSelection(row);
-      });
-    },
-    handleSelectionChange (val) {
-      console.log(val);
-      this.multipleSelection = val;
-    },
-    review (index, row) {
-      // 审核
-      console.log(`当前选中的用户: ${row.userMtnum}`);
-      let num = row.userMtnum;
-      let phone = row.phoneNunber;
-      this.reviewFrom = {
-        userNum: row.userMtnum,
-        reviewOpinion: ''
-      };
-      this.showDelMt = true;
-    },
-    findSubmit () {
-      console.log('点击查询');
-    },
-    guideonSubmit () {
-      console.log('点击导出');
-    },
-    byPassedAll () {
-      console.log('点击一键通过');
-      console.log(`选中的用户 ${this.multipleSelection}`);
-    },
-    notPassedAll () {
-      console.log('点击一键驳回');
-      console.log(this.showLabelList[0].show);
-    },
-    reviewBy () {
-      console.log(this.reviewFrom);
-      this.showDelMt = false;
-      this.reviewFrom = this.clearedObject(this.reviewFrom);
-      this.$message({
-        type: 'success',
-        message: '已通过!'
-      });
-    },
-    reviewRefuse () {
-      console.log(this.reviewFrom);
-      this.showDelMt = false;
-      this.reviewFrom = this.clearedObject(this.reviewFrom);
-      this.$message({
-        type: 'success',
-        message: '已驳回!'
-      });
-    },
-    clearedObject (object) {
-      for (let obj in object) {
-        object[obj] = '';
-      }
-      return object;
+      }];
     }
   }
 };
@@ -461,6 +476,9 @@ export default {
                   display: block;
                   margin-left: 4px;
                   text-align: center;
+                  &:hover{
+                    color: #436EEE;
+                  }
                 }
               }
             }

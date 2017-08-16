@@ -52,6 +52,7 @@
               <el-table-column
                 type="selection"
                 width="55"
+                :selectable="checkSelectable"
                 >
               </el-table-column>
 
@@ -337,7 +338,9 @@ export default {
   methods: {
     toggleSelection () {
       this.tableData.forEach(row => {
-        this.$refs.multipleTable.toggleRowSelection(row);
+        if (row.applicationStatus !== '已审核') {
+          this.$refs.multipleTable.toggleRowSelection(row);
+        }
       });
     },
     handleSelectionChange (val) {
@@ -357,6 +360,7 @@ export default {
       console.log('点击导出');
     },
     byPassedAll () {
+      console.log(this.multipleSelection);
       console.log('点击一键通过');
     },
     notPassedAll () {
@@ -430,6 +434,12 @@ export default {
         }
       }
       return object;
+    },
+    checkSelectable (row, index) {
+      if (row.applicationStatus === '已审核') {
+        return false;
+      }
+      return true;
     }
   }
 };
