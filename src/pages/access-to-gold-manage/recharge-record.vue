@@ -52,7 +52,7 @@
           <template>
             <el-table
               ref="multipleTable"
-              :data="thisTableData"
+              :data="getTableData"
               border
               style="width: 100%"
               >
@@ -246,7 +246,7 @@
             </el-table>
             
             <div class="table-Footer">
-              <paging :sourceData="thisTableData" :displayData.sync="tableData"></paging>
+              <paging :sourceData="tableData" :displayData.sync="pageTableData"></paging>
             </div>
           </template>
         </div>
@@ -274,6 +274,7 @@ export default {
       maxPage: 10,
       UserNumoptions: [],
       tableData: [],
+      pageTableData: [],
       userIputText: '',
       iconStyle: 'caret-top',
       form: {
@@ -328,10 +329,10 @@ export default {
     sumPage () {
       return this.tableDataAll().length;
     },
-    thisTableData () {
+    getTableData () {
       // 表格数据
       // trader/proxy/recharge/rechargeMoney/inFee/outFee/commission/profitWin/profitLose/total
-      let TableDate = this.tableDataAll();
+      let TableDate = this.pageTableData;
       let [trader, proxy, recharge, sumFee, sumRecharge, unknown, success] = [9999.00, 9999.00, 9999.00, 9999.00, 9999.00, 9999.00, 9999.00];
       let sumPage = this.pageSum();
       let sum = this.sum();
@@ -341,7 +342,7 @@ export default {
     }
   },
   created: function () {
-    this.tableData = this.thisTableData;
+    this.tableData = this.tableDataAll();
   },
   methods: {
     handleSizeChange (val) {
@@ -423,6 +424,78 @@ export default {
         exchangeRate: 6.667,
         status: '通过',
         description: '自动出金失败，手动处理 12:23:34'
+      }, {
+        getMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        time: '2017-01-01 10:00:00',
+        balance: 500,
+        Fee: 300,
+        Money: 999999,
+        exchangeRate: 6.667,
+        status: '通过',
+        description: '自动出金失败，手动处理'
+      }, {
+        getMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        time: '2017-01-01 10:00:00',
+        balance: 500,
+        Fee: 300,
+        Money: 999999,
+        exchangeRate: 6.667,
+        status: '通过',
+        description: '自动出金失败，手动处理'
+      }, {
+        getMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        time: '2017-01-01 10:00:00',
+        balance: 500,
+        Fee: 300,
+        Money: 999999,
+        exchangeRate: 6.667,
+        status: '通过',
+        description: '自动出金失败，手动处理'
+      }, {
+        getMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        time: '2017-01-01 10:00:00',
+        balance: 500,
+        Fee: 300,
+        Money: 999999,
+        exchangeRate: 6.667,
+        status: '通过',
+        description: '自动出金失败，手动处理'
+      }, {
+        getMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        time: '2017-01-01 10:00:00',
+        balance: 500,
+        Fee: 300,
+        Money: 999999,
+        exchangeRate: 6.667,
+        status: '通过',
+        description: '自动出金失败，手动处理'
+      }, {
+        getMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        time: '2017-01-01 10:00:00',
+        balance: 500,
+        Fee: 300,
+        Money: 999999,
+        exchangeRate: 6.667,
+        status: '通过',
+        description: '自动出金失败，手动处理'
       }, {
         getMoneyNum: 'LS00000001',
         userName: '交易商',

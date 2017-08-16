@@ -19,10 +19,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="申请时间">
-          <el-date-picker
-            v-model="form.date"
-            type="daterange"
-            placeholder="选择日期范围">
+            <el-date-picker v-model="form.date" type="datetimerange" placeholder="请选择时间范围"></el-date-picker>
           </el-date-picker>
           </el-form-item>
           <el-form-item label="所属代理商">
@@ -39,13 +36,14 @@
           
           <el-button type="info" @click="findSubmit">查询</el-button>
           <el-button type="info" @click="guideonSubmit">导出</el-button>
-          <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
+          <list-options :sourceList="labelList" :displayList.sync="showLabelList">
+          </list-options>
         </div>
         <div class="dateTable">
           <template>
             <el-table
               ref="multipleTable"
-              :data="tableData"
+              :data="pageTableData"
               border
               tooltip-effect="light"
               style="width: 100%"
@@ -53,7 +51,8 @@
 
               <el-table-column
                 type="selection"
-                width="55">
+                width="55"
+                >
               </el-table-column>
 
               <el-table-column
@@ -154,80 +153,89 @@
 
             </el-table>
 
-            <popup :show.sync="showDelMt" :needCancel="needCancel" :title="'出金详情'" v-on:confirmEvent="reviewBy" :confirmText="confirmText" :cancelText="'拒绝'" v-on:cancelEvent="reviewRefuse">
-              <template slot="content" >
-                <ul class="user-list user-list-three" style="width: 1000px;">
-                  <li>
-                    <div class="user-label">出金单号：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.orderNumber }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">昵称：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.userNum }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">MT账户：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.userMtnum }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">联系方式：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.phoneNunber }}</div>
-                  </li>
-                  <li>
-                      <div class="user-label">出金／到账金额：</div>
-                      <div class="user-mes">{{ reviewFrom.userDate.accessMoneyout }}／{{ reviewFrom.userDate.accessMoneyin }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">汇率：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.exchangeRate }}</div>
-                  </li>
-                  <li>
-                      <div class="user-label">出金银行卡：</div>
-                      <div class="user-mes">{{ reviewFrom.userDate.bankCardname }} &nbsp;&nbsp;&nbsp;{{ reviewFrom.userDate.bankCardnum }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">状态：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.applicationStatus }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">申请时间：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.applicationDate }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">处理时间：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.dealWithTime === '' ? '未处理':'已处理' }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">审核人：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.auditorNme === '' ? '无':reviewFrom.userDate.auditorNme }}</div>
-                  </li>
-                </ul> 
-                <ul class="user-list">
-                <li>
-                  <div class="user-label">审核意见：</div>
-                  <div class="user-mes">
-                    <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 7 }" v-model="reviewFrom.remarks"></el-input>
-                  </div>
-                </li>
-                </ul>
-                <el-form :model="reviewFrom" label-width="100px">
-                  <verify :parentVerify.sync="reviewFrom.verify" :parentPhone.sync="managePhone" ></verify>
-                </el-form>
-              </template>
-            </popup>
-
             <div class="table-Footer">
               <div class="table-botton">
                   <el-button type="info" @click="toggleSelection()">全选</el-button>
                   <el-button type="info" @click="byPassedAll()">通过</el-button>
                   <el-button type="info" @click="notPassedAll()">驳回</el-button>
               </div>
-              <paging :sourceData="tableData" :displayData.sync="thisTableData"></paging>
+              <paging :sourceData="tableData" :displayData.sync="pageTableData"></paging>
             </div>
           </template>
         </div>
         </div>
     </article>
+    <popup :show.sync="showDelMt" :needCancel="needCancel" :title="'出金详情'" v-on:confirmEvent="reviewBy" :confirmText="confirmText" :cancelText="'拒绝'" v-on:cancelEvent="reviewRefuse">
+      <template slot="content" >
+        <ul class="user-list user-list-three" style="width: 1000px;">
+          <li>
+            <div class="user-label">出金单号：</div>
+            <div class="user-mes">{{ reviewFrom.userDate.orderNumber }}</div>
+          </li>
+          <li>
+            <div class="user-label">昵称：</div>
+            <div class="user-mes">{{ reviewFrom.userDate.userNum }}</div>
+          </li>
+          <li>
+            <div class="user-label">MT账户：</div>
+            <div class="user-mes">{{ reviewFrom.userDate.userMtnum }}</div>
+          </li>
+          <li>
+            <div class="user-label">联系方式：</div>
+            <div class="user-mes">{{ reviewFrom.userDate.phoneNunber }}</div>
+          </li>
+          <li>
+              <div class="user-label">出金／到账金额：</div>
+              <div class="user-mes">
+                {{ reviewFrom.userDate.accessMoneyout }}／
+                {{ reviewFrom.userDate.accessMoneyin }}
+              </div>
+          </li>
+          <li>
+            <div class="user-label">汇率：</div>
+            <div class="user-mes">{{ reviewFrom.userDate.exchangeRate }}</div>
+          </li>
+          <li>
+              <div class="user-label">出金银行卡：</div>
+              <div class="user-mes">
+                {{ reviewFrom.userDate.bankCardname }} 
+                &nbsp;&nbsp;&nbsp;{{ reviewFrom.userDate.bankCardnum }}
+              </div>
+          </li>
+          <li>
+            <div class="user-label">状态：</div>
+            <div class="user-mes">{{ reviewFrom.userDate.applicationStatus }}</div>
+          </li>
+          <li>
+            <div class="user-label">申请时间：</div>
+            <div class="user-mes">{{ reviewFrom.userDate.applicationDate }}</div>
+          </li>
+          <li>
+            <div class="user-label">处理时间：</div>
+            <div class="user-mes">
+              {{ reviewFrom.userDate.dealWithTime === '' ? '未处理':'已处理' }}
+            </div>
+          </li>
+          <li>
+            <div class="user-label">审核人：</div>
+            <div class="user-mes">
+              {{ reviewFrom.userDate.auditorNme === '' ? '无':reviewFrom.userDate.auditorNme }}
+            </div>
+          </li>
+        </ul> 
+        <ul class="user-list">
+        <li>
+          <div class="user-label">审核意见：</div>
+          <div class="user-mes">
+            <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 7 }" v-model="reviewFrom.remarks"></el-input>
+          </div>
+        </li>
+        </ul>
+        <el-form :model="reviewFrom" label-width="100px">
+          <verify :parentVerify.sync="reviewFrom.verify" :parentPhone.sync="managePhone" ></verify>
+        </el-form>
+      </template>
+    </popup>
   </div>
 </template>
 
@@ -314,7 +322,7 @@ export default {
       ],
       showLabelList: [],
       tableData: [],
-      thisTableData: [],
+      pageTableData: [],
       multipleSelection: []
     };
   },
@@ -334,12 +342,6 @@ export default {
     },
     handleSelectionChange (val) {
       this.multipleSelection = val;
-    },
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`);
     },
     examine (index, row) {
       this.reviewFrom.userDate = row;
@@ -481,8 +483,5 @@ export default {
     margin: 52px 34px 0 20px;
     float: left;
     display: inline-block;
-  }
-  .popup-main{
-    width: 900px;
   }
 </style>
