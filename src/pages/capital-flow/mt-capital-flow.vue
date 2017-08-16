@@ -118,7 +118,7 @@
 
                 <el-table-column
                   label="时间"
-                  width="130">
+                  width="150">
                   <template scope="scope">
                       <template v-if="scope.row.objSymbol === 'pagaSum'">
                         <div>
@@ -222,7 +222,7 @@
             <!--数据表格 结束-->
             
             <!--分页 -->
-            <paging :sourceData="capitalTableDate" :displayData.sync="mtCapitalTableData"></paging>
+            <paging :sourceData="mtCapitalTableData" :displayData.sync="mtCapitalPageTableData"></paging>
              <!--分页 结束-->
           </div>
         </div>
@@ -248,6 +248,7 @@ export default {
       maxPage: 10,
       UserNumoptions: [],
       mtCapitalTableData: [],
+      mtCapitalPageTableData: [],
       mtCapitalFlowForm: {
         account: '', // 账号
         category: '', // 用户类型
@@ -304,7 +305,7 @@ export default {
     capitalTableDate () {
       // 表格数据
       // trader/proxy/recharge/rechargeMoney/inFee/outFee/commission/profitWin/profitLose/total
-      let TableDate = this.getTableDate();
+      let TableDate = this.mtCapitalPageTableData;
       let [trader, proxy, recharge, rechargeMoney, inFee, outFee, commission, profitWin, profitLose, total] = [9999.00, 9999.00, 9999.00, 9999.00, 9999.00, 9999.00, 9999.00, 9999.00, 9999.00, 9999.00];
       let sumPage = this.pageSum();
       let sum = this.sum();
@@ -314,6 +315,7 @@ export default {
     }
   },
   created: function () {
+    this.mtCapitalTableData = this.getTableDate();
   },
   methods: {
     handleSizeChange (val) {
@@ -393,6 +395,61 @@ export default {
         changeMoney: +99999, // 变动余额
         exchangeRate: 6.667, // 汇率
         description: '用户入金' // 说明
+      }, {
+        waterMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        dataTime: '2017-01-01 10:00:00',
+        moneyType: '入金',
+        overMoney: 999999,
+        changeMoney: +99999,
+        exchangeRate: 6.667,
+        description: '用户入金'
+      }, {
+        waterMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        dataTime: '2017-01-01 10:00:00',
+        moneyType: '入金',
+        overMoney: 999999,
+        changeMoney: +99999,
+        exchangeRate: 6.667,
+        description: '用户入金'
+      }, {
+        waterMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        dataTime: '2017-01-01 10:00:00',
+        moneyType: '入金',
+        overMoney: 999999,
+        changeMoney: +99999,
+        exchangeRate: 6.667,
+        description: '用户入金'
+      }, {
+        waterMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        dataTime: '2017-01-01 10:00:00',
+        moneyType: '入金',
+        overMoney: 999999,
+        changeMoney: +99999,
+        exchangeRate: 6.667,
+        description: '用户入金'
+      }, {
+        waterMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        dataTime: '2017-01-01 10:00:00',
+        moneyType: '入金',
+        overMoney: 999999,
+        changeMoney: +99999,
+        exchangeRate: 6.667,
+        description: '用户入金'
       }, {
         waterMoneyNum: 'LS00000001',
         userName: '交易商',

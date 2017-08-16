@@ -20,11 +20,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="申请时间">
-            <el-date-picker
-              v-model="form.date"
-              type="daterange"
-              placeholder="选择日期范围">
-            </el-date-picker>
+              <el-date-picker v-model="form.date" type="datetimerange" placeholder="请选择时间范围"></el-date-picker>
             </el-form-item>
             <el-form-item label="所属代理商">
               <el-input v-model="form.belong" placeholder="代理商"></el-input>
@@ -35,30 +31,32 @@
           </el-form>
           
           <div class="query-btns">
-             
-            <el-button type="info" @click="guideonSubmit">导出</el-button>
             <el-button type="info" @click="findSubmit">查询</el-button>
-            <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
+            <el-button type="info" @click="guideonSubmit">导出</el-button>
+            <list-options :sourceList="labelList" :displayList.sync="showLabelList">
+            </list-options>
           </div>
           <div class="dateTable">
             <template>
               <el-table
                 ref="multipleTable"
-                :data="tableData"
-                border
+                :data="pageTableData"
+                stripe
                 tooltip-effect="light"
                 style="width: 100%"
                 @selection-change="handleSelectionChange">
 
                 <el-table-column
                   type="selection"
-                  width="55">
+                  width="50"
+                  >
                 </el-table-column>
-
+                
                 <el-table-column
                   prop="orderNumber"
                   label="出金单号"
-                  width="130">
+                  width="130"
+                >
                 </el-table-column>
 
                 <el-table-column
@@ -126,46 +124,43 @@
                 <el-table-column
                   label="操作"
                   width="120"
-                  fixed="right">
+                  fixed="right"
+                  >
                   <template scope="scope">
                     <el-button
                       @click="review (scope.$index, scope.row)"
                       type="text"
-                      size="small">
+                      size="small"
+                      >
                       通过/驳回
                     </el-button>
                   </template>
                 </el-table-column>
-
               </el-table>
-
-              <popup  :show.sync="showDelMt"  :needCancel=true :title="'出金初审意见'"   :cancelText="'驳回'"   v-on:cancelEvent="reviewRefuse"  v-on:confirmEvent="reviewBy"  :confirmText="'通过'">
-                <template slot="content" >
-                  <ul class="user-list">
-                  <li>
-                    <div class="user-label">审核意见：</div>
-                    <div class="user-mes">
-                      <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 7 }" v-model="reviewFrom.remarks"></el-input>
-                    </div>
-                  </li>
-                  </ul>
-                </template>
-              </popup>
-
               <div class="table-Footer">
                 <div class="table-botton">
                     <el-button type="info" @click="toggleSelection()">全选</el-button>
                     <el-button type="info" @click="byPassedAll()">通过</el-button>
                     <el-button type="info" @click="notPassedAll()">驳回</el-button>
                 </div>
-                <paging :sourceData="tableData" :displayData.sync="thisTableData"></paging>
+                <paging :sourceData="tableData" :displayData.sync="pageTableData"></paging>
               </div>
             </template>
           </div>
-
       </div>
     </article>
-  
+    <popup  :show.sync="showDelMt"  :needCancel=true :title="'出金初审意见'"  :cancelText="'驳回'"   v-on:cancelEvent="reviewRefuse"  v-on:confirmEvent="reviewBy"  :confirmText="'通过'">
+      <template slot="content" >
+        <ul class="user-list">
+        <li>
+          <div class="user-label">审核意见：</div>
+          <div class="user-mes">
+            <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 7 }" v-model="reviewFrom.remarks"></el-input>
+          </div>
+        </li>
+        </ul>
+      </template>
+    </popup>
   </div>
 </template>
 
@@ -199,12 +194,6 @@ export default {
       showDelMt: false, // 控制弹出框
       show: false, // 控制弹出框
       labelList: [
-        {
-          label: '流水编号',
-          key: 'waterMoneyNum',
-          canSelect: false,
-          show: true
-        },
         {
           label: '联系方式',
           key: 'phoneNunber',
@@ -315,8 +304,68 @@ export default {
         bankCardnum: '6228480402564890018',
         dangerStatus: '正常',
         applicationDate: '2016-05-03'
+      }, {
+        orderNumber: 'CJ000000001',
+        character: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        phoneNunber: '13589646871',
+        accessMoneyout: 500,
+        accessMoneyin: 300,
+        bankCardname: '招商银行',
+        bankCardnum: '6228480402564890018',
+        dangerStatus: '正常',
+        applicationDate: '2016-05-03'
+      }, {
+        orderNumber: 'CJ000000001',
+        character: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        phoneNunber: '13589646871',
+        accessMoneyout: 500,
+        accessMoneyin: 300,
+        bankCardname: '招商银行',
+        bankCardnum: '6228480402564890018',
+        dangerStatus: '正常',
+        applicationDate: '2016-05-03'
+      }, {
+        orderNumber: 'CJ000000001',
+        character: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        phoneNunber: '13589646871',
+        accessMoneyout: 500,
+        accessMoneyin: 300,
+        bankCardname: '招商银行',
+        bankCardnum: '6228480402564890018',
+        dangerStatus: '正常',
+        applicationDate: '2016-05-03'
+      }, {
+        orderNumber: 'CJ000000001',
+        character: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        phoneNunber: '13589646871',
+        accessMoneyout: 500,
+        accessMoneyin: 300,
+        bankCardname: '招商银行',
+        bankCardnum: '6228480402564890018',
+        dangerStatus: '正常',
+        applicationDate: '2016-05-03'
+      }, {
+        orderNumber: 'CJ000000001',
+        character: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        phoneNunber: '13589646871',
+        accessMoneyout: 500,
+        accessMoneyin: 300,
+        bankCardname: '招商银行',
+        bankCardnum: '6228480402564890018',
+        dangerStatus: '正常',
+        applicationDate: '2016-05-03'
       }],
-      thisTableData: [],
+      pageTableData: [],
       multipleSelection: []
     };
   },
@@ -331,13 +380,8 @@ export default {
       });
     },
     handleSelectionChange (val) {
+      console.log(val);
       this.multipleSelection = val;
-    },
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`);
     },
     review (index, row) {
       // 审核
@@ -362,6 +406,7 @@ export default {
     },
     notPassedAll () {
       console.log('点击一键驳回');
+      console.log(this.showLabelList[0].show);
     },
     reviewBy () {
       console.log(this.reviewFrom);
@@ -392,10 +437,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .el-input-specification{
-    width: 230px;
-    height: 38px;
-  }
   .mention-start-audit {
     .region-main{
       .table-Footer{
@@ -418,7 +459,7 @@ export default {
                 width: 60%;
                 span{
                   display: block;
-                  margin-left: 6px;
+                  margin-left: 4px;
                   text-align: center;
                 }
               }
