@@ -53,57 +53,26 @@
                   >
                 </el-table-column>
                 
-                <el-table-column
-                  prop="orderNumber"
-                  label="出金单号"
-                  width="130"
-                >
-                </el-table-column>
-
-                <el-table-column
-                  label="申请人"
-                  width="250">
+                <el-table-column v-for="col in showLabelList" :label="col.label" :width="getTableColumnWidth (col.label)" :key="col.key">
                   <template scope="scope">
-                    <div slot="reference" class="name-wrapper">
-                      <el-tag>{{ scope.row.character }}</el-tag>
-                      <div>
-                        <span @click="viewUserMes (scope.row.userNum)">
-                          账号：{{ scope.row.userNum }}
-                        </span>
-                        <span @click="viewUserMes (scope.row.userMtnum)">
-                          MT账号：{{ scope.row.userMtnum }}
-                        </span>
+                    <template v-if="col.label === '申请人'">
+                      <div slot="reference" class="name-wrapper" v-if="col.label === '申请人'">
+                        <el-tag>{{ scope.row.character }}</el-tag>
+                        <div>
+                          <span @click="viewUserMes (scope.row.userNum)">
+                            账号：{{ scope.row.userNum }}
+                          </span>
+                          <span @click="viewUserMes (scope.row.userMtnum)">
+                            MT账号：{{ scope.row.userMtnum }}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </template>
-                </el-table-column>
-
-                <el-table-column
-                  prop="phoneNunber"
-                  label="联系方式"
-                  width="130">
-                </el-table-column>
-
-                <el-table-column
-                  label="出金金额／到账金额"
-                  width="170">
-                  <template scope="scope">
-                    {{ scope.row.accessMoneyout }}/
-                    {{ scope.row.accessMoneyin }}
-                  </template>
-                </el-table-column>
-
-                <el-table-column
-                  label="出金银行卡"
-                  width="185">
-                  <template scope="scope">{{ scope.row.bankCardname }}</template>
-                  <template scope="scope">{{ scope.row.bankCardnum }}</template>
-                </el-table-column>
-
-                <el-table-column
-                  label="风控状态"
-                  width="120">
-                    <template scope="scope">
+                    </template>
+                    <template v-if="col.label === '出金银行卡'">
+                      <p>{{ scope.row.bankCardname }}</p>
+                      {{ scope.row.bankCardnum }}
+                    </template>
+                    <template v-else-if="col.label === '风控状态'">
                       <el-popover trigger="hover" placement="bottom" v-if="scope.row.dangerStatus !== '正常'">  
                           <p>有风险</p>
                           <div slot="reference">
@@ -114,14 +83,16 @@
                         {{ scope.row.dangerStatus }}
                       </div>
                     </template>
+                    <template v-else-if="col.label === '出金金额／到账金额'">
+                      {{ scope.row.accessMoneyout }}/
+                      {{ scope.row.accessMoneyin }}
+                    </template>
+                    <template v-else>
+                      {{ scope.row[col.key] }}
+                    </template>
+                  </template>
                 </el-table-column>
 
-                <el-table-column
-                  label="申请时间"
-                  width="120">
-                  <template scope="scope">{{ scope.row.applicationDate }}</template>
-                </el-table-column>
-                
                 <el-table-column
                   label="操作"
                   width="120"
@@ -196,14 +167,32 @@ export default {
       show: false, // 控制弹出框
       labelList: [
         {
+          label: '出金单号',
+          key: 'orderNumber',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '申请人',
+          key: '',
+          canSelect: false,
+          show: true
+        },
+        {
           label: '联系方式',
           key: 'phoneNunber',
           canSelect: true,
           show: true
         },
         {
+          label: '出金金额／到账金额',
+          key: '',
+          canSelect: true,
+          show: true
+        },
+        {
           label: '出金银行卡',
-          key: 'bankCardname',
+          key: '',
           canSelect: true,
           show: true
         },
@@ -298,6 +287,33 @@ export default {
       setInterval(() => {
         this.tableLoading = false;
       }, 2000);
+    },
+    getTableColumnWidth (val) {
+      let width = 0;
+      switch (val) {
+        case '出金单号':
+          width = 130;
+          break;
+        case '申请人':
+          width = 250;
+          break;
+        case '联系方式':
+          width = 130;
+          break;
+        case '出金金额／到账金额':
+          width = 170;
+          break;
+        case '出金银行卡':
+          width = 185;
+          break;
+        case '风控状态':
+          width = 120;
+          break;
+        case '申请时间':
+          width = 120;
+          break;
+      }
+      return width;
     },
     tableAll () {
       this.openLoading();

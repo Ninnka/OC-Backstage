@@ -55,81 +55,52 @@
                 :selectable="checkSelectable"
                 >
               </el-table-column>
-
-              <el-table-column
-                prop="orderNumber"
-                label="出金单号"
-                width="130">
-              </el-table-column>
-
-              <el-table-column
-                label="申请人"
-                width="250">
-                <template scope="scope">
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag>{{ scope.row.character }}</el-tag>
-                    <div>
-                      <span>
-                        账号：{{ scope.row.userNum }}
-                      </span>
-                      <span>
-                        MT账号：{{ scope.row.userMtnum }}
-                      </span>
-                    </div>
-                  </div>
-                </template>
-              </el-table-column>
-
-              <el-table-column
-                prop="phoneNunber"
-                label="联系方式"
-                width="130">
-              </el-table-column>
-
-              <el-table-column
-                label="出金金额／到账金额"
-                width="170">
-                <template scope="scope">
-                  {{ scope.row.accessMoneyout }}/
-                  {{ scope.row.accessMoneyin }}
-                </template>
-              </el-table-column>
-
-              <el-table-column
-                label="出金银行卡"
-                width="185">
-                <template scope="scope">{{ scope.row.bankCardname }}</template>
-                <template scope="scope">{{ scope.row.bankCardnum }}</template>
-              </el-table-column>
               
-              <el-table-column
-                label="申请时间"
-                width="120">
-                <template scope="scope">{{ scope.row.applicationDate }}</template>
-              </el-table-column>
-
-              <el-table-column
-                label="审核状态"
-                width="120">
-                  <template scope="scope">
+              <el-table-column v-for="col in showLabelList" :label="col.label" :width="getTableColumnWidth (col.label)" :key="col.key">
+                <template scope="scope">
+                  <template v-if="col.label === '申请人'">
+                    <div slot="reference" class="name-wrapper" v-if="col.label === '申请人'">
+                      <el-tag>{{ scope.row.character }}</el-tag>
+                      <div>
+                        <span @click="viewUserMes (scope.row.userNum)">
+                          账号：{{ scope.row.userNum }}
+                        </span>
+                        <span @click="viewUserMes (scope.row.userMtnum)">
+                          MT账号：{{ scope.row.userMtnum }}
+                        </span>
+                      </div>
+                    </div>
+                  </template>
+                  <template v-if="col.label === '出金银行卡'">
+                    <p>{{ scope.row.bankCardname }}</p>
+                    {{ scope.row.bankCardnum }}
+                  </template>
+                  <template v-else-if="col.label === '风控状态'">
+                    <el-popover trigger="hover" placement="bottom" v-if="scope.row.dangerStatus !== '正常'">  
+                        <p>有风险</p>
+                        <div slot="reference">
+                          {{ scope.row.dangerStatus }}
+                        </div>
+                    </el-popover>
+                    <div v-else>
+                      {{ scope.row.dangerStatus }}
+                    </div>
+                  </template>
+                  <template v-else-if="col.label === '出金金额／到账金额'">
+                    {{ scope.row.accessMoneyout }}/
+                    {{ scope.row.accessMoneyin }}
+                  </template>
+                  <template v-else-if="col.label === '审核状态'">
                     <div slot="reference" class="name-wrapper">
                       <el-tag>{{ scope.row.applicationStatus }}</el-tag>
                     </div>
                   </template>
+                  <template v-else>
+                    {{ scope.row[col.key] }}
+                  </template>
+                </template>
               </el-table-column>
 
-              <el-table-column
-                label="处理时间"
-                width="120">
-                <template scope="scope">{{ scope.row.dealWithTime }}</template>
-              </el-table-column>
-
-              <el-table-column
-                prop="auditorNme"
-                label="审核人"
-                width="120">
-              </el-table-column>
-              
               <el-table-column
                 label="操作"
                 width="120"
@@ -291,8 +262,14 @@ export default {
       needCancel: true, // 是否显示取消按钮
       labelList: [
         {
-          label: '流水编号',
-          key: 'waterMoneyNum',
+          label: '出金单号',
+          key: 'orderNumber',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '申请人',
+          key: '',
           canSelect: false,
           show: true
         },
@@ -303,20 +280,38 @@ export default {
           show: true
         },
         {
-          label: '出金银行卡',
-          key: 'bankCardname',
+          label: '出金金额／到账金额',
+          key: '',
           canSelect: true,
           show: true
         },
         {
-          label: '风控状态',
-          key: 'dangerStatus',
+          label: '出金银行卡',
+          key: '',
           canSelect: true,
           show: true
         },
         {
           label: '申请时间',
           key: 'applicationDate',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '审核状态',
+          key: '',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '处理时间',
+          key: 'dealWithTime',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '审核人',
+          key: 'auditorNme',
           canSelect: true,
           show: true
         }
@@ -391,6 +386,39 @@ export default {
         type: 'success',
         message: '操作成功!'
       });
+    },
+    getTableColumnWidth (val) {
+      let width = 0;
+      switch (val) {
+        case '出金单号':
+          width = 130;
+          break;
+        case '申请人':
+          width = 250;
+          break;
+        case '联系方式':
+          width = 130;
+          break;
+        case '出金金额／到账金额':
+          width = 170;
+          break;
+        case '出金银行卡':
+          width = 185;
+          break;
+        case '审核状态':
+          width = 120;
+          break;
+        case '处理时间':
+          width = 120;
+          break;
+        case '申请时间':
+          width = 120;
+          break;
+        case '审核人':
+          width = 120;
+          break;
+      }
+      return width;
     },
     getTableDate () {
       return [{
