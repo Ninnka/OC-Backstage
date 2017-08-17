@@ -311,9 +311,6 @@ export default {
       }, {
         value: '选项4',
         label: '213'
-      }, {
-        value: '选项5',
-        label: '550656'
       }];
     },
     handleSelect (item) {
