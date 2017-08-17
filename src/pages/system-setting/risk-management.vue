@@ -23,7 +23,7 @@
           <span class="header__sub">设置组织类型对应的风控值，设置后上级无法修改，可实现全系统统一配置</span>
         </header>
       </article>
-      <div class="setting-content">
+      <div class="setting-content region-main">
         <el-form label-width="80px" label-position="top">
           <div class="form-item-row-label">代理商：</div>
           <el-form-item label="授信比例">
@@ -79,7 +79,6 @@ export default {
 
 <style lang="less">
 .risk-management {
-  color: #ffffff;
   > div:not(:last-child) {
     margin-bottom: 20px;
   }

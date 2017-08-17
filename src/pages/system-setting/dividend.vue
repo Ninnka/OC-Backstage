@@ -89,7 +89,6 @@ export default {
 
 <style lang="less">
 .dividend {
-  color: #ffffff;
   > div:not(:last-child) {
     margin-bottom: 20px;
   }

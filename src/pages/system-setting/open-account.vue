@@ -107,7 +107,6 @@ export default {
 
 <style lang="less">
 .open-account {
-  color: #ffffff;
   > div:not(:last-child) {
     margin-bottom: 20px;
   }

@@ -6,11 +6,13 @@
           默认头像设置
         </header>
       </article>
-      <div class="setting-content">
+      <div class="setting-content region-main">
         <div class="avatar--wrap">
           <!-- <img src="" alt=""> -->
         </div>
-        <div class="avatar--control">修改</div>
+        <div class="avatar--control">
+          <span>修改</span>
+        </div>
       </div>
     </div>
 
@@ -144,12 +146,6 @@ export default {
 </script>
 
 <style lang="less">
-.basic {
-  color: #ffffff;
-  // > div:not(:last-child) {
-  //   margin-bottom: 20px;
-  // }
-}
 .setting-content {
   box-sizing: border-box;
   padding: 10px 32px 16px;
@@ -163,7 +159,6 @@ export default {
     background: #DADADA;
   }
   .avatar--control {
-    color: #ffffff;
     text-align: center;
     width: 80px;
     margin-top: 12px;
@@ -199,25 +194,18 @@ export default {
     justify-content: flex-start;
     > div {
       text-align: left;
-      background: #202228;
-      &.selected {
-        background: #1E90FF;
-      }
       p {
         margin: 3px 0;
       }
       p:first-child {
         font-size: 14px;
-        color: #ffffff;
         font-weight: bold;
       }
       p:last-child {
         font-size: 12px;
-        color: #FBFBFB;
       }
     }
     .item-left {
-      background: #94959a;
       height: 72px;
       width: 32px;
       flex-grow: 0;
@@ -243,38 +231,31 @@ export default {
     }
   }
 }
-.other-setting .setting-content {
-
-}
 
 // -----------------quill-style---------------------
-.ql-snow .ql-stroke {
-  stroke: #ffffff !important;
-}
-.ql-snow .ql-fill, .ql-snow .ql-stroke.ql-fill {
-  stroke: #ffffff !important;
-}
-.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
-  stroke: #ffffff !important;
-  &::before {
-    stroke: #ffffff !important;
-  }
-}
-.ql-size.ql-picker, .ql-header.ql-picker, .ql-font.ql-picker {
-  color: #ffffff;
-  .ql-picker-label {
-    color: #ffffff !important;
-  }
-}
-.ql-picker-options {
-  background: #232323 !important;
-}
+// .ql-snow .ql-stroke {
+//   stroke: #ffffff !important;
+// }
+// .ql-snow .ql-fill, .ql-snow .ql-stroke.ql-fill {
+//   stroke: #ffffff !important;
+// }
+// .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
+//   stroke: #ffffff !important;
+//   &::before {
+//     stroke: #ffffff !important;
+//   }
+// }
+
+// .ql-picker-options {
+//   background: #232323 !important;
+// }
 .ql-editor {
   min-height: 240px;
   height: auto !important;
   &.ql-blank::before {
-    color: #DADADA;
-    content: '请在这里输入内容';
+    // color: #DADADA;
+    // content: '请在这里输入内容';
+    content: '';
   }
 }
 .ql-tooltip.ql-editing {
@@ -290,10 +271,10 @@ export default {
       content: '保存' !important;
     }
   }
-  input {
-    background: initial;
-    color: #333333;
-  }
+  // input {
+  //   background: initial;
+  //   color: #333333;
+  // }
 }
 .initial-lh {
   line-height: initial !important;
