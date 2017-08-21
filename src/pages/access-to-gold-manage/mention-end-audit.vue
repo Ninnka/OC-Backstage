@@ -5,6 +5,7 @@
         出金终审
       </header>
       <div class="region-main">
+        <!--查询输入框-->
         <el-form class="filter-input" ref="form" :model="form" label-width="100px">
           <el-form-item label="出金单号">
             <el-input v-model="form.num" placeholder="请输入出金单号"></el-input>
@@ -31,14 +32,18 @@
           </el-form-item>
 
         </el-form>
+        <!--查询输入框 结束-->
 
-        <div class="query-btns">
-          
+        <!--查询按钮-->
+        <div class="query-btns"> 
           <el-button type="info" @click="findSubmit">查询</el-button>
           <el-button type="info" @click="guideonSubmit">导出</el-button>
           <list-options :sourceList="labelList" :displayList.sync="showLabelList">
           </list-options>
         </div>
+        <!--查询按钮 结束-->
+
+        <!--数据表格-->
         <div class="dateTable">
           <template>
             <el-table
@@ -135,8 +140,11 @@
             </div>
           </template>
         </div>
+        <!--数据表格 结束-->
         </div>
     </article>
+
+    <!--弹出框-->
     <popup :show.sync="showDelMt" :needCancel="needCancel" :title="'出金详情'" v-on:confirmEvent="reviewBy" :confirmText="confirmText" :cancelText="'拒绝'" v-on:cancelEvent="reviewRefuse">
       <template slot="content" >
         <ul class="user-list user-list-three" style="width: 1000px;">
@@ -208,6 +216,7 @@
         </el-form>
       </template>
     </popup>
+    <!--弹出框 结束-->
   </div>
 </template>
 

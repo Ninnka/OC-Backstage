@@ -186,10 +186,6 @@ export default {
   },
   data () {
     return {
-      currentPage: 1,
-      sizesPage: [10, 30, 50, 70],
-      statusPage: 0,
-      maxPage: 10,
       UserNumoptions: [],
       mtCapitalTableData: [],
       mtCapitalPageTableData: [],

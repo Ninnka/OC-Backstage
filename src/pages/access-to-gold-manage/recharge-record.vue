@@ -7,7 +7,6 @@
       <div></div>
 
       <div class="region-main">
-
         <el-form class="filter-input" ref="form" :model="form" label-width="100px">
          <!-- 条件输入框-->
 
@@ -48,6 +47,7 @@
            <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
           <!--下拉选择列 结束-->
         </div>
+        <!--数据表格-->
         <div class="dateTable">
           <template>
             <el-table
@@ -168,10 +168,9 @@
             </div>
           </template>
         </div>
-
+        <!--数据表格 结束-->
       </div>
     </article>
-
   </div>
 </template>
 
@@ -186,10 +185,6 @@ export default {
   },
   data () {
     return {
-      currentPage: 1,
-      sizesPage: [10, 30, 50, 70],
-      statusPage: 0,
-      maxPage: 10,
       UserNumoptions: [],
       tableData: [],
       pageTableData: [],

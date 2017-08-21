@@ -35,10 +35,10 @@
 
           <el-form-item label="">
           <el-checkbox v-model="form.includeTransaction">包含下级交易商</el-checkbox>
-          </el-form-item>
-
-          <!-- 条件输入框 结束-->    
+          </el-form-item>  
         </el-form>
+        <!-- 条件输入框 结束-->
+
 
         <div class="query-btns">
           <el-button type="info" @click="findSubmit">查询</el-button>
@@ -170,7 +170,6 @@
         </div>
       </div>
     </article>
-
   </div>
 </template>
 
@@ -185,10 +184,6 @@ export default {
   },
   data () {
     return {
-      currentPage: 1,
-      sizesPage: [10, 30, 50, 70],
-      statusPage: 0,
-      maxPage: 10,
       UserNumoptions: [],
       tableData: [],
       pageTabData: [],

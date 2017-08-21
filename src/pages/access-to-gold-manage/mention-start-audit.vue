@@ -5,122 +5,129 @@
         出金初审
       </header>
       <div class="region-main">
-          
-          <el-form class="filter-input" ref="form" :model="form" label-width="100px">
-            <el-form-item label="出金单号">
-              <el-input v-model="form.num" placeholder="请输入出金单号"></el-input>
-            </el-form-item>
-            <el-form-item label="申请人">
-              <el-input v-model="form.applicant" placeholder="请输入申请人账号（交易账号／MT账号／代理账号）"></el-input>
-            </el-form-item>
-            <el-form-item label="出金状态">
-              <el-select v-model="form.outStatus" placeholder="全部">
-                <el-option label="全部" value="shanghai"></el-option>
-                <el-option label="XX" value="beijing"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="申请时间">
-              <el-date-picker v-model="form.date" type="datetimerange" placeholder="请选择时间范围"></el-date-picker>
-            </el-form-item>
-            <el-form-item label="所属代理商">
-              <el-input v-model="form.belong" placeholder="代理商"></el-input>
-            </el-form-item>
-            <el-form-item label="">
-              <el-checkbox v-model="form.include">包含间接交易商</el-checkbox>
-            </el-form-item>
-          </el-form>
-          
-          <div class="query-btns">
-            <el-button type="info" @click="findSubmit">查询</el-button>
-            <el-button type="info" @click="guideonSubmit">导出</el-button>
-            <list-options :sourceList="labelList" :displayList.sync="showLabelList">
-            </list-options>
-          </div>
-          <div class="dateTable">
-            <template>
-              <el-table
-                ref="multipleTable"
-                :data="pageTableData"
-                v-loading.lock="false"
-                stripe
-                tooltip-effect="light"
-                style="width: 100%"
-                @selection-change="handleSelectionChange">
+        <!--查询输入框-->
+        <el-form class="filter-input" ref="form" :model="form" label-width="100px">
+          <el-form-item label="出金单号">
+            <el-input v-model="form.num" placeholder="请输入出金单号"></el-input>
+          </el-form-item>
+          <el-form-item label="申请人">
+            <el-input v-model="form.applicant" placeholder="请输入申请人账号（交易账号／MT账号／代理账号）"></el-input>
+          </el-form-item>
+          <el-form-item label="出金状态">
+            <el-select v-model="form.outStatus" placeholder="全部">
+              <el-option label="全部" value="shanghai"></el-option>
+              <el-option label="XX" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="申请时间">
+            <el-date-picker v-model="form.date" type="datetimerange" placeholder="请选择时间范围"></el-date-picker>
+          </el-form-item>
+          <el-form-item label="所属代理商">
+            <el-input v-model="form.belong" placeholder="代理商"></el-input>
+          </el-form-item>
+          <el-form-item label="">
+            <el-checkbox v-model="form.include">包含间接交易商</el-checkbox>
+          </el-form-item>
+        </el-form>
+        <!--查询输入框 结束-->
 
-                <el-table-column
-                  type="selection"
-                  width="50"
-                  >
-                </el-table-column>
-                
-                <el-table-column v-for="col in showLabelList" :label="col.label" :width="getTableColumnWidth (col.label)" :key="col.key">
-                  <template scope="scope">
-                    <template v-if="col.label === '申请人'">
-                      <div slot="reference" class="name-wrapper" v-if="col.label === '申请人'">
-                        <el-tag>{{ scope.row.character }}</el-tag>
-                        <div>
-                          <span @click="viewUserMes (scope.row.userNum)">
-                            账号：{{ scope.row.userNum }}
-                          </span>
-                          <span @click="viewUserMes (scope.row.userMtnum)">
-                            MT账号：{{ scope.row.userMtnum }}
-                          </span>
+        <!--查询按钮-->
+        <div class="query-btns">
+          <el-button type="info" @click="findSubmit">查询</el-button>
+          <el-button type="info" @click="guideonSubmit">导出</el-button>
+          <list-options :sourceList="labelList" :displayList.sync="showLabelList">
+          </list-options>
+        </div>
+        <!--查询按钮 结束-->
+
+        <!--数据表格-->
+        <div class="dateTable">
+          <template>
+            <el-table
+              ref="multipleTable"
+              :data="pageTableData"
+              v-loading.lock="false"
+              stripe
+              tooltip-effect="light"
+              style="width: 100%"
+              @selection-change="handleSelectionChange">
+
+              <el-table-column
+                type="selection"
+                width="50"
+                >
+              </el-table-column>
+              
+              <el-table-column v-for="col in showLabelList" :label="col.label" :width="getTableColumnWidth (col.label)" :key="col.key">
+                <template scope="scope">
+                  <template v-if="col.label === '申请人'">
+                    <div slot="reference" class="name-wrapper" v-if="col.label === '申请人'">
+                      <el-tag>{{ scope.row.character }}</el-tag>
+                      <div>
+                        <span @click="viewUserMes (scope.row.userNum)">
+                          账号：{{ scope.row.userNum }}
+                        </span>
+                        <span @click="viewUserMes (scope.row.userMtnum)">
+                          MT账号：{{ scope.row.userMtnum }}
+                        </span>
+                      </div>
+                    </div>
+                  </template>
+                  <template v-if="col.label === '出金银行卡'">
+                    <p>{{ scope.row.bankCardname }}</p>
+                    {{ scope.row.bankCardnum }}
+                  </template>
+                  <template v-else-if="col.label === '风控状态'">
+                    <el-popover trigger="hover" placement="bottom" v-if="scope.row.dangerStatus !== '正常'">  
+                        <p>有风险</p>
+                        <div slot="reference">
+                          {{ scope.row.dangerStatus }}
                         </div>
-                      </div>
-                    </template>
-                    <template v-if="col.label === '出金银行卡'">
-                      <p>{{ scope.row.bankCardname }}</p>
-                      {{ scope.row.bankCardnum }}
-                    </template>
-                    <template v-else-if="col.label === '风控状态'">
-                      <el-popover trigger="hover" placement="bottom" v-if="scope.row.dangerStatus !== '正常'">  
-                          <p>有风险</p>
-                          <div slot="reference">
-                            {{ scope.row.dangerStatus }}
-                          </div>
-                      </el-popover>
-                      <div v-else>
-                        {{ scope.row.dangerStatus }}
-                      </div>
-                    </template>
-                    <template v-else-if="col.label === '出金金额／到账金额'">
-                      {{ scope.row.accessMoneyout }}/
-                      {{ scope.row.accessMoneyin }}
-                    </template>
-                    <template v-else>
-                      {{ scope.row[col.key] }}
-                    </template>
+                    </el-popover>
+                    <div v-else>
+                      {{ scope.row.dangerStatus }}
+                    </div>
                   </template>
-                </el-table-column>
+                  <template v-else-if="col.label === '出金金额／到账金额'">
+                    {{ scope.row.accessMoneyout }}/
+                    {{ scope.row.accessMoneyin }}
+                  </template>
+                  <template v-else>
+                    {{ scope.row[col.key] }}
+                  </template>
+                </template>
+              </el-table-column>
 
-                <el-table-column
-                  label="操作"
-                  width="120"
-                  fixed="right"
-                  >
-                  <template scope="scope">
-                    <el-button
-                      @click="review (scope.$index, scope.row)"
-                      type="text"
-                      size="small"
-                      >
-                      通过/驳回
-                    </el-button>
-                  </template>
-                </el-table-column>
-              </el-table>
-              <div class="table-Footer">
-                <div class="table-botton">
-                    <el-button type="info" @click="toggleSelection()">全选</el-button>
-                    <el-button type="info" @click="byPassedAll()">通过</el-button>
-                    <el-button type="info" @click="notPassedAll()">驳回</el-button>
-                </div>
-                <paging :sourceData="tableData" :displayData.sync="pageTableData"></paging>
+              <el-table-column
+                label="操作"
+                width="120"
+                fixed="right"
+                >
+                <template scope="scope">
+                  <el-button
+                    @click="review (scope.$index, scope.row)"
+                    type="text"
+                    size="small"
+                    >
+                    通过/驳回
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div class="table-Footer">
+              <div class="table-botton">
+                  <el-button type="info" @click="toggleSelection()">全选</el-button>
+                  <el-button type="info" @click="byPassedAll()">通过</el-button>
+                  <el-button type="info" @click="notPassedAll()">驳回</el-button>
               </div>
-            </template>
-          </div>
+              <paging :sourceData="tableData" :displayData.sync="pageTableData"></paging>
+            </div>
+          </template>
+        </div>
+        <!--数据表格 结束-->
       </div>
     </article>
+    <!--弹出框-->
     <popup  :show.sync="showDelMt"  :needCancel=true :title="'出金初审意见'"  :cancelText="'驳回'"   v-on:cancelEvent="reviewRefuse"  v-on:confirmEvent="reviewBy"  :confirmText="'通过'">
       <template slot="content" >
         <ul class="user-list">
@@ -133,6 +140,7 @@
         </ul>
       </template>
     </popup>
+    <!--弹出框 结束-->
   </div>
 </template>
 

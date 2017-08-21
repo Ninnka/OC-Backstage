@@ -58,107 +58,107 @@
           style="width: 100%"
           >
 
-            <el-table-column v-for="col in showLabelList" :label="col.label" :width="getTableColumnWidth (col.label)" :key="col.key">
-              <template scope="scope">
-                <template v-if="col.label === '流水编号'">
-                  <template v-if="scope.row.objSymbol === 'pagaSum'">
-                    <span>合计：</span>
-                  </template>
-                  <template v-else-if="scope.row.objSymbol === 'sum'">
-                    <span>总计：</span>
-                  </template>
-                  <template v-else>
-                    <span>{{ scope.row.waterMoneyNum }}</span>
-                  </template>
+          <el-table-column v-for="col in showLabelList" :label="col.label" :width="getTableColumnWidth (col.label)" :key="col.key">
+            <template scope="scope">
+              <template v-if="col.label === '流水编号'">
+                <template v-if="scope.row.objSymbol === 'pagaSum'">
+                  <span>合计：</span>
                 </template>
-                <template v-if="col.label === '用户'">
-                  <template v-if="scope.row.objSymbol">
-                      <span>
-                        交易商：{{ scope.row.trader }} 个
-                      </span>
-                      <br>
-                      <span>
-                        代理商：{{ scope.row.proxy }} 个
-                      </span>
-                  </template>
-                  <template v-else>
-                    <div slot="reference" class="name-wrapper">
-                      <el-tag>{{ scope.row.userName }}</el-tag>
-                      <div>
-                        <span>
-                          账号：{{ scope.row.userNum }}
-                        </span>
-                        <span>
-                          MT账号：{{ scope.row.userMtnum }}
-                        </span>
-                      </div>
-                    </div>
-                  </template>
+                <template v-else-if="scope.row.objSymbol === 'sum'">
+                  <span>总计：</span>
                 </template>
-                <template v-else-if="col.label === '时间'">
-                  <template v-if="scope.row.objSymbol">
-                    <div>
-                      <span>
-                        入金：{{ scope.row.recharge }}笔
-                      </span>
-                      <br>
-                      <span>
-                        金额：{{ scope.row.rechargeMoney }}
-                      </span>
-                    </div>
-                  </template>
-                  <template v-else>
-                    <span>
-                      {{ scope.row.dateTime }}
-                    </span>
-                  </template>
-                </template>
-                <template v-else-if="col.label === '类型'">
-                  <template v-if="scope.row.objSymbol">
-                   <span>入金续费：{{ scope.row.inFee}}</span>
-                   <br>
-                   <span>出金手续费: {{ scope.row.outFee }}</span>  
-                  </template>
-                  <template v-else>
-                    <div slot="reference" class="name-wrapper">
-                      <el-tag>{{ scope.row.userName }}</el-tag>
-                    </div>
-                  </template>
-                </template>
-                <template v-else-if="col.label === '余额'">
-                  <template v-if="scope.row.objSymbol">
-                    <span>佣金：{{ scope.row.commission }}</span>
-                  </template>
-                  <template v-else>
-                    <span>
-                      {{ scope.row.overMoney }}
-                    </span>
-                  </template>
-                </template>
-
-                <template v-else-if="col.label === '变动金额'">
-                  <template v-if="scope.row.objSymbol">
-                   <span>红利盈利：{{ scope.row.profitWin }} </span>
-                  </template>
-                  <template v-else>
-                    <span>{{ scope.row.changeMoney }}</span>
-                  </template>
-                </template>
-
-                <template v-else-if="col.label === '说明'">
-                  <template v-if="scope.row.objSymbol">
-                    红利亏损：{{ scope.row.profitLose }}
-                  </template>
-                  <template v-else>
-                    {{ scope.row.description }}，汇率 {{ scope.row.exchangeRate }}
-                  </template>
-                </template>
-
                 <template v-else>
-                  {{ scope.row[col.key] }}
+                  <span>{{ scope.row.waterMoneyNum }}</span>
                 </template>
               </template>
-            </el-table-column>
+              <template v-if="col.label === '用户'">
+                <template v-if="scope.row.objSymbol">
+                    <span>
+                      交易商：{{ scope.row.trader }} 个
+                    </span>
+                    <br>
+                    <span>
+                      代理商：{{ scope.row.proxy }} 个
+                    </span>
+                </template>
+                <template v-else>
+                  <div slot="reference" class="name-wrapper">
+                    <el-tag>{{ scope.row.userName }}</el-tag>
+                    <div>
+                      <span>
+                        账号：{{ scope.row.userNum }}
+                      </span>
+                      <span>
+                        MT账号：{{ scope.row.userMtnum }}
+                      </span>
+                    </div>
+                  </div>
+                </template>
+              </template>
+              <template v-else-if="col.label === '时间'">
+                <template v-if="scope.row.objSymbol">
+                  <div>
+                    <span>
+                      入金：{{ scope.row.recharge }}笔
+                    </span>
+                    <br>
+                    <span>
+                      金额：{{ scope.row.rechargeMoney }}
+                    </span>
+                  </div>
+                </template>
+                <template v-else>
+                  <span>
+                    {{ scope.row.dateTime }}
+                  </span>
+                </template>
+              </template>
+              <template v-else-if="col.label === '类型'">
+                <template v-if="scope.row.objSymbol">
+                 <span>入金续费：{{ scope.row.inFee}}</span>
+                 <br>
+                 <span>出金手续费: {{ scope.row.outFee }}</span>  
+                </template>
+                <template v-else>
+                  <div slot="reference" class="name-wrapper">
+                    <el-tag>{{ scope.row.userName }}</el-tag>
+                  </div>
+                </template>
+              </template>
+              <template v-else-if="col.label === '余额'">
+                <template v-if="scope.row.objSymbol">
+                  <span>佣金：{{ scope.row.commission }}</span>
+                </template>
+                <template v-else>
+                  <span>
+                    {{ scope.row.overMoney }}
+                  </span>
+                </template>
+              </template>
+
+              <template v-else-if="col.label === '变动金额'">
+                <template v-if="scope.row.objSymbol">
+                 <span>红利盈利：{{ scope.row.profitWin }} </span>
+                </template>
+                <template v-else>
+                  <span>{{ scope.row.changeMoney }}</span>
+                </template>
+              </template>
+
+              <template v-else-if="col.label === '说明'">
+                <template v-if="scope.row.objSymbol">
+                  红利亏损：{{ scope.row.profitLose }}
+                </template>
+                <template v-else>
+                  {{ scope.row.description }}，汇率 {{ scope.row.exchangeRate }}
+                </template>
+              </template>
+
+              <template v-else>
+                {{ scope.row[col.key] }}
+              </template>
+            </template>
+          </el-table-column>
           
         </el-table>
         <!--数据表格 结束-->
