@@ -133,11 +133,11 @@
         </div>
 
       </div>
-      <div class="record__table">
-        <el-table :data="resData" style="width: 100%" header-align="center" :row-class-name="tableRowClassName" v-loading.lock="tableLoading" :element-loading-text="elementLoadingText">
+      <div class="record__table has-total">
+        <el-table :data="resData" style="width: 100%" header-align="center" v-loading.lock="tableLoading" :element-loading-text="elementLoadingText">
           <el-table-column v-for="col in tableColsName" :key="col.key" :prop="col.key" :label="col.label" width="130">
             <template scope="scope">
-              <span v-if="col.key === 'code'" :class="getCodeClass(scope)">{{ scope.row[col.key] }}</span>
+              <span v-if="col.key === 'code'">{{ scope.row[col.key] }}</span>
               <span v-else-if="col.key === 'superior'" :class="getSuperiorClass(scope)">
                 {{ scope.row[col.key] }}
               </span>

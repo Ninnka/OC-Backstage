@@ -49,7 +49,7 @@
             <!--查询输入框 结束-->
             <div class="query-btns">
               <el-button type="info" @click="findSubmit">查询</el-button>
-              <list-options :sourceList="labelList" :displayList.sync="capitalTableDate"></list-options>
+              <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
             </div>
 
             <!--数据表格 -->
@@ -60,104 +60,63 @@
               style="width: 100%"
               >
 
-                <el-table-column
-                  label="流水编号"
-                  width="150">
-                  <template scope="scope">
-                    <div slot="reference" class="name-wrapper">
-                      <template v-if="scope.row.objSymbol === 'pagaSum'">
-                        <span>合计：</span>
-                      </template>
-                      <template v-else-if="scope.row.objSymbol === 'sum'">
-                        <span>总计：</span>
-                      </template>
-                      <template v-else>
-                        <span>{{ scope.row.waterMoneyNum }}</span>
-                      </template>
-                    </div>
+              <el-table-column v-for="col in showLabelList" :label="col.label" :width="getTableColumnWidth (col.label)" :key="col.key">
+                <template scope="scope">
+                  <template v-if="col.label === '流水编号'">
+                    <template v-if="scope.row.objSymbol === 'pagaSum'">
+                      <span>合计：</span>
+                    </template>
+                    <template v-else-if="scope.row.objSymbol === 'sum'">
+                      <span>总计：</span>
+                    </template>
+                    <template v-else>
+                      <span>{{ scope.row.waterMoneyNum }}</span>
+                    </template>
                   </template>
-                </el-table-column>
-
-                <el-table-column
-                  label="用户"
-                  width="230">
-                  <template scope="scope">
-                      <template v-if="scope.row.objSymbol === 'pagaSum'">
-                          <span>
-                            涉及交易商：{{ scope.row.trader }} 个
-                          </span>
-                          <br>
-                          <span>
-                            涉及代理商：{{ scope.row.proxy }} 个
-                          </span>
-                      </template>
-                      <template v-else-if="scope.row.objSymbol === 'sum'">
+                  <template v-if="col.label === '用户'">
+                    <template v-if="scope.row.objSymbol">
                         <span>
-                          涉及交易商：{{ scope.row.trader }} 个
+                          交易商：{{ scope.row.trader }} 个
                         </span>
                         <br>
                         <span>
-                          涉及代理商：{{ scope.row.proxy }} 个
+                          代理商：{{ scope.row.proxy }} 个
                         </span>
-                      </template>
-                      <template v-else>
-                        <div slot="reference" class="name-wrapper">
-                          <el-tag>{{ scope.row.userName }}</el-tag>
-                          <div>
-                            <span>
-                              账号：{{ scope.row.userNum }}
-                            </span>
-                            <span>
-                              MT账号：{{ scope.row.userMtnum }}
-                            </span>
-                          </div>
-                        </div>
-                      </template>
-                  </template>
-                </el-table-column>
-
-                <el-table-column
-                  label="时间"
-                  width="130">
-                  <template scope="scope">
-                      <template v-if="scope.row.objSymbol === 'pagaSum'">
-                        <div>
-                          <span>
-                            入金：{{ scope.row.recharge }}笔
-                          </span>
-                          <span>
-                            金额：{{ scope.row.rechargeMoney }}
-                          </span>
-                        </div>
-                      </template>
-                      <template v-else-if="scope.row.objSymbol === 'sum'">
-                        <div>
-                          <span>
-                            入金：{{ scope.row.recharge }}笔
-                          </span>
-                          <span>
-                            金额：{{ scope.row.rechargeMoney }}
-                          </span>
-                        </div>
-                      </template>
-                      <template v-else>
-                        <span>
-                          {{ scope.row.dataTime }}
-                        </span>
-                      </template>
-                  </template>
-                </el-table-column>
-
-                <el-table-column
-                  label="类型"
-                  width="170">
-                  <template scope="scope">
-                    <template v-if="scope.row.objSymbol === 'pagaSum'">
-                     <span>入金续费：{{ scope.row.inFee}}</span>
-                     <br>
-                     <span>出金手续费: {{ scope.row.outFee }}</span>  
                     </template>
-                    <template v-else-if="scope.row.objSymbol === 'sum'">
+                    <template v-else>
+                      <div slot="reference" class="name-wrapper">
+                        <el-tag>{{ scope.row.userName }}</el-tag>
+                        <div>
+                          <span>
+                            账号：{{ scope.row.userNum }}
+                          </span>
+                          <span>
+                            MT账号：{{ scope.row.userMtnum }}
+                          </span>
+                        </div>
+                      </div>
+                    </template>
+                  </template>
+                  <template v-else-if="col.label === '时间'">
+                    <template v-if="scope.row.objSymbol">
+                      <div>
+                        <span>
+                          入金：{{ scope.row.recharge }}笔
+                        </span>
+                        <br>
+                        <span>
+                          金额：{{ scope.row.rechargeMoney }}
+                        </span>
+                      </div>
+                    </template>
+                    <template v-else>
+                      <span>
+                        {{ scope.row.dataTime }}
+                      </span>
+                    </template>
+                  </template>
+                  <template v-else-if="col.label === '类型'">
+                    <template v-if="scope.row.objSymbol">
                      <span>入金续费：{{ scope.row.inFee}}</span>
                      <br>
                      <span>出金手续费: {{ scope.row.outFee }}</span>  
@@ -168,61 +127,46 @@
                       </div>
                     </template>
                   </template>
-                </el-table-column>
-
-                <el-table-column
-                  label="余额"
-                  width="150">
-                  <template scope="scope">
-                    <template v-if="scope.row.objSymbol === 'pagaSum'">
-                     <span>佣金：{{ scope.row.commission }}</span>
-                    </template>
-                    <template v-else-if="scope.row.objSymbol === 'sum'">
-                     <span>佣金：{{ scope.row.commission }}</span>
+                  <template v-else-if="col.label === '余额'">
+                    <template v-if="scope.row.objSymbol">
+                      <span>佣金：{{ scope.row.commission }}</span>
                     </template>
                     <template v-else>
-                      <span>{{ scope.row.overMoney }}</span>
+                      <span>
+                        {{ scope.row.overMoney }}
+                      </span>
                     </template>
                   </template>
-                </el-table-column>
 
-                <el-table-column
-                  label="变动金额"
-                  width="150">
-                  <template scope="scope">
-                    <template v-if="scope.row.objSymbol === 'pagaSum'">
-                     <span>佣金：{{ scope.row.profitWin }}</span>
-                    </template>
-                    <template v-if="scope.row.objSymbol === 'sum'">
-                     <span>佣金：{{ scope.row.profitWin }}</span>
+                  <template v-else-if="col.label === '变动金额'">
+                    <template v-if="scope.row.objSymbol">
+                     <span>红利盈利：{{ scope.row.profitWin }} </span>
                     </template>
                     <template v-else>
                       <span>{{ scope.row.changeMoney }}</span>
                     </template>
                   </template>
-                </el-table-column>
 
-                <el-table-column
-                  label="说明"
-                  show-overflow-tooltip>
-                  <template scope="scope">
-                    <template v-if="scope.row.objSymbol === 'pagaSum'">
-                      红利盈利：{{ scope.row.profitWin }} 红利亏损：{{ scope.row.profitLose }}
-                    </template>
-                    <template v-if="scope.row.objSymbol === 'sum'">
-                      红利盈利：{{ scope.row.profitWin }} 红利亏损：{{ scope.row.profitLose }}
+                  <template v-else-if="col.label === '说明'">
+                    <template v-if="scope.row.objSymbol">
+                      红利亏损：{{ scope.row.profitLose }}
                     </template>
                     <template v-else>
                       {{ scope.row.description }}，汇率 {{ scope.row.exchangeRate }}
                     </template>
                   </template>
-                </el-table-column>
+
+                  <template v-else>
+                    {{ scope.row[col.key] }}
+                  </template>
+                </template>
+              </el-table-column>
               
             </el-table>
             <!--数据表格 结束-->
             
             <!--分页 -->
-            <paging :sourceData="capitalTableDate" :displayData.sync="mtCapitalTableData"></paging>
+            <paging :sourceData="mtCapitalTableData" :displayData.sync="mtCapitalPageTableData"></paging>
              <!--分页 结束-->
           </div>
         </div>
@@ -242,12 +186,9 @@ export default {
   },
   data () {
     return {
-      currentPage: 1,
-      sizesPage: [10, 30, 50, 70],
-      statusPage: 0,
-      maxPage: 10,
       UserNumoptions: [],
       mtCapitalTableData: [],
+      mtCapitalPageTableData: [],
       mtCapitalFlowForm: {
         account: '', // 账号
         category: '', // 用户类型
@@ -259,7 +200,13 @@ export default {
       labelList: [
         {
           label: '流水编号',
-          key: 'waterMoneyNum',
+          key: '',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '用户',
+          key: '',
           canSelect: false,
           show: true
         },
@@ -271,12 +218,12 @@ export default {
         },
         {
           label: '类型',
-          key: 'moneyType',
+          key: '',
           canSelect: true,
           show: true
         },
         {
-          label: '金额',
+          label: '余额',
           key: 'overMoney',
           canSelect: true,
           show: true
@@ -293,7 +240,8 @@ export default {
           canSelect: true,
           show: true
         }
-      ]
+      ],
+      showLabelList: []
     };
   },
   computed: {
@@ -304,7 +252,7 @@ export default {
     capitalTableDate () {
       // 表格数据
       // trader/proxy/recharge/rechargeMoney/inFee/outFee/commission/profitWin/profitLose/total
-      let TableDate = this.getTableDate();
+      let TableDate = this.mtCapitalPageTableData;
       let [trader, proxy, recharge, rechargeMoney, inFee, outFee, commission, profitWin, profitLose, total] = [9999.00, 9999.00, 9999.00, 9999.00, 9999.00, 9999.00, 9999.00, 9999.00, 9999.00, 9999.00];
       let sumPage = this.pageSum();
       let sum = this.sum();
@@ -314,6 +262,7 @@ export default {
     }
   },
   created: function () {
+    this.mtCapitalTableData = this.getTableDate();
   },
   methods: {
     handleSizeChange (val) {
@@ -381,6 +330,33 @@ export default {
         total // 交易笔数合计
       };
     },
+    getTableColumnWidth (val) {
+      let width = 0;
+      switch (val) {
+        case '流水编号':
+          width = 150;
+          break;
+        case '用户':
+          width = 230;
+          break;
+        case '时间':
+          width = 150;
+          break;
+        case '类型':
+          width = 170;
+          break;
+        case '余额':
+          width = 150;
+          break;
+        case '变动金额':
+          width = 170;
+          break;
+        case '说明':
+          width = 200;
+          break;
+      }
+      return width;
+    },
     getTableDate () {
       return [{
         waterMoneyNum: 'LS00000001', // 流水编号
@@ -393,6 +369,61 @@ export default {
         changeMoney: +99999, // 变动余额
         exchangeRate: 6.667, // 汇率
         description: '用户入金' // 说明
+      }, {
+        waterMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        dataTime: '2017-01-01 10:00:00',
+        moneyType: '入金',
+        overMoney: 999999,
+        changeMoney: +99999,
+        exchangeRate: 6.667,
+        description: '用户入金'
+      }, {
+        waterMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        dataTime: '2017-01-01 10:00:00',
+        moneyType: '入金',
+        overMoney: 999999,
+        changeMoney: +99999,
+        exchangeRate: 6.667,
+        description: '用户入金'
+      }, {
+        waterMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        dataTime: '2017-01-01 10:00:00',
+        moneyType: '入金',
+        overMoney: 999999,
+        changeMoney: +99999,
+        exchangeRate: 6.667,
+        description: '用户入金'
+      }, {
+        waterMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        dataTime: '2017-01-01 10:00:00',
+        moneyType: '入金',
+        overMoney: 999999,
+        changeMoney: +99999,
+        exchangeRate: 6.667,
+        description: '用户入金'
+      }, {
+        waterMoneyNum: 'LS00000001',
+        userName: '交易商',
+        userNum: '某某某',
+        userMtnum: '65421',
+        dataTime: '2017-01-01 10:00:00',
+        moneyType: '入金',
+        overMoney: 999999,
+        changeMoney: +99999,
+        exchangeRate: 6.667,
+        description: '用户入金'
       }, {
         waterMoneyNum: 'LS00000001',
         userName: '交易商',

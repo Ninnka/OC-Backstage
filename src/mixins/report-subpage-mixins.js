@@ -16,28 +16,28 @@ export default {
     checkVisibility (label) {
       return this.compuTableColsName.indexOf(label) !== -1;
     },
-    tableRowClassName (row, index) {
-      if (index % 2 === 1) {
-        return 'even-row';
-      }
-      return 'odd-row';
-    },
+    // tableRowClassName (row, index) {
+    //   if (index % 2 === 1) {
+    //     return 'even-row';
+    //   }
+    //   return 'odd-row';
+    // },
     recordTabelSizeChange (size) {
       this.pageSize = size;
     },
     recordTabelCurrentChange (currentPage) {
       this.recordTabelCurrentPage = currentPage;
     },
-    getCodeClass (scope) {
-      switch (scope.row.objSymbol) {
-        case 'currentTotal':
-          return 'hightlight-current-total';
-        case 'allTotal':
-          return 'hightlight-all-total';
-        default:
-          return '';
-      }
-    },
+    // getCodeClass (scope) {
+    //   switch (scope.row.objSymbol) {
+    //     case 'currentTotal':
+    //       return 'hightlight-current-total';
+    //     case 'allTotal':
+    //       return 'hightlight-all-total';
+    //     default:
+    //       return '';
+    //   }
+    // },
     getSuperiorClass (scope) {
       return scope.row.objSymbol !== 'currentTotal' && scope.row.objSymbol !== 'allTotal' ? 'hightlight-link' : '';
     },

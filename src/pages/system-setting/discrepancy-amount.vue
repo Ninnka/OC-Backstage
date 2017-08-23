@@ -153,7 +153,6 @@ export default {
 
 <style lang="less">
 .discrepancy-amount {
-  color: #ffffff;
   > div:not(:last-child) {
     margin-bottom: 20px;
   }

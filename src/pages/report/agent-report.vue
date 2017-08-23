@@ -130,11 +130,11 @@
         </div>
 
       </div>
-      <div class="record__table">
-        <el-table :data="resData" style="width: 100%" header-align="center" :row-class-name="tableRowClassName" v-loading.lock="tableLoading" :element-loading-text="elementLoadingText">
+      <div class="record__table has-total">
+        <el-table :data="resData" style="width: 100%" header-align="center" v-loading.lock="tableLoading" :element-loading-text="elementLoadingText">
           <el-table-column v-for="col in tableColsName" :key="col.key" :prop="col.key" :label="col.label" width="130">
             <template scope="scope">
-              <span v-if="col.key === 'code'" :class="getCodeClass(scope)">{{ scope.row[col.key] }}</span>
+              <span v-if="col.key === 'code'">{{ scope.row[col.key] }}</span>
               <span v-else-if="col.key === 'superior'" :class="getSuperiorClass(scope)">{{ scope.row[col.key] }}</span>
               <span v-else-if="col.key === 'profitRate'">
                 {{ scope.row.objSymbol !== 'currentTotal' && scope.row.objSymbol !== 'allTotal' ? scope.row[col.key] * 100 + '%' : scope.row[col.key] }}
@@ -316,8 +316,6 @@ export default {
       resData.push(this.getSummaries(resData, total));
       resData.push(this.allTotalObj);
       this.resData = resData;
-      console.log('setResData');
-      console.log('this.resData', this.resData);
     },
     updateTableColsStatus (param) {
       this.tableColsName = param;
@@ -373,12 +371,5 @@ export default {
 .agent-report {
   min-height: 100%;
   box-sizing: border-box;
-}
-.el-picker-panel__body .el-input__inner {
-  color: #1f2d3d !important;
-  background-color: #fff !important;
-  background-image: none !important;
-  border-radius: 4px !important;
-  border: 1px solid #bfcbd9 !important;
 }
 </style>

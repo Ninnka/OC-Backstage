@@ -2,47 +2,23 @@
 @content-item-contract-bg: #18191d;
 @main-theme-sub: #94959a;
 
-.money-records {
-  min-height: 100%;
-  box-sizing: border-box;
-  padding: 20px;
-}
-// -------
-.c-el-comp-label {
-  color: @main-theme-sub;
-  margin-right: 12px;
-}
-.content--main__item {
-  background:#272a31;
-  overflow: hidden;
-}
+// ---------样式部分-------------
+
 .item__header{
-  header{
-    height: 45px;
-    line-height: 45px;
-    text-align: left;
-    font-size:16px;
-    color: #ffffff;
-    position: relative;
-    &:before{
-      content:'';
-      display: inline-block;
-      vertical-align: top;
-      margin-right: 10px;
-      width: 4px;
-      height: 100%;
-      background-image: linear-gradient(-180deg, #00e2b8 0%, #009acd 100%);
-    }
-  }
   .header__more {
     top: 0;
     right: 16px;
     height: 24px;
     width: 10px;
     i {
-      color: #454b58 !important;
+      color: #454b58;
       font-size: 24px;
     }
+  }
+  .header__sub {
+    margin-left: 48px;
+    color: @main-theme-sub;
+    font-size: 12px;
   }
 }
 .item__wrap{
@@ -55,8 +31,8 @@
   width: 100% !important;
   height: 100% !important;
 }
+
 .el-table {
-  background: #272a31 !important;
   text-align: center;
   color: #ffffff;
   border-width: 0;
@@ -65,56 +41,39 @@
   }
 }
 
-.el-table .odd-row {
-  background: #272a31;
-}
+// .el-table__header .el-dropdown {
+//   color: @main-theme-sub;
+// }
 
-.el-table .even-row {
-  background: #22252d;
-}
+// .el-table__header tr {
+//   background-color: #1e2128 !important;
+// }
 
-.el-table__header .el-dropdown {
-  color: @main-theme-sub;
-}
+// .el-table__header tr th {
+//   background-color: #1e2128 !important;
+// }
 
-.el-table__header tr {
-  background-color: #1e2128 !important;
-}
+// .el-table__header-wrapper thead div {
+//   background-color: #1e2128 !important;
+// }
 
-.el-table__header tr th {
-  background-color: #1e2128 !important;
-}
-
-.el-table__header-wrapper thead div {
-  background-color: #1e2128 !important;
-}
-
-.el-table th>.cell {
-  text-align: center;
-  color: @main-theme-sub;
-}
+// .el-table th>.cell {
+//   text-align: center;
+//   color: @main-theme-sub;
+// }
 
 .el-table td, .el-table th.is-leaf {
   border-width: 0 !important;
 }
 
+// -----------el-table的边缘线---------------
 .el-table::after, .el-table::before {
   background-color: transparent !important;
 }
 
-.el-table--enable-row-hover .el-table__body tr:hover>td {
-  background: initial;
-}
-
-.el-table__row {
-  a:hover {
-    color: #ffffff;
-  }
-}
-
-.el-table td, .el-table th {
-  padding: 7px 0;
-}
+// .el-table td, .el-table th {
+//   padding: 7px 0;
+// }
 
 .c--middle--button {
   margin: auto;
@@ -131,7 +90,6 @@
 .record__form {
   box-sizing: border-box;
   text-align: left;
-  // margin: 14px 0;
   padding: 16px;
   > div {
     margin-right: 20px;
@@ -142,41 +100,22 @@
   padding: 0 16px;
   box-sizing: border-box;
   .hightlight-link {
-    color: #52e3ff;
+    color: #51E3FF;
     cursor: pointer;
   }
-  .hightlight-current-total {
-    color: #ff3b6a;
-  }
-  .hightlight-all-total {
-    color: #52e3ff;
-  }
+  // .hightlight-current-total {
+  //   color: #ff3b6a;
+  // }
+  // .hightlight-all-total {
+  //   color: #52e3ff;
+  // }
 }
 
 .record__pagination {
   box-sizing: border-box;
   padding: 0 16px;
-  // background: #212227;
 }
 
-.record__total {
-  box-sizing: border-box;
-  padding: 0 16px;
-  > div {
-    height: 56px;
-    line-height: 56px;
-    color: @main-theme-sub;
-    background: #22242a;
-    &:first-child {
-      // border-bottom: 2px solid #272a31;
-      // background: #622332;
-      margin-bottom: 2px;
-    }
-    &:last-child {
-      // background: #0b415b;
-    }
-  }
-}
 .c-lineheight-wrap {
   height: 56px;
   display: flex;
@@ -185,20 +124,14 @@
   margin-left: 24px;
   justify-content: center;
 }
+
 .c-lineheight {
   line-height: 1.2 !important;
   font-size: 12px;
   padding: 2px 0;
 }
 
-.total--currentpage {
-  .el-col {
-    > div {
-      vertical-align: top;
-    }
-  }
-}
-// ----------------
+// ----------------设置部分------------------
 .module__form {
   .el-form-item {
     margin-bottom: 22px !important;
@@ -214,9 +147,13 @@
   padding: 10px 32px 16px;
   margin-top: 12px;
   text-align: left;
+  color: #ffffff;
+
+  // ----------checkbox的标签字体颜色------------
   .el-checkbox__label {
     color: #ffffff;
   }
+
   .el-textarea.is-disabled .el-textarea__inner {
     background-color: #202228;
     color: #bbb;
@@ -229,6 +166,54 @@
     color: #fff;
   }
 }
+.setting-content__item {
+  > div {
+    background: #202228;
+    &.selected {
+      background: #1E90FF;
+    }
+    p:first-child {
+      color: #ffffff;
+    }
+    p:last-child {
+      color: #FBFBFB;
+    }
+  }
+  .item-left {
+    background: #94959a;
+  }
+}
+// --------------富文本部分---------------
+.ql-editor {
+  color: #ffffff;
+  &.ql-blank::before {
+    color: #DADADA;
+  }
+}
+.ql-snow .ql-stroke {
+  stroke: #ffffff !important;
+}
+.ql-snow .ql-fill, .ql-snow .ql-stroke.ql-fill {
+  stroke: #ffffff !important;
+}
+.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
+  stroke: #ffffff !important;
+  &::before {
+    stroke: #ffffff !important;
+  }
+}
+
+.ql-picker-options {
+  background: #232323 !important;
+}
+.ql-tooltip.ql-editing {
+  input {
+    background: initial;
+    color: #333333;
+  }
+}
+
+// -------------el-input的append部分
 .el-form-item__content {
   .el-input-group__append {
     background: #202228;
@@ -237,14 +222,31 @@
     border-left: 1px solid #373a31
   }
 }
-.el-form-item__label {
-  .el-checkbox__label {
-    color: #ffffff;
+
+// --------------el-tabs__header的背景色------------
+.el-tabs__header {
+  border: none;
+  background: #272a31;
+}
+// --------------el-tabs__item的背景色------------
+.el-tabs__item {
+  padding: 6px 40px;
+  height: auto;
+  color: @main-theme-sub;
+  &.is-active {
+    color: #52e3ff;
   }
 }
+// --------------el-tab-item的hover颜色--------------
 .el-tabs__item:hover {
   color: #52e3ff !important;
 }
+// -------------el-tabs状态相关-----------------
+.el-tabs__active-bar {
+  background-image: linear-gradient(-90deg, #00e2b8 0%, #009acd 100%);
+  height: 2px;
+}
+
 // ---------------报表部分style----------------
 .el-form-item-combine {
   display: flex;
@@ -265,7 +267,6 @@
 .record__form {
   .line {
     text-align: center;
-    color: #ffffff;
     .line-content {
       display: inline-block;
       vertical-align: middle;
@@ -274,9 +275,6 @@
       background: #ffffff;
     }
   }
-  .el-checkbox__label {
-    color: #ffffff !important;
-  }
 }
 .el-form--buttons {
   text-align: right;
@@ -284,17 +282,21 @@
     margin-left: 16px;
   }
 }
+
+// ------------列表选项的按钮-----------------
 .el-dropdown {
   .el-button {
-    color: #ffffff !important;
+    color: #ffffff;
     background: #444b5b;
     border-color: #444b5b;
-    &:hover {
+    &:hover, &:focus, &:active {
+      color: #ffffff;
       background: #17191d;
       border-color: #17191d;
     }
   }
 }
+
 .el-dropdown-menu {
   .el-dropdown-menu__item.text-center {
     text-align: center;
@@ -303,23 +305,28 @@
     height: 240px;
     overflow: auto;
   }
+
+  // -----------链表选项里的checkbox标签颜色---------------
   .el-checkbox__label {
     color: @main-theme-sub;
   }
-  .hightlight-primary {
-    color: #34bbff;
-  }
-  .hightlight-warn {
-    color: #fff34d;
-  }
-  .hightlight-danger {
-    color: #ff3b6a;
-  }
+
+  // .hightlight-primary {
+  //   color: #34bbff;
+  // }
+  // .hightlight-warn {
+  //   color: #fff34d;
+  // }
+  // .hightlight-danger {
+  //   color: #ff3b6a;
+  // }
 }
-// --------------
+
+// --------------el-loading颜色--------------
 .el-loading-mask {
   background-color: rgba(0,0,0,.7) !important;
 }
+
 // -------------滚动条样式---------------
 div, li {
   &::-webkit-scrollbar{

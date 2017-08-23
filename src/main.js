@@ -5,6 +5,11 @@ import App from './App';
 import router from './router';
 import store from './store';
 
+// 引进element
+import ElementUI from 'element-ui';
+Vue.use(ElementUI);
+import 'element-ui/lib/theme-default/index.css';
+
 // 定义全局方法
 Vue.mixin({
   methods: {
@@ -28,11 +33,6 @@ import '@assets/css/tab-chunk.less';
 // 引进字体
 import '@assets/iconfont/iconfont.css';
 import '@assets/iconfont/iconfont.js';
-
-// 引进element
-import ElementUI from 'element-ui';
-Vue.use(ElementUI);
-import 'element-ui/lib/theme-default/index.css';
 
 // 引入vue-clipboards
 import VueClipboards from 'vue-clipboards';

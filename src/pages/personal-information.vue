@@ -182,7 +182,7 @@
         <p class="del-text">
           <el-form ref="form" :model="appendForm" label-width="100px">
             <el-form-item label="追加金额">
-              <el-input v-model="appendForm.money"></el-input>
+              <el-input v-model="appendForm.money" style="display: inline-block;width:230px;float: left;"></el-input><div class="balance">余额：99.999.00</div>
             </el-form-item>
             <!--验证码组件-->
             <!--api说明：-->
@@ -279,6 +279,14 @@ export default {
   .personal-information {
     align-items: flex-start;
     display: flex;
+    .balance{
+      width:130px;
+      background-color: #000000;
+      display: inline-block;
+      text-align: left;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
     .notice{
       background:#323740;
       box-shadow:0 1px 6px 0 rgba(0,0,0,0.50);

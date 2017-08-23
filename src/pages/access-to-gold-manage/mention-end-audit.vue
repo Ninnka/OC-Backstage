@@ -5,6 +5,7 @@
         出金终审
       </header>
       <div class="region-main">
+        <!--查询输入框-->
         <el-form class="filter-input" ref="form" :model="form" label-width="100px">
           <el-form-item label="出金单号">
             <el-input v-model="form.num" placeholder="请输入出金单号"></el-input>
@@ -19,10 +20,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="申请时间">
-          <el-date-picker
-            v-model="form.date"
-            type="daterange"
-            placeholder="选择日期范围">
+            <el-date-picker v-model="form.date" type="datetimerange" placeholder="请选择时间范围"></el-date-picker>
           </el-date-picker>
           </el-form-item>
           <el-form-item label="所属代理商">
@@ -34,18 +32,23 @@
           </el-form-item>
 
         </el-form>
+        <!--查询输入框 结束-->
 
-        <div class="query-btns">
-          
+        <!--查询按钮-->
+        <div class="query-btns"> 
           <el-button type="info" @click="findSubmit">查询</el-button>
           <el-button type="info" @click="guideonSubmit">导出</el-button>
-          <list-options :sourceList="labelList" :displayList.sync="showLabelList"></list-options>
+          <list-options :sourceList="labelList" :displayList.sync="showLabelList">
+          </list-options>
         </div>
+        <!--查询按钮 结束-->
+
+        <!--数据表格-->
         <div class="dateTable">
           <template>
             <el-table
               ref="multipleTable"
-              :data="tableData"
+              :data="pageTableData"
               border
               tooltip-effect="light"
               style="width: 100%"
@@ -53,83 +56,56 @@
 
               <el-table-column
                 type="selection"
-                width="55">
-              </el-table-column>
-
-              <el-table-column
-                prop="orderNumber"
-                label="出金单号"
-                width="130">
-              </el-table-column>
-
-              <el-table-column
-                label="申请人"
-                width="250">
-                <template scope="scope">
-                  <div slot="reference" class="name-wrapper">
-                    <el-tag>{{ scope.row.character }}</el-tag>
-                    <div>
-                      <span>
-                        账号：{{ scope.row.userNum }}
-                      </span>
-                      <span>
-                        MT账号：{{ scope.row.userMtnum }}
-                      </span>
-                    </div>
-                  </div>
-                </template>
-              </el-table-column>
-
-              <el-table-column
-                prop="phoneNunber"
-                label="联系方式"
-                width="130">
-              </el-table-column>
-
-              <el-table-column
-                label="出金金额／到账金额"
-                width="170">
-                <template scope="scope">
-                  {{ scope.row.accessMoneyout }}/
-                  {{ scope.row.accessMoneyin }}
-                </template>
-              </el-table-column>
-
-              <el-table-column
-                label="出金银行卡"
-                width="185">
-                <template scope="scope">{{ scope.row.bankCardname }}</template>
-                <template scope="scope">{{ scope.row.bankCardnum }}</template>
+                width="55"
+                :selectable="checkSelectable"
+                >
               </el-table-column>
               
-              <el-table-column
-                label="申请时间"
-                width="120">
-                <template scope="scope">{{ scope.row.applicationDate }}</template>
-              </el-table-column>
-
-              <el-table-column
-                label="审核状态"
-                width="120">
-                  <template scope="scope">
+              <el-table-column v-for="col in showLabelList" :label="col.label" :width="getTableColumnWidth (col.label)" :key="col.key">
+                <template scope="scope">
+                  <template v-if="col.label === '申请人'">
+                    <div slot="reference" class="name-wrapper" v-if="col.label === '申请人'">
+                      <el-tag>{{ scope.row.character }}</el-tag>
+                      <div>
+                        <span @click="viewUserMes (scope.row.userNum)">
+                          账号：{{ scope.row.userNum }}
+                        </span>
+                        <span @click="viewUserMes (scope.row.userMtnum)">
+                          MT账号：{{ scope.row.userMtnum }}
+                        </span>
+                      </div>
+                    </div>
+                  </template>
+                  <template v-if="col.label === '出金银行卡'">
+                    <p>{{ scope.row.bankCardname }}</p>
+                    {{ scope.row.bankCardnum }}
+                  </template>
+                  <template v-else-if="col.label === '风控状态'">
+                    <el-popover trigger="hover" placement="bottom" v-if="scope.row.dangerStatus !== '正常'">  
+                        <p>有风险</p>
+                        <div slot="reference">
+                          {{ scope.row.dangerStatus }}
+                        </div>
+                    </el-popover>
+                    <div v-else>
+                      {{ scope.row.dangerStatus }}
+                    </div>
+                  </template>
+                  <template v-else-if="col.label === '出金金额／到账金额'">
+                    {{ scope.row.accessMoneyout }}/
+                    {{ scope.row.accessMoneyin }}
+                  </template>
+                  <template v-else-if="col.label === '审核状态'">
                     <div slot="reference" class="name-wrapper">
                       <el-tag>{{ scope.row.applicationStatus }}</el-tag>
                     </div>
                   </template>
+                  <template v-else>
+                    {{ scope.row[col.key] }}
+                  </template>
+                </template>
               </el-table-column>
 
-              <el-table-column
-                label="处理时间"
-                width="120">
-                <template scope="scope">{{ scope.row.dealWithTime }}</template>
-              </el-table-column>
-
-              <el-table-column
-                prop="auditorNme"
-                label="审核人"
-                width="120">
-              </el-table-column>
-              
               <el-table-column
                 label="操作"
                 width="120"
@@ -154,80 +130,93 @@
 
             </el-table>
 
-            <popup :show.sync="showDelMt" :needCancel="needCancel" :title="'出金详情'" v-on:confirmEvent="reviewBy" :confirmText="confirmText" :cancelText="'拒绝'" v-on:cancelEvent="reviewRefuse">
-              <template slot="content" >
-                <ul class="user-list user-list-three" style="width: 1000px;">
-                  <li>
-                    <div class="user-label">出金单号：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.orderNumber }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">昵称：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.userNum }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">MT账户：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.userMtnum }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">联系方式：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.phoneNunber }}</div>
-                  </li>
-                  <li>
-                      <div class="user-label">出金／到账金额：</div>
-                      <div class="user-mes">{{ reviewFrom.userDate.accessMoneyout }}／{{ reviewFrom.userDate.accessMoneyin }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">汇率：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.exchangeRate }}</div>
-                  </li>
-                  <li>
-                      <div class="user-label">出金银行卡：</div>
-                      <div class="user-mes">{{ reviewFrom.userDate.bankCardname }} &nbsp;&nbsp;&nbsp;{{ reviewFrom.userDate.bankCardnum }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">状态：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.applicationStatus }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">申请时间：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.applicationDate }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">处理时间：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.dealWithTime === '' ? '未处理':'已处理' }}</div>
-                  </li>
-                  <li>
-                    <div class="user-label">审核人：</div>
-                    <div class="user-mes">{{ reviewFrom.userDate.auditorNme === '' ? '无':reviewFrom.userDate.auditorNme }}</div>
-                  </li>
-                </ul> 
-                <ul class="user-list">
-                <li>
-                  <div class="user-label">审核意见：</div>
-                  <div class="user-mes">
-                    <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 7 }" v-model="reviewFrom.remarks"></el-input>
-                  </div>
-                </li>
-                </ul>
-                <el-form :model="reviewFrom" label-width="100px">
-                  <verify :parentVerify.sync="reviewFrom.verify" :parentPhone.sync="managePhone" ></verify>
-                </el-form>
-              </template>
-            </popup>
-
             <div class="table-Footer">
               <div class="table-botton">
                   <el-button type="info" @click="toggleSelection()">全选</el-button>
                   <el-button type="info" @click="byPassedAll()">通过</el-button>
                   <el-button type="info" @click="notPassedAll()">驳回</el-button>
               </div>
-              <paging :sourceData="tableData" :displayData.sync="thisTableData"></paging>
+              <paging :sourceData="tableData" :displayData.sync="pageTableData"></paging>
             </div>
           </template>
         </div>
+        <!--数据表格 结束-->
         </div>
     </article>
+
+    <!--弹出框-->
+    <popup :show.sync="showDelMt" :needCancel="needCancel" :title="'出金详情'" v-on:confirmEvent="reviewBy" :confirmText="confirmText" :cancelText="'拒绝'" v-on:cancelEvent="reviewRefuse">
+      <template slot="content" >
+        <ul class="user-list user-list-three" style="width: 1000px;">
+          <li>
+            <div class="user-label">出金单号：</div>
+            <div class="user-mes">{{ reviewFrom.userDate.orderNumber }}</div>
+          </li>
+          <li>
+            <div class="user-label">昵称：</div>
+            <div class="user-mes">{{ reviewFrom.userDate.userNum }}</div>
+          </li>
+          <li>
+            <div class="user-label">MT账户：</div>
+            <div class="user-mes">{{ reviewFrom.userDate.userMtnum }}</div>
+          </li>
+          <li>
+            <div class="user-label">联系方式：</div>
+            <div class="user-mes">{{ reviewFrom.userDate.phoneNunber }}</div>
+          </li>
+          <li>
+              <div class="user-label">出金／到账金额：</div>
+              <div class="user-mes">
+                {{ reviewFrom.userDate.accessMoneyout }}／
+                {{ reviewFrom.userDate.accessMoneyin }}
+              </div>
+          </li>
+          <li>
+            <div class="user-label">汇率：</div>
+            <div class="user-mes">{{ reviewFrom.userDate.exchangeRate }}</div>
+          </li>
+          <li>
+              <div class="user-label">出金银行卡：</div>
+              <div class="user-mes">
+                {{ reviewFrom.userDate.bankCardname }} 
+                &nbsp;&nbsp;&nbsp;{{ reviewFrom.userDate.bankCardnum }}
+              </div>
+          </li>
+          <li>
+            <div class="user-label">状态：</div>
+            <div class="user-mes">{{ reviewFrom.userDate.applicationStatus }}</div>
+          </li>
+          <li>
+            <div class="user-label">申请时间：</div>
+            <div class="user-mes">{{ reviewFrom.userDate.applicationDate }}</div>
+          </li>
+          <li>
+            <div class="user-label">处理时间：</div>
+            <div class="user-mes">
+              {{ reviewFrom.userDate.dealWithTime === '' ? '未处理':'已处理' }}
+            </div>
+          </li>
+          <li>
+            <div class="user-label">审核人：</div>
+            <div class="user-mes">
+              {{ reviewFrom.userDate.auditorNme === '' ? '无':reviewFrom.userDate.auditorNme }}
+            </div>
+          </li>
+        </ul> 
+        <ul class="user-list">
+        <li>
+          <div class="user-label">审核意见：</div>
+          <div class="user-mes">
+            <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 7 }" v-model="reviewFrom.remarks"></el-input>
+          </div>
+        </li>
+        </ul>
+        <el-form :model="reviewFrom" label-width="100px">
+          <verify :parentVerify.sync="reviewFrom.verify" :parentPhone.sync="managePhone" ></verify>
+        </el-form>
+      </template>
+    </popup>
+    <!--弹出框 结束-->
   </div>
 </template>
 
@@ -282,8 +271,14 @@ export default {
       needCancel: true, // 是否显示取消按钮
       labelList: [
         {
-          label: '流水编号',
-          key: 'waterMoneyNum',
+          label: '出金单号',
+          key: 'orderNumber',
+          canSelect: false,
+          show: true
+        },
+        {
+          label: '申请人',
+          key: '',
           canSelect: false,
           show: true
         },
@@ -294,14 +289,14 @@ export default {
           show: true
         },
         {
-          label: '出金银行卡',
-          key: 'bankCardname',
+          label: '出金金额／到账金额',
+          key: '',
           canSelect: true,
           show: true
         },
         {
-          label: '风控状态',
-          key: 'dangerStatus',
+          label: '出金银行卡',
+          key: '',
           canSelect: true,
           show: true
         },
@@ -310,11 +305,29 @@ export default {
           key: 'applicationDate',
           canSelect: true,
           show: true
+        },
+        {
+          label: '审核状态',
+          key: '',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '处理时间',
+          key: 'dealWithTime',
+          canSelect: true,
+          show: true
+        },
+        {
+          label: '审核人',
+          key: 'auditorNme',
+          canSelect: true,
+          show: true
         }
       ],
       showLabelList: [],
       tableData: [],
-      thisTableData: [],
+      pageTableData: [],
       multipleSelection: []
     };
   },
@@ -329,17 +342,13 @@ export default {
   methods: {
     toggleSelection () {
       this.tableData.forEach(row => {
-        this.$refs.multipleTable.toggleRowSelection(row);
+        if (row.applicationStatus !== '已审核') {
+          this.$refs.multipleTable.toggleRowSelection(row);
+        }
       });
     },
     handleSelectionChange (val) {
       this.multipleSelection = val;
-    },
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`);
     },
     examine (index, row) {
       this.reviewFrom.userDate = row;
@@ -355,6 +364,7 @@ export default {
       console.log('点击导出');
     },
     byPassedAll () {
+      console.log(this.multipleSelection);
       console.log('点击一键通过');
     },
     notPassedAll () {
@@ -385,6 +395,39 @@ export default {
         type: 'success',
         message: '操作成功!'
       });
+    },
+    getTableColumnWidth (val) {
+      let width = 0;
+      switch (val) {
+        case '出金单号':
+          width = 130;
+          break;
+        case '申请人':
+          width = 250;
+          break;
+        case '联系方式':
+          width = 130;
+          break;
+        case '出金金额／到账金额':
+          width = 170;
+          break;
+        case '出金银行卡':
+          width = 185;
+          break;
+        case '审核状态':
+          width = 120;
+          break;
+        case '处理时间':
+          width = 120;
+          break;
+        case '申请时间':
+          width = 120;
+          break;
+        case '审核人':
+          width = 120;
+          break;
+      }
+      return width;
     },
     getTableDate () {
       return [{
@@ -428,6 +471,12 @@ export default {
         }
       }
       return object;
+    },
+    checkSelectable (row, index) {
+      if (row.applicationStatus === '已审核') {
+        return false;
+      }
+      return true;
     }
   }
 };
@@ -481,8 +530,5 @@ export default {
     margin: 52px 34px 0 20px;
     float: left;
     display: inline-block;
-  }
-  .popup-main{
-    width: 900px;
   }
 </style>
