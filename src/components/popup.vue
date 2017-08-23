@@ -15,7 +15,6 @@
     </div>
   </article>
 </template>
-
 <script>
 export default {
   name: 'popup',
